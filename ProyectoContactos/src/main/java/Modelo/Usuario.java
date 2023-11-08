@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Usuario implements Serializable {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
+        this.contactos = new LinkedList<>();
     }
 
     public static void saveListToFileSerContactos(LinkedList<Contacto> contactos) {
@@ -69,6 +71,34 @@ public class Usuario implements Serializable {
 
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.nombreUsuario, other.nombreUsuario)) {
+            return false;
+        }
+        return Objects.equals(this.contraseña, other.contraseña);
+    }
+
+
+    
+    
 
     public String getNombreUsuario() {
         return nombreUsuario;

@@ -22,7 +22,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -48,10 +47,10 @@ public class SignUpController implements Initializable {
     @FXML
     private Label adminPassword;
 
-    private String[] tiposUsuarios = {"Persona natural", "Administrador"};
-    
+    //Tipos de usuarios que se pueden registrar
+    private final String[] tiposUsuarios = {"Persona natural", "Administrador"};
     // Contraseña por si se quiere crear un Usuario administrador
-    private String AdminPassword = "1";
+    private final String AdminPassword = "1";
 
     private Stage stage;
     private Scene scene;
@@ -64,28 +63,46 @@ public class SignUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         choiceBox.getItems().addAll(tiposUsuarios);
-//        usuarios.add(u1);
-//        Usuario.saveListToFileSerUsuarios(usuarios);
 
     }
 
     @FXML
-    private void registrar(ActionEvent event) {
-        
-        // talvez no es necesairo es isEmpty, el programa no se caeria simplemente la lista estuviera vacia, talvez las validaciones de los
-        //espaccios en blanco vayan primero, y luego se recorra la lista, mañana hay que probar.
+    private void registrar(ActionEvent event) throws IOException {
+        //Lista de usuarios
         ArrayList<Usuario> usuariosListaSer = Usuario.readListFromFileSerUsuarios();
+        //Lista que actualiza a la lista usuariosListaSer
+        ArrayList<Usuario> actualizarLista = Usuario.readListFromFileSerUsuarios();
+
+        if (usuarioField.getText().isBlank() || passwordField.getText().isBlank() || usuarioField.getText().contains(" ")
+                || passwordField.getText().contains(" ") || choiceBox.getValue() == null) {
+
+            Alert campoVacio = new Alert(Alert.AlertType.WARNING);
+            campoVacio.setTitle("Advertencia");
+            campoVacio.setContentText("No se admiten espacios vacíos");
+            campoVacio.showAndWait();
+
+        }
         if (usuariosListaSer.isEmpty()) {
-            System.out.println("No hay nadie registrado");
-            if (usuarioField.getText().isBlank() || passwordField.getText().isBlank() || usuarioField.getText().contains(" ")
-                    || passwordField.getText().contains(" ") || choiceBox.getValue() == null) {
+            Usuario primerUsuario = new Usuario(usuarioField.getText(), passwordField.getText(), tiposUsuarios[0]);
+            //usuariosListaSer.add(primerUsuario);
+            actualizarLista.add(primerUsuario);
+            Usuario.saveListToFileSerUsuarios(actualizarLista);
+            Alert RegistroUsuarioAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            RegistroUsuarioAlert.setTitle("Registro exitoso");
+            RegistroUsuarioAlert.setContentText("Su cuenta ha sido registrada exitosamente");
+            RegistroUsuarioAlert.showAndWait();
+            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setTitle("Welcome!");
+            stage.setScene(scene);
+            stage.show();
 
-                Alert mensaje = new Alert(Alert.AlertType.WARNING);
-                mensaje.setTitle("Advertencia");
-                mensaje.setContentText("No se admiten espacios vacíos");
-                mensaje.showAndWait();
+        } else {
 
-            } else {
+            Usuario u1 = new Usuario(usuarioField.getText(), passwordField.getText(), choiceBox.getValue());
+            boolean condicion = usuariosListaSer.contains(u1);
+            if (!condicion) {
                 if (choiceBox.getValue().equals(tiposUsuarios[1])) {
                     adminPassword.setText("Admin Password");
                     PasswordField pf = new PasswordField();
@@ -97,23 +114,57 @@ public class SignUpController implements Initializable {
                     pf.setLayoutX(195);
                     pf.setLayoutY(250);
                     bt.setOnAction(event1 -> {
-                    if (pf.getText().equals(AdminPassword)) {
-                        Usuario primerUsuario = new Usuario(usuarioField.getText(), passwordField.getText(), choiceBox.getValue());
-                        usuariosListaSer.add(primerUsuario);
-                        Usuario.saveListToFileSerUsuarios(usuariosListaSer);
-                        Alert mensaje2 = new Alert(Alert.AlertType.CONFIRMATION);
-                        mensaje2.setTitle("Registro exitoso");
-                        mensaje2.setContentText("Su cuenta ha sido registrada exitosamente, Usted es un Usuario Administrador");
-                        mensaje2.showAndWait();
-                    }
+                        if (pf.getText().equals(AdminPassword)) {
+                            try {
+                                actualizarLista.add(u1);
+                                //usuariosListaSer = actualizarLista;
+                                Usuario.saveListToFileSerUsuarios(actualizarLista);
+                                Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);
+                                ConfirmacionAdmin.setTitle("Registro exitoso");
+                                ConfirmacionAdmin.setContentText("Su cuenta ha sido registrada exitosamente, Usted es un Usuario Administrador");
+                                ConfirmacionAdmin.showAndWait();
+                                Parent root;
+                                root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+                                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                scene = new Scene(root);
+                                stage.setTitle("Welcome!");
+                                stage.setScene(scene);
+                                stage.show();
+                            } catch (IOException ex) {
+                            }
+
+                        } else {
+                            Alert campoVacio = new Alert(Alert.AlertType.ERROR);
+                            campoVacio.setTitle("ERROR");
+                            campoVacio.setContentText("Contraseña Incorrecta");
+                            campoVacio.showAndWait();
+
+                        }
                     });
+                } else {
+                    actualizarLista.add(u1);
+                    //usuariosListaSer = actualizarLista;
+                    Usuario.saveListToFileSerUsuarios(actualizarLista);
+                    Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);
+                    ConfirmacionAdmin.setTitle("Registro exitoso");
+                    ConfirmacionAdmin.setContentText("Su cuenta ha sido registrada exitosamente");
+                    ConfirmacionAdmin.showAndWait();
+                    Parent root;
+                    root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setTitle("Welcome!");
+                    stage.setScene(scene);
+                    stage.show();
+
                 }
+            } else {
+                Alert usuarioExistente = new Alert(Alert.AlertType.INFORMATION);
+                usuarioExistente.setTitle("Lo sentimos");
+                usuarioExistente.setContentText("Este username ya existe, intente con otro");
+                usuarioExistente.showAndWait();
             }
 
-        } else {
-            for (Usuario u : usuariosListaSer) {
-                System.out.println(u.toString());
-            }
         }
 
     }
@@ -126,15 +177,6 @@ public class SignUpController implements Initializable {
         stage.setTitle("Welcome!");
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    private void nameKeyTyped(KeyEvent event) {
-
-    }
-
-    @FXML
-    private void passwordKeyTyped(KeyEvent event) {
     }
 
 }
