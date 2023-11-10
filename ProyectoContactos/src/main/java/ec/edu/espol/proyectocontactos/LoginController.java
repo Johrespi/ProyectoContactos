@@ -44,6 +44,8 @@ public class LoginController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    
+    private final String[] tiposUsuarios = {"Persona natural", "Administrador"};
 
     /**
      * Initializes the controller class.
@@ -82,7 +84,7 @@ public class LoginController implements Initializable {
                     stage.setTitle("Welcome!");
                     stage.setScene(scene);
                     stage.show();
-                    System.out.println(u);
+                    System.out.println(u); //Para verificar el tipo de usuario por pantalla
                 }
             }
 
