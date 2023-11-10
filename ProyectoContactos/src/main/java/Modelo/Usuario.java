@@ -32,25 +32,7 @@ public class Usuario implements Serializable {
         this.contactos = new LinkedList<>();
     }
 
-    public static void saveListToFileSerContactos(LinkedList<Contacto> contactos) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
-            oos.writeObject(contactos);
-        } catch (Exception e) {
 
-        }
-    }
-
-    public static LinkedList<Contacto> readListFromFileSerContactos() {
-        LinkedList<Contacto> contactos = new LinkedList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Contactos.ser"))) {
-            contactos = (LinkedList<Contacto>) ois.readObject();
-        } catch (IOException e) {
-        } catch (ClassNotFoundException e) {
-        } catch (Exception a) {
-        }
-        return contactos;
-
-    }
 
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();

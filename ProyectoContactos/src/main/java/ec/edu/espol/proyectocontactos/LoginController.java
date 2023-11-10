@@ -4,8 +4,10 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -48,25 +51,44 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        //Aqui se deberia recorrer una lista y luego verificar si la contraseña y el usuario son correctos.
-   }
+
+    }
 
     //Metodo cuando el usuario accede al sistema
     @FXML
     private void signIn(ActionEvent event) throws IOException {
+        //Leer todos los usuarios registrados en el sistema
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        System.out.println(usuarios);
+        //Validar Login
+        Usuario usuarioAVerificar = new Usuario(userField.getText(), passwordField.getText(), null);
+        if (userField.getText().isBlank() || passwordField.getText().isBlank() || userField.getText().contains(" ")
+                || passwordField.getText().contains(" ")) {
 
-        Parent root = FXMLLoader.load(getClass().getResource("Contactos.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setTitle("Welcome!");
-        stage.setScene(scene);
-        stage.show();
+            Alert campoVacio = new Alert(Alert.AlertType.WARNING);
+            campoVacio.setTitle("Advertencia");
+            campoVacio.setContentText("No se admiten espacios vacíos");
+            campoVacio.showAndWait();
+
+        }
+        else if (usuarios.contains(usuarioAVerificar)) {
+            Parent root = FXMLLoader.load(getClass().getResource("Contactos.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setTitle("Welcome!");
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            Alert alertaUsuarioNoEncontrado = new Alert(Alert.AlertType.INFORMATION);
+            alertaUsuarioNoEncontrado.setTitle("Usuario no encontrado");
+            alertaUsuarioNoEncontrado.setContentText("Su usuario o contraseña son incorrectos.");
+            alertaUsuarioNoEncontrado.showAndWait();
+        }
     }
-    
+
     //Metodo para logearse
     @FXML
     private void signUp(ActionEvent event) throws IOException {
-        
         Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);

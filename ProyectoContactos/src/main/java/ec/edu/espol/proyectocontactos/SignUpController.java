@@ -70,6 +70,7 @@ public class SignUpController implements Initializable {
     private void registrar(ActionEvent event) throws IOException {
         //Lista de usuarios
         ArrayList<Usuario> usuariosListaSer = Usuario.readListFromFileSerUsuarios();
+
         //Lista que actualiza a la lista usuariosListaSer
         ArrayList<Usuario> actualizarLista = Usuario.readListFromFileSerUsuarios();
 
