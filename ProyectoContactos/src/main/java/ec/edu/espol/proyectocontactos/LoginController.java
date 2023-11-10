@@ -70,14 +70,22 @@ public class LoginController implements Initializable {
             campoVacio.setContentText("No se admiten espacios vacíos");
             campoVacio.showAndWait();
 
-        }
-        else if (usuarios.contains(usuarioAVerificar)) {
-            Parent root = FXMLLoader.load(getClass().getResource("Contactos.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setTitle("Welcome!");
-            stage.setScene(scene);
-            stage.show();
+        } else if (usuarios.contains(usuarioAVerificar)) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Contactos.fxml"));
+            Parent root = loader.load();
+            ContactosController controller = loader.getController();
+            for (Usuario u : usuarios) {
+                if (u.equals(usuarioAVerificar)) {
+                    controller.setUsuario(u); // Pasar la instancia del usuario actual al controlador
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setTitle("Welcome!");
+                    stage.setScene(scene);
+                    stage.show();
+                    System.out.println(u);
+                }
+            }
+
         } else {
             Alert alertaUsuarioNoEncontrado = new Alert(Alert.AlertType.INFORMATION);
             alertaUsuarioNoEncontrado.setTitle("Usuario no encontrado");

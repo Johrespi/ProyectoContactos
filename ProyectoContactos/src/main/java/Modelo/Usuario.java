@@ -32,8 +32,6 @@ public class Usuario implements Serializable {
         this.contactos = new LinkedList<>();
     }
 
-
-
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Usuarios.ser"))) {
@@ -77,8 +75,6 @@ public class Usuario implements Serializable {
         }
         return Objects.equals(this.contraseña, other.contraseña);
     }
-
-
     
     
 
@@ -106,17 +102,17 @@ public class Usuario implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "nombreUsuario='" + nombreUsuario + '\'' + ", contraseña='" + contraseña + '\'' + ", tipoUsuario='" + tipoUsuario + '\'' + '}';
-    }
-
     public LinkedList<Contacto> getContactos() {
         return contactos;
     }
 
     public void setContactos(LinkedList<Contacto> contactos) {
         this.contactos = contactos;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "nombreUsuario='" + nombreUsuario + '\'' + ", contraseña='" + contraseña + '\'' + ", tipoUsuario='" + tipoUsuario + '\'' + '}';
     }
 
 }
