@@ -5,6 +5,7 @@
 package ec.edu.espol.proyectocontactos;
 
 import Modelo.Contacto;
+import Modelo.DoubleCircleLinkedList;
 import ec.edu.espol.proyectocontactos.ContactosController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +21,8 @@ import javafx.scene.control.TextField;
  * @author Yumi
  */
 public class AgregarUusuariosController implements Initializable {
-     @FXML
+
+    @FXML
     private TextField txtApellido;
 
     @FXML
@@ -28,6 +30,8 @@ public class AgregarUusuariosController implements Initializable {
     @FXML
     private TextField txtTipoContacto;
     
+    private ContactosController contactosController;
+
 
 
     /**
@@ -36,19 +40,25 @@ public class AgregarUusuariosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }  
+
+    }
+
     @FXML
-    void AgregaUsuario(ActionEvent e){
-        ContactosController contactosController = new ContactosController();
-        Contacto con = new Contacto(txtNombre.getText(),txtApellido.getText(),txtTipoContacto.getText());
+    void AgregaUsuario(ActionEvent e) {
+        
+        Contacto con = new Contacto(txtNombre.getText(), txtApellido.getText(), txtTipoContacto.getText());
         contactosController.contactList.add(con);
         contactosController.actualizarListView();
-        
+
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
-            Guardado.setTitle("Guardado");
-            Guardado.setContentText("Su contacto se a guardado");
-            Guardado.showAndWait();
-        
+        Guardado.setTitle("Guardado");
+        Guardado.setContentText("Su contacto se a guardado");
+        Guardado.showAndWait();
+
     }
     
+        public void setContactosController(ContactosController contactosController) {
+        this.contactosController = contactosController;
+    }
+
 }

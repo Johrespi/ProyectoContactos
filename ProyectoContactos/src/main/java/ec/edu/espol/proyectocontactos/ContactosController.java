@@ -4,7 +4,6 @@
  */
 package ec.edu.espol.proyectocontactos;
 
-
 import Modelo.Contacto;
 
 import Modelo.CircularNodeList;
@@ -40,63 +39,69 @@ import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
 
-
 /**
  * FXML Controller class
  *
  * @author johan
  */
 public class ContactosController implements Initializable {
+
     private Usuario usuario;
     @FXML
-    private Button  BtnAgregar;
-    
+    private Button BtnAgregar;
+
     @FXML
     private AnchorPane ContactosRoot;
-    
+
     @FXML
     private ListView<String> ListaContacto;
-    
+
     /**
      * Initializes the controller class.
      */
+    public ArrayList<String> Contactos = new ArrayList<>();
+    public static ObservableList<Contacto> observable = FXCollections.observableArrayList();
 
-   public  ArrayList<String> Contactos = new ArrayList<>();
-   public static ObservableList<Contacto> observable = FXCollections.observableArrayList();
-   
-   protected DoubleCircleLinkedList<Contacto> contactList = new DoubleCircleLinkedList<>();
+    protected DoubleCircleLinkedList<Contacto> contactList = new DoubleCircleLinkedList<>();
 
     public void initialize(URL url, ResourceBundle rb) {
-        
-        contactList.add(new Contacto("Raul","Leon","Amigo"));
-        contactList.add(new Contacto("Johan","Ramirez","Amigo"));
-        contactList.add(new Contacto("Michelle","Arreaga","Amigo"));
+
+        contactList.add(new Contacto("Raul", "Leon", "Amigo"));
+        contactList.add(new Contacto("Johan", "Ramirez", "Amigo"));
+        contactList.add(new Contacto("Michelle", "Arreaga", "Amigo"));
+        contactList.add(new Contacto("Michelle123", "Arreaga", "Amigo"));
+
         actualizarListView();
 
     }
-    
+
     @FXML
     void AgregarContacto(ActionEvent event) {
-      
-        try{
-        Parent root = FXMLLoader.load(getClass().getResource("AgregarUusuarios.fxml"));
-        Stage st = new Stage();
-        Scene sc= new Scene(root);
-        st.setScene(sc);
-        st.show();
-        
-        
-        }catch(Exception e){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarUusuarios.fxml"));
+            Parent root = loader.load();
+
+            // Obtener el controlador y setearlo
+            AgregarUusuariosController agregarUusuariosController = loader.getController();
+            agregarUusuariosController.setContactosController(this);
+
+            Stage st = new Stage();
+            Scene sc = new Scene(root);
+            st.setScene(sc);
+            st.show();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-     @FXML
+    @FXML
     public void navigateNext() {
         if (!contactList.isEmpty()) {
             contactList.moveToNext();
@@ -114,6 +119,7 @@ public class ContactosController implements Initializable {
     }
 
     public void actualizarListView() {
+        Contactos.clear();
         Iterator<Contacto> iterator = contactList.iterator();
         System.out.println(contactList);
         while (iterator.hasNext()) {
@@ -121,8 +127,8 @@ public class ContactosController implements Initializable {
             Contactos.add(contacto.getNombre() + " " + contacto.getApellido());
         }
         ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
-        System.out.println("DoubleList: "+ contactList.toString());
-        System.out.println("ArrayList: "+ Contactos.toString());
+        System.out.println("DoubleList: " + contactList.toString());
+        System.out.println("ArrayList: " + Contactos.toString());
         ListaContacto.setItems(contactArray);
     }
 }
