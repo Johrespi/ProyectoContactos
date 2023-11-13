@@ -4,165 +4,207 @@
  */
 package Modelo;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Raul Leon
  */
-public class DoubleCircleLinkedList<E> implements List<E> {
+public class DoubleCircleLinkedList<E> implements Iterable<E>{
+    Node<E> primero, ultimo;
+    int n = 0;
+    
+    
+    public class Node<E>{
+        E contenido;
+        Node<E> sig , anterior;
 
-    private CircularNodeList<E> last;
-    private int size;
-
-    public int getSize() {
-        return size;
-    }
-
-    @Override
-    public CircularNodeList<E> getByIndex(int index) {
-        int contador = 0;
-        for (CircularNodeList<E> nodo = last.getSig(); nodo != null; nodo = nodo.getSig()) {
-            if (contador == index) {
-                return nodo;
-            }
-            contador++;
+        public Node(E contenido) {
+            this.contenido = contenido;
+            this.sig = sig;
+            this.anterior = anterior;
         }
-        throw new IndexOutOfBoundsException("Indice fuera de rango");
-    }
-
-    @Override
-    public boolean add(E element, int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean addFirst(E element) {
-        if (!isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean addLast(E element) {
-        if (element == null) {
-            return false;
-        } else if (this.isEmpty()) {
-            CircularNodeList nuevo = new CircularNodeList(element);
-            last = nuevo;
-            nuevo.setSig(nuevo);
-            nuevo.setPrev(nuevo);
-            size++;
-            return true;
-        } else if (!this.isEmpty()) {
-            CircularNodeList nuevo = new CircularNodeList(element);
-            last.getSig().setPrev(nuevo);
-            nuevo.setSig(last.getSig());
-            last.setSig(nuevo);
-            nuevo.setPrev(last);
-            last = nuevo;
-            size++;
-            return true;
-        }
-        return false;
     }
     
-    public CircularNodeList<E> getPrev(CircularNodeList<E> nodo) {
-        if (this.isEmpty() || nodo == null) {
-            return null;
+    public Node<E> getLast() {
+        return ultimo;
+    }
+    public DoubleCircleLinkedList() {
+        primero = null;
+        ultimo = null;
+    }
+
+    public boolean add(E e) {
+        Node<E> nuevoNodo = new Node<>(e);
+        if (isEmpty()) {
+            primero = nuevoNodo;
+            ultimo = nuevoNodo;
+            nuevoNodo.sig = nuevoNodo;
+            nuevoNodo.anterior = nuevoNodo;
+        } else {
+            nuevoNodo.anterior = ultimo;
+            nuevoNodo.sig = primero;
+            ultimo.sig = nuevoNodo;
+            primero.anterior = nuevoNodo;
+            ultimo = nuevoNodo;
         }
-        CircularNodeList<E> p;
-        p = this.last;
-        do {
-            if (p.getSig() == nodo) {
-                return p;
-
+        n++;
+        return true;
+    }
+    
+    public void add(int index, E element) {
+        if (index < 0 || index > n) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+        if (index == n) {
+            add(element);
+        } else {
+            Node<E> nuevoNodo = new Node<>(element);
+            Node<E> actual = primero;
+            for (int i = 0; i < index; i++) {
+                actual = actual.sig;
             }
-            p = p.getSig();
+            Node<E> anterior = actual.anterior;
 
-        } while (p != this.last);
-        return null;
+            nuevoNodo.anterior = anterior;
+            nuevoNodo.sig = actual;
+            actual.anterior = nuevoNodo;
+            anterior.sig = nuevoNodo;
 
+            if (actual == primero) {
+                primero = nuevoNodo;
+            }
+            n++;
+        }
+    }
+
+    public E get(int index) {
+        if (index < 0 || index >= n) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+        Node<E> actual = primero;
+        for (int i = 0; i < index; i++) {
+            actual = actual.sig;
+        }
+        return actual.contenido;
     }
 
     public boolean isEmpty() {
-        return this.last == null;
+        return n == 0;
     }
 
-    public CircularNodeList<E> getSig(CircularNodeList<E> nodo) {
-        if (this.isEmpty() || nodo == null) {
-            return null;
+    public int size() {
+        return n;
+    }
+
+    public E remove(int index) {
+        if (isEmpty()) {
+            throw new IndexOutOfBoundsException("La lista está vacía");
         }
-        CircularNodeList<E> p;
-        p = this.last;
-        do {
-            if (p.getPrev() == nodo) {
-                return p;
+        if (index < 0 || index >= n) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+        Node<E> actual = primero;
+        for (int i = 0; i < index; i++) {
+            actual = actual.sig;
+        }
+        E eliminado = actual.contenido;
+        Node<E> anterior = actual.anterior;
+        Node<E> siguiente = actual.sig;
+
+        if (n == 1) {
+            primero = null;
+            ultimo = null;
+        } else if (actual == primero) {
+            primero = siguiente;
+            ultimo.sig = primero;
+        } else if (actual == ultimo) {
+            ultimo = anterior;
+            primero.anterior = ultimo;
+        } else {
+            anterior.sig = siguiente;
+            siguiente.anterior = anterior;
+        }
+
+        n--;
+        return eliminado;
+    }
+    
+    public String toString() {
+        if (isEmpty()) {
+            return "[]";
+        }
+        StringBuilder resultado = new StringBuilder("[");
+        Node<E> current = primero;
+        for (int i = 0; i < n; i++) {
+            resultado.append(current.contenido);
+            if (i < n - 1) {
+                resultado.append(", ");
             }
-            p = p.getSig();
-
-        } while (p != this.last);
-        return null;
-
+            current = current.sig;
+        }
+        resultado.append("]");
+        return resultado.toString();
     }
 
+    
+    public void iteracionCircular(ObservableList<String> observableList) {
+        if (!isEmpty()) {
+            Node<E> current = ultimo;
+            do {
+                observableList.add(current.contenido.toString());
+                current = current.sig;
+            } while (current != ultimo);
+        }
+    }
+    
+     public void iteracionCircular2(){
+       Node<E> actual = this.primero;
+        actual = this.ultimo;
+        for (int i = 0; i < this.size(); i++) {
+            System.out.print(actual.contenido + " ");
+            actual = actual.anterior;
+        }
+        System.out.println();
+        
+    }
+     
+    public void moveToNext() {
+        if (!isEmpty()) {
+            ultimo = ultimo.sig;
+        }
+    }
+    
+    public void moveToPrevious() {
+        if (!isEmpty()) {
+            ultimo = ultimo.anterior;
+        }
+    }
+    
     @Override
-    public boolean delete(E contentComp) {
-        //Si el contador sobrepasa el size de la lista, significa que ya iteró por todos los elementos y no encontro el que 
-        //quiere eliminar
-        int contador = 0;
-        CircularNodeList<E> nodoViajero = last.getSig();
-        while (nodoViajero.getContent() != contentComp && contador < size) {
-            nodoViajero = nodoViajero.getSig();
-            contador++;
-        }
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private Node<E> actual = primero;
+            private int visitados = 0;
 
-        if (contador < size) {
-            CircularNodeList<E> nodoEliminar = nodoViajero;
-
-            CircularNodeList<E> nodoAnterior = nodoViajero.getPrev();
-            CircularNodeList<E> nodoPosterior = nodoViajero.getSig();
-
-            nodoAnterior.setSig(nodoPosterior);
-            nodoPosterior.setPrev(nodoAnterior);
-
-            if (nodoEliminar.equals(last)) {
-                last = nodoAnterior;
+            @Override
+            public boolean hasNext() {
+                return visitados < size();
             }
-            size--;
-            return true;
-        }
-        return false;
-    }
 
-    public boolean deleteByIndex(int index) {
-        int contador = 0;
-
-        for (CircularNodeList<E> nodoViajero = last.getSig(); contador != index; nodoViajero = nodoViajero.getSig()) {
-            System.out.println("Contador acumulandose:");
-            System.out.println(contador);
-            if (contador +1== index) {
-                
-                CircularNodeList<E> nodoEliminar = nodoViajero;
-
-                CircularNodeList<E> nodoAnterior = nodoViajero.getPrev();
-                CircularNodeList<E> nodoPosterior = nodoViajero.getSig();
-
-                nodoAnterior.setSig(nodoPosterior);
-                nodoPosterior.setPrev(nodoAnterior);
-                
-                //El nodo a eliminar no tendrá nada apuntandolo por lo que se lo llevará el garbage collector;
-                if (nodoEliminar.equals(last)) {
-                    last = nodoAnterior;
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                size--;
-                return true;
+
+                E dato = actual.contenido;
+                actual = actual.sig;
+                visitados++;
+                return dato;
             }
-            contador++;
-        }
-
-        return false;
-
+        };
     }
-
 }

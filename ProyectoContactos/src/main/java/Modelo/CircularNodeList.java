@@ -9,13 +9,13 @@ package Modelo;
  * @author Raul Leon
  */
 public class CircularNodeList<E> {
-    private E content;
+    private E contenido;
     private CircularNodeList<E> sig;
-    private CircularNodeList<E> prev;
+    private CircularNodeList<E> anterior;
 
     
     public CircularNodeList (E elemento){
-        this.content= elemento;
+        this.contenido= elemento;
         
     }
     
@@ -24,7 +24,7 @@ public class CircularNodeList<E> {
     }
     
     public E getContent() {
-        return content;
+        return contenido;
     }
 
     public CircularNodeList<E> getSig() {
@@ -32,11 +32,11 @@ public class CircularNodeList<E> {
     }
 
     public CircularNodeList<E> getPrev() {
-        return prev;
+        return anterior;
     }
 
     public void setContent(E content) {
-        this.content = content;
+        this.contenido = content;
     }
 
     public void setSig(CircularNodeList<E> next) {
@@ -44,7 +44,7 @@ public class CircularNodeList<E> {
     }
 
     public void setPrev(CircularNodeList<E> previous) {
-        this.prev = previous;
+        this.anterior = previous;
     }
     
     
