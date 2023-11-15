@@ -38,6 +38,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -46,7 +47,7 @@ import javafx.fxml.Initializable;
  */
 public class ContactosController implements Initializable {
 
-    private Usuario usuario;
+    Usuario usuario;
     @FXML
     private Button BtnAgregar;
 
@@ -55,6 +56,8 @@ public class ContactosController implements Initializable {
 
     @FXML
     private ListView<String> ListaContacto;
+    
+    private LoginController loginController;
 
     /**
      * Initializes the controller class.
@@ -62,16 +65,13 @@ public class ContactosController implements Initializable {
     public ArrayList<String> Contactos = new ArrayList<>();
     public static ObservableList<Contacto> observable = FXCollections.observableArrayList();
 
-    protected DoubleCircleLinkedList<Contacto> contactList = new DoubleCircleLinkedList<>();
-
     public void initialize(URL url, ResourceBundle rb) {
 
-        contactList.add(new Contacto("Raul", "Leon", "Amigo"));
-        contactList.add(new Contacto("Johan", "Ramirez", "Amigo"));
-        contactList.add(new Contacto("Michelle", "Arreaga", "Amigo"));
-        contactList.add(new Contacto("Michelle123", "Arreaga", "Amigo"));
-
-        actualizarListView();
+//        contactList.add(new Contacto("Raul", "Leon", "Amigo"));
+//        contactList.add(new Contacto("Johan", "Ramirez", "Amigo"));
+//        contactList.add(new Contacto("Michelle", "Arreaga", "Amigo"));
+//        contactList.add(new Contacto("Michelle123", "Arreaga", "Amigo"));
+//        actualizarListView(); Cuando dejamos este metodo aqui, el programa por alguna razon se cae xd
 
     }
 
@@ -101,10 +101,14 @@ public class ContactosController implements Initializable {
         this.usuario = usuario;
     }
 
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
+    }
+
     @FXML
     public void navigateNext() {
-        if (!contactList.isEmpty()) {
-            contactList.moveToNext();
+        if (!usuario.getContactos().isEmpty()) {
+            usuario.getContactos().moveToNext();
             actualizarListView();
         }
 
@@ -112,23 +116,34 @@ public class ContactosController implements Initializable {
 
     @FXML
     public void navigatePrevious() {
-        if (!contactList.isEmpty()) {
-            contactList.moveToPrevious();
+        if (!usuario.getContactos().isEmpty()) {
+            usuario.getContactos().moveToPrevious();
             actualizarListView();
         }
     }
 
     public void actualizarListView() {
         Contactos.clear();
-        Iterator<Contacto> iterator = contactList.iterator();
-        System.out.println(contactList);
-        while (iterator.hasNext()) {
-            Contacto contacto = iterator.next();
-            Contactos.add(contacto.getNombre() + " " + contacto.getApellido());
+        DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        System.out.println("===============");
+        System.out.println(usuario);
+        System.out.println("===============");
+        if (!contactosDelUsuario.isEmpty()) {
+            Iterator<Contacto> iterator = contactosDelUsuario.iterator();
+            System.out.println(contactosDelUsuario);
+            while (iterator.hasNext()) {
+                Contacto contacto = iterator.next();
+                Contactos.add(contacto.getNombre() + " " + contacto.getApellido());
+            }
+            ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
+            System.out.println("DoubleList: " + contactosDelUsuario.toString());
+            System.out.println("ArrayList: " + Contactos.toString());
+            ListaContacto.setItems(contactArray);
+        } else {
+            Alert noContacts = new Alert(Alert.AlertType.WARNING);
+            noContacts.setTitle("Advertencia");
+            noContacts.setContentText("Su lista de contactos esta vacía");
+            noContacts.showAndWait();
         }
-        ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
-        System.out.println("DoubleList: " + contactList.toString());
-        System.out.println("ArrayList: " + Contactos.toString());
-        ListaContacto.setItems(contactArray);
     }
 }

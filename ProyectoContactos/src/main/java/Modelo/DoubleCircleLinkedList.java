@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javafx.collections.ObservableList;
@@ -12,7 +13,7 @@ import javafx.collections.ObservableList;
  *
  * @author Raul Leon
  */
-public class DoubleCircleLinkedList<E> implements Iterable<E>{
+public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
     Node<E> primero, ultimo;
     int n = 0;
     

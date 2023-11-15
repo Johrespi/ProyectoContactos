@@ -44,7 +44,7 @@ public class LoginController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    
+
     private final String[] tiposUsuarios = {"Persona natural", "Administrador"};
 
     /**
@@ -78,13 +78,28 @@ public class LoginController implements Initializable {
             ContactosController controller = loader.getController();
             for (Usuario u : usuarios) {
                 if (u.equals(usuarioAVerificar)) {
-                    controller.setUsuario(u); // Pasar la instancia del usuario actual al controlador
+                    controller.setLoginController(this);
+                    controller.setUsuario(u);
                     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setTitle("Welcome!");
                     stage.setScene(scene);
                     stage.show();
-                    System.out.println(u); //Para verificar el tipo de usuario por pantalla
+                    System.out.println(u); 
+                    System.out.println("HOLASAASASSASA");
+
+//Para verificar el tipo de usuario por pantalla
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarUusuarios.fxml"));
+//                    Parent root = loader.load();
+//
+//                    // Obtener el controlador y setearlo
+//                    AgregarUusuariosController agregarUusuariosController = loader.getController();
+//                    agregarUusuariosController.setContactosController(this);
+//
+//                    Stage st = new Stage();
+//                    Scene sc = new Scene(root);
+//                    st.setScene(sc);
+//                    st.show();
                 }
             }
 
@@ -106,5 +121,7 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+
 
 }

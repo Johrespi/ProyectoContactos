@@ -23,13 +23,13 @@ public class Usuario implements Serializable {
     private String nombreUsuario;
     private String contraseña;
     private String tipoUsuario; // Usuario o administrador
-    private LinkedList<Contacto> contactos;
+    private DoubleCircleLinkedList<Contacto> contactos;
 
     public Usuario(String nombreUsuario, String contraseña, String tipoUsuario) {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.contactos = new LinkedList<>();
+        this.contactos = new DoubleCircleLinkedList<>();
     }
 
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
@@ -102,13 +102,14 @@ public class Usuario implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public LinkedList<Contacto> getContactos() {
+    public DoubleCircleLinkedList<Contacto> getContactos() {
         return contactos;
     }
 
-    public void setContactos(LinkedList<Contacto> contactos) {
+    public void setContactos(DoubleCircleLinkedList<Contacto> contactos) {
         this.contactos = contactos;
     }
+
 
     @Override
     public String toString() {

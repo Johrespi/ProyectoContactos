@@ -27,7 +27,7 @@ public class Contacto implements Serializable {
     private ArrayList<String> emails;
     private ArrayList<String> numerosTelefono;
     private ArrayList<String> identificadoresRedesSociales;
-    private LinkedList<Image> fotos; //podria ser
+    private DoubleCircleLinkedList<Image> fotos; //podria ser
     private ArrayList<String> fechasInteres;
 
     public Contacto(String nombre, String apellido, String tipoContacto) {
@@ -38,7 +38,7 @@ public class Contacto implements Serializable {
         this.emails = new ArrayList<>();
         this.numerosTelefono = new ArrayList<>();
         this.identificadoresRedesSociales = new ArrayList<>();
-        this.fotos = new LinkedList<>();
+        this.fotos = new DoubleCircleLinkedList<>();
         this.fechasInteres = new ArrayList<>();
     }
 
@@ -109,17 +109,19 @@ public class Contacto implements Serializable {
         this.identificadoresRedesSociales.remove(identificadorRedesSociales);
     }
 
-    public LinkedList<Image> getFotos() {
-        return fotos;
-    }
-
     public void addFoto(Image foto) {
         this.fotos.add(foto);
     }
 
-    public void removeFoto(Image foto) {
-        this.fotos.remove(foto);
+    public DoubleCircleLinkedList<Image> getFotos() {
+        return fotos;
     }
+
+    public void setFotos(DoubleCircleLinkedList<Image> fotos) {
+        this.fotos = fotos;
+    }
+
+
 
     public ArrayList<String> getFechasInteres() {
         return fechasInteres;

@@ -47,7 +47,7 @@ public class AgregarUusuariosController implements Initializable {
     void AgregaUsuario(ActionEvent e) {
         
         Contacto con = new Contacto(txtNombre.getText(), txtApellido.getText(), txtTipoContacto.getText());
-        contactosController.contactList.add(con);
+        contactosController.usuario.getContactos().add(con);
         contactosController.actualizarListView();
 
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);

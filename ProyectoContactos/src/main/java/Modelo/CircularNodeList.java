@@ -4,11 +4,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Raul Leon
  */
-public class CircularNodeList<E> {
+public class CircularNodeList<E> implements Serializable{
     private E contenido;
     private CircularNodeList<E> sig;
     private CircularNodeList<E> anterior;
