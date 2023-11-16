@@ -4,10 +4,11 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import Modelo.ArrayList;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,14 +1,15 @@
 ec\edu\espol\proyectocontactos\AgregarUusuariosController.class
 Modelo\Contacto.class
 Modelo\Usuario.class
+Modelo\ArrayList$1.class
 Modelo\CircularNodeList.class
 ec\edu\espol\proyectocontactos\SignUpController.class
 Modelo\DoubleCircleLinkedList$1.class
 module-info.class
 Modelo\DoubleCircleLinkedList$Node.class
 Modelo\DoubleCircleLinkedList.class
-Modelo\List.class
 ec\edu\espol\proyectocontactos\ContactosController.class
+Modelo\ArrayList.class
 ec\edu\espol\proyectocontactos\App.class
 ec\edu\espol\proyectocontactos\LoginController.class
 Modelo\FechaInteres.class

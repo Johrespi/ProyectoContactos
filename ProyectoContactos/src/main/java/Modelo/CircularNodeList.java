@@ -9,6 +9,7 @@ import java.io.Serializable;
 /**
  *
  * @author Raul Leon
+ * @param <E>
  */
 public class CircularNodeList<E> implements Serializable{
     private E contenido;

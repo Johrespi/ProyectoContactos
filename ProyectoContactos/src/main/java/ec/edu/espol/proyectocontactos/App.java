@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import Modelo.ArrayList;
 import java.io.IOException;
 import javafx.scene.image.Image;
 
@@ -19,6 +19,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+        
         scene = new Scene(loadFXML("Login"));
         stage.setTitle("YourContacts");
         Image icono = new Image("imgs/Login.jpg");

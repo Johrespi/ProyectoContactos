@@ -4,10 +4,11 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import Modelo.ArrayList;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,10 +84,10 @@ public class SignUpController implements Initializable {
             campoVacio.showAndWait();
 
         }
-        if (usuariosListaSer.isEmpty()) {
+        else if (usuariosListaSer.isEmpty()) {
             Usuario primerUsuario = new Usuario(usuarioField.getText(), passwordField.getText(), tiposUsuarios[0]);
             //usuariosListaSer.add(primerUsuario);
-            actualizarLista.add(primerUsuario);
+            actualizarLista.addLast(primerUsuario);
             Usuario.saveListToFileSerUsuarios(actualizarLista);
             Alert RegistroUsuarioAlert = new Alert(Alert.AlertType.CONFIRMATION);
             RegistroUsuarioAlert.setTitle("Registro exitoso");
@@ -117,7 +118,7 @@ public class SignUpController implements Initializable {
                     bt.setOnAction(event1 -> {
                         if (pf.getText().equals(AdminPassword)) {
                             try {
-                                actualizarLista.add(u1);
+                                actualizarLista.addLast(u1);
                                 //usuariosListaSer = actualizarLista;
                                 Usuario.saveListToFileSerUsuarios(actualizarLista);
                                 Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);
@@ -143,7 +144,7 @@ public class SignUpController implements Initializable {
                         }
                     });
                 } else {
-                    actualizarLista.add(u1);
+                    actualizarLista.addLast(u1);
                     //usuariosListaSer = actualizarLista;
                     Usuario.saveListToFileSerUsuarios(actualizarLista);
                     Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);

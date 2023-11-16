@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import Modelo.ArrayList;
 import Modelo.Contacto;
 
 import Modelo.CircularNodeList;
@@ -12,7 +13,6 @@ import Modelo.DoubleCircleLinkedList;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -133,7 +133,7 @@ public class ContactosController implements Initializable {
             System.out.println(contactosDelUsuario);
             while (iterator.hasNext()) {
                 Contacto contacto = iterator.next();
-                Contactos.add(contacto.getNombre() + " " + contacto.getApellido());
+                Contactos.addLast(contacto.getNombre() + " " + contacto.getApellido());
             }
             ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
             System.out.println("DoubleList: " + contactosDelUsuario.toString());

@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import javafx.scene.image.Image;
 
 /**
@@ -131,7 +129,7 @@ public class Contacto implements Serializable {
         this.fechasInteres.add(fechaInteres);
     }
 
-    public static void saveListToFileSerContactos(LinkedList<Contacto> contactos) {
+    public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
             oos.writeObject(contactos);
         } catch (Exception e) {
@@ -139,10 +137,10 @@ public class Contacto implements Serializable {
         }
     }
 
-    public static LinkedList<Contacto> readListFromFileSerContactos() {
-        LinkedList<Contacto> contactos = new LinkedList<>();
+    public static DoubleCircleLinkedList<Contacto> readListFromFileSerContactos() {
+        DoubleCircleLinkedList<Contacto> contactos = new DoubleCircleLinkedList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Contactos.ser"))) {
-            contactos = (LinkedList<Contacto>) ois.readObject();
+            contactos = (DoubleCircleLinkedList<Contacto>) ois.readObject();
         } catch (IOException e) {
         } catch (ClassNotFoundException e) {
         } catch (Exception a) {
