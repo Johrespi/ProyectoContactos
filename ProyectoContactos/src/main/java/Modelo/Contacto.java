@@ -11,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import javafx.scene.image.Image;
-
 /**
  *
  * @author johan
@@ -26,7 +25,7 @@ public class Contacto implements Serializable {
     private ArrayList<String> numerosTelefono;
     private ArrayList<String> identificadoresRedesSociales;
     private DoubleCircleLinkedList<Image> fotos; //podria ser
-    private ArrayList<String> fechasInteres;
+    private ArrayList<FechaInteres> fechasInteres;
 
     public Contacto(String nombre, String apellido, String tipoContacto) {
         this.nombre = nombre;
@@ -107,27 +106,35 @@ public class Contacto implements Serializable {
         this.identificadoresRedesSociales.remove(identificadorRedesSociales);
     }
 
-    public void addFoto(Image foto) {
-        this.fotos.add(foto);
-    }
+//    public void addFoto(Image foto) {
+//        this.fotos.add(foto);
+//    }
 
-    public DoubleCircleLinkedList<Image> getFotos() {
-        return fotos;
-    }
+//    public DoubleCircleLinkedList<Image> getFotos() {
+//        return fotos;
+//    }
+//
+//    public void setFotos(DoubleCircleLinkedList<Image> fotos) {
+//        this.fotos = fotos;
+//    }
 
-    public void setFotos(DoubleCircleLinkedList<Image> fotos) {
-        this.fotos = fotos;
-    }
+//    public DoubleCircleLinkedList<String> getFotos() {
+//        return fotos;
+//    }
+//
+//    public void setFotos(DoubleCircleLinkedList<String> fotos) {
+//        this.fotos = fotos;
+//    }asdasdasdas
 
 
 
-    public ArrayList<String> getFechasInteres() {
-        return fechasInteres;
-    }
-
-    public void addFechaInter(String fechaInteres) {
-        this.fechasInteres.add(fechaInteres);
-    }
+//    public ArrayList<String> getFechasInteres() {
+//        return fechasInteres;
+//    }
+//
+//    public void addFechaInter(String fechaInteres) {
+//        this.fechasInteres.add(fechaInteres);
+//    }
 
     public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {

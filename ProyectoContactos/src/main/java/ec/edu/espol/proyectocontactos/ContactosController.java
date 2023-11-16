@@ -56,7 +56,7 @@ public class ContactosController implements Initializable {
 
     @FXML
     private ListView<String> ListaContacto;
-    
+
     private LoginController loginController;
 
     /**
@@ -71,7 +71,7 @@ public class ContactosController implements Initializable {
 //        contactList.add(new Contacto("Johan", "Ramirez", "Amigo"));
 //        contactList.add(new Contacto("Michelle", "Arreaga", "Amigo"));
 //        contactList.add(new Contacto("Michelle123", "Arreaga", "Amigo"));
-//        actualizarListView(); Cuando dejamos este metodo aqui, el programa por alguna razon se cae xd
+
 
     }
 
@@ -87,6 +87,7 @@ public class ContactosController implements Initializable {
             agregarUusuariosController.setContactosController(this);
 
             Stage st = new Stage();
+            st.setTitle("Agrega tus contactos!");
             Scene sc = new Scene(root);
             st.setScene(sc);
             st.show();
@@ -128,6 +129,7 @@ public class ContactosController implements Initializable {
         System.out.println("===============");
         System.out.println(usuario);
         System.out.println("===============");
+        System.out.println(contactosDelUsuario);
         if (!contactosDelUsuario.isEmpty()) {
             Iterator<Contacto> iterator = contactosDelUsuario.iterator();
             System.out.println(contactosDelUsuario);

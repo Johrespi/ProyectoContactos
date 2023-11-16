@@ -81,6 +81,7 @@ public class LoginController implements Initializable {
                 if (u.equals(usuarioAVerificar)) {
                     controller.setLoginController(this);
                     controller.setUsuario(u);
+                    controller.actualizarListView();
                     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setTitle("Welcome!");

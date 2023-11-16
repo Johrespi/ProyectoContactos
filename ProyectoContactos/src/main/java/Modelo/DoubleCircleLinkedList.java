@@ -18,7 +18,7 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
     int n = 0;
     
     
-    public class Node<E>{
+    public class Node<E> implements Serializable{
         E contenido;
         Node<E> sig , anterior;
 

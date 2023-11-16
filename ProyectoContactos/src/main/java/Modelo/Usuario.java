@@ -37,6 +37,7 @@ public class Usuario implements Serializable {
         } catch (IOException e) {
         } catch (ClassNotFoundException e) {
         } catch (Exception a) {
+            a.printStackTrace();
         }
         return usuarios;
 
@@ -46,7 +47,7 @@ public class Usuario implements Serializable {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Usuarios.ser"))) {
             oos.writeObject(usuarios);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -73,8 +74,6 @@ public class Usuario implements Serializable {
         }
         return Objects.equals(this.contraseña, other.contraseña);
     }
-    
-    
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -107,7 +106,6 @@ public class Usuario implements Serializable {
     public void setContactos(DoubleCircleLinkedList<Contacto> contactos) {
         this.contactos = contactos;
     }
-
 
     @Override
     public String toString() {
