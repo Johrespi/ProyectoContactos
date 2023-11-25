@@ -20,23 +20,27 @@ public class Contacto implements Serializable {
     private String nombre;
     private String apellido;
     private String tipoContacto; //nombre de la empresa
-    private ArrayList<String> direcciones;
-    private ArrayList<String> emails;
-    private ArrayList<String> numerosTelefono;
-    private ArrayList<String> identificadoresRedesSociales;
+    private ArrayList<Direccion> direcciones;
+    private ArrayList<Email> emails;
+    private ArrayList<Telefono> numerosTelefono;
+    private ArrayList<redSocial> identificadoresRedesSociales;
+    private ArrayList<String> ContactosRelacionados;
     private DoubleCircleLinkedList<Image> fotos; //podria ser
     private ArrayList<FechaInteres> fechasInteres;
+    private boolean esFavorito;
 
-    public Contacto(String nombre, String apellido, String tipoContacto) {
+    public Contacto(String nombre, String apellido, String tipoContacto, boolean esFavorito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipoContacto = tipoContacto;
+        this.esFavorito = esFavorito;
         this.direcciones = new ArrayList<>();
         this.emails = new ArrayList<>();
         this.numerosTelefono = new ArrayList<>();
         this.identificadoresRedesSociales = new ArrayList<>();
         this.fotos = new DoubleCircleLinkedList<>();
         this.fechasInteres = new ArrayList<>();
+        this.ContactosRelacionados = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -55,13 +59,39 @@ public class Contacto implements Serializable {
         this.apellido = apellido;
     }
 
-    public ArrayList<String> getDirecciones() {
+    public ArrayList<Direccion> getDirecciones() {
         return direcciones;
     }
 
-    public void setDirecciones(ArrayList<String> direcciones) {
+    public void setDirecciones(ArrayList<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
+
+    public ArrayList<String> getContactosRelacionados() {
+        return ContactosRelacionados;
+    }
+
+    public void setContactosRelacionados(ArrayList<String> ContactosRelacionados) {
+        this.ContactosRelacionados = ContactosRelacionados;
+    }
+
+    public ArrayList<FechaInteres> getFechasInteres() {
+        return fechasInteres;
+    }
+
+    public void setFechasInteres(ArrayList<FechaInteres> fechasInteres) {
+        this.fechasInteres = fechasInteres;
+    }
+
+    public boolean isEsFavorito() {
+        return esFavorito;
+    }
+
+    public void setEsFavorito(boolean esFavorito) {
+        this.esFavorito = esFavorito;
+    }
+
+
 
     public String getTipoContacto() {
         return tipoContacto;
@@ -70,71 +100,6 @@ public class Contacto implements Serializable {
     public void setTipoContacto(String tipoContacto) {
         this.tipoContacto = tipoContacto;
     }
-
-    public ArrayList<String> getEmails() {
-        return emails;
-    }
-
-    public void addEmail(String email) {
-        this.emails.add(email);
-    }
-
-//    public void removeEmail(String email) {
-//        this.emails.remove(email);
-//    }
-    public ArrayList<String> getNumerosTelefono() {
-        return numerosTelefono;
-    }
-
-    public void addNumeroTelefono(String numeroTelefono) {
-        this.numerosTelefono.add(numeroTelefono);
-    }
-
-    public void removeNumeroTelefono(String numeroTelefono) {
-        this.numerosTelefono.remove(numeroTelefono);
-    }
-
-    public ArrayList<String> getIdentificadoresRedesSociales() {
-        return identificadoresRedesSociales;
-    }
-
-    public void addIdentificadorRedesSociales(String identificadorRedesSociales) {
-        this.identificadoresRedesSociales.add(identificadorRedesSociales);
-    }
-
-    public void removeIdentificadorRedesSociales(String identificadorRedesSociales) {
-        this.identificadoresRedesSociales.remove(identificadorRedesSociales);
-    }
-
-//    public void addFoto(Image foto) {
-//        this.fotos.add(foto);
-//    }
-
-//    public DoubleCircleLinkedList<Image> getFotos() {
-//        return fotos;
-//    }
-//
-//    public void setFotos(DoubleCircleLinkedList<Image> fotos) {
-//        this.fotos = fotos;
-//    }
-
-//    public DoubleCircleLinkedList<String> getFotos() {
-//        return fotos;
-//    }
-//
-//    public void setFotos(DoubleCircleLinkedList<String> fotos) {
-//        this.fotos = fotos;
-//    }asdasdasdas
-
-
-
-//    public ArrayList<String> getFechasInteres() {
-//        return fechasInteres;
-//    }
-//
-//    public void addFechaInter(String fechaInteres) {
-//        this.fechasInteres.add(fechaInteres);
-//    }
 
     public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
