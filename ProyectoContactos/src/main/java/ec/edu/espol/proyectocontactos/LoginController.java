@@ -88,20 +88,6 @@ public class LoginController implements Initializable {
                     stage.setScene(scene);
                     stage.show();
                     System.out.println(u); 
-                    System.out.println("HOLASAASASSASA");
-
-//Para verificar el tipo de usuario por pantalla
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarUusuarios.fxml"));
-//                    Parent root = loader.load();
-//
-//                    // Obtener el controlador y setearlo
-//                    AgregarUusuariosController agregarUusuariosController = loader.getController();
-//                    agregarUusuariosController.setContactosController(this);
-//
-//                    Stage st = new Stage();
-//                    Scene sc = new Scene(root);
-//                    st.setScene(sc);
-//                    st.show();
                 }
             }
 

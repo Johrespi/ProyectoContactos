@@ -33,6 +33,8 @@ public class AgregarUusuariosController implements Initializable {
     private TextField txtTipoContacto;
 
     private ContactosController contactosController;
+    
+    Contacto c = new Contacto("", "", "", true);
 
     /**
      * Initializes the controller class.
@@ -40,12 +42,13 @@ public class AgregarUusuariosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        
+        
     }
 
     @FXML
     void AgregaUsuario(ActionEvent e) {
-        Contacto con = new Contacto(txtNombre.getText(), txtApellido.getText(), txtTipoContacto.getText());
+        Contacto con = new Contacto();
         Usuario u = contactosController.usuario;
         contactosController.usuario.getContactos().add(con);
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();

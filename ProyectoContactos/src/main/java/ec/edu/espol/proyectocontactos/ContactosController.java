@@ -79,12 +79,14 @@ public class ContactosController implements Initializable {
     void AgregarContacto(ActionEvent event) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarUusuarios.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarContactos.fxml"));
             Parent root = loader.load();
 
             // Obtener el controlador y setearlo
-            AgregarUusuariosController agregarUusuariosController = loader.getController();
-            agregarUusuariosController.setContactosController(this);
+//            AgregarUusuariosController agregarContactosController1 = loader.getController();
+//            agregarContactosController1.setContactosController(this);
+            AgregarContactosController agregarContactosController = loader.getController();
+            agregarContactosController.setContactosController(this);
 
             Stage st = new Stage();
             st.setTitle("Agrega tus contactos!");
@@ -126,10 +128,6 @@ public class ContactosController implements Initializable {
     public void actualizarListView() {
         Contactos.clear();
         DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
-        System.out.println("===============");
-        System.out.println(usuario);
-        System.out.println("===============");
-        System.out.println(contactosDelUsuario);
         if (!contactosDelUsuario.isEmpty()) {
             Iterator<Contacto> iterator = contactosDelUsuario.iterator();
             System.out.println(contactosDelUsuario);
@@ -138,8 +136,6 @@ public class ContactosController implements Initializable {
                 Contactos.addLast(contacto.getNombre() + " " + contacto.getApellido());
             }
             ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
-            System.out.println("DoubleList: " + contactosDelUsuario.toString());
-            System.out.println("ArrayList: " + Contactos.toString());
             ListaContacto.setItems(contactArray);
         } else {
             Alert noContacts = new Alert(Alert.AlertType.WARNING);

@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import javafx.scene.image.Image;
+
 /**
  *
  * @author johan
@@ -23,8 +24,8 @@ public class Contacto implements Serializable {
     private ArrayList<Direccion> direcciones;
     private ArrayList<Email> emails;
     private ArrayList<Telefono> numerosTelefono;
-    private ArrayList<redSocial> identificadoresRedesSociales;
-    private ArrayList<String> ContactosRelacionados;
+    private ArrayList<redSocial> redesSociales;
+    private ArrayList<Relacion> ContactosRelacionados;
     private DoubleCircleLinkedList<Image> fotos; //podria ser
     private ArrayList<FechaInteres> fechasInteres;
     private boolean esFavorito;
@@ -37,7 +38,21 @@ public class Contacto implements Serializable {
         this.direcciones = new ArrayList<>();
         this.emails = new ArrayList<>();
         this.numerosTelefono = new ArrayList<>();
-        this.identificadoresRedesSociales = new ArrayList<>();
+        this.redesSociales = new ArrayList<>();
+        this.fotos = new DoubleCircleLinkedList<>();
+        this.fechasInteres = new ArrayList<>();
+        this.ContactosRelacionados = new ArrayList<>();
+    }
+
+    public Contacto() {
+        this.nombre = "";
+        this.apellido = "";
+        this.tipoContacto = "";
+        this.esFavorito = false;
+        this.direcciones = new ArrayList<>();
+        this.emails = new ArrayList<>();
+        this.numerosTelefono = new ArrayList<>();
+        this.redesSociales = new ArrayList<>();
         this.fotos = new DoubleCircleLinkedList<>();
         this.fechasInteres = new ArrayList<>();
         this.ContactosRelacionados = new ArrayList<>();
@@ -67,11 +82,11 @@ public class Contacto implements Serializable {
         this.direcciones = direcciones;
     }
 
-    public ArrayList<String> getContactosRelacionados() {
+    public ArrayList<Relacion> getContactosRelacionados() {
         return ContactosRelacionados;
     }
 
-    public void setContactosRelacionados(ArrayList<String> ContactosRelacionados) {
+    public void setContactosRelacionados(ArrayList<Relacion> ContactosRelacionados) {
         this.ContactosRelacionados = ContactosRelacionados;
     }
 
@@ -91,8 +106,6 @@ public class Contacto implements Serializable {
         this.esFavorito = esFavorito;
     }
 
-
-
     public String getTipoContacto() {
         return tipoContacto;
     }
@@ -100,6 +113,34 @@ public class Contacto implements Serializable {
     public void setTipoContacto(String tipoContacto) {
         this.tipoContacto = tipoContacto;
     }
+
+    public ArrayList<Email> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(ArrayList<Email> emails) {
+        this.emails = emails;
+    }
+
+    public ArrayList<Telefono> getNumerosTelefono() {
+        return numerosTelefono;
+    }
+
+    public void setNumerosTelefono(ArrayList<Telefono> numerosTelefono) {
+        this.numerosTelefono = numerosTelefono;
+    }
+
+    public ArrayList<redSocial> getRedesSociales() {
+        return redesSociales;
+    }
+
+    public void setRedesSociales(ArrayList<redSocial> redesSociales) {
+        this.redesSociales = redesSociales;
+    }
+
+
+    
+    
 
     public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
@@ -123,6 +164,17 @@ public class Contacto implements Serializable {
 
     @Override
     public String toString() {
+        return "Contact{"
+                + "nombre='" + nombre + '\''
+                + ", apellido='" + apellido + '\''
+                + ", numeroTelefono='" + numerosTelefono + '\''
+                + ", email='" + emails + '\''
+                + ", direccion='" + direcciones + '\''
+                + ", tipoContacto='" + tipoContacto + '\''
+                + '}';
+    }
+
+    public String toStringEmpresa() {
         return "Contact{"
                 + "nombre='" + nombre + '\''
                 + ", apellido='" + apellido + '\''

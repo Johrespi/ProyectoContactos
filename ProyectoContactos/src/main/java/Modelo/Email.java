@@ -4,11 +4,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author johan
  */
-class Email {
+public class Email implements Serializable{
     private String tipoEmail;
     private String email;
 
