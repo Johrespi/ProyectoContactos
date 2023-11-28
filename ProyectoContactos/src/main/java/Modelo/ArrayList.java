@@ -19,52 +19,52 @@ import java.util.NoSuchElementException;
  */
 public class ArrayList<E> implements List<E>, Serializable {
 
-    private int capacity = 100;
+    private int capacidad = 100;
     private E[] elements = null;
-    private int effectiveSize = 0;
+    private int n = 0;
 
     public ArrayList() {
-        this.elements = (E[]) (new Object[capacity]);
-        this.effectiveSize = 0;
+        this.elements = (E[]) (new Object[capacidad]);
+        this.n = 0;
     }
 
     public void addCapacity() {
-        E[] tmp = (E[]) new Object[capacity * 2];
-        for (int i = 0; i < capacity; i++) {
+        E[] tmp = (E[]) new Object[capacidad * 2];
+        for (int i = 0; i < capacidad; i++) {
             tmp[i] = elements[i];
         }
         elements = tmp;
-        capacity = capacity * 2;
+        capacidad = capacidad * 2;
     }
 
     @Override
     public int size() {
-        return effectiveSize;
+        return n;
     }
 
     @Override
     public boolean isEmpty() {
-        return effectiveSize == 0;
+        return n == 0;
     }
 
     @Override
     public void clear() {
-        effectiveSize = 0;
+        n = 0;
     }
 
     @Override
     public void add(int index, E element) {
         if (element == null) {
-            throw new NullPointerException("Element provided is null.");
-        } else if (index < 0 || index > this.effectiveSize) {
+            throw new NullPointerException("El elemento enviado es null.");
+        } else if (index < 0 || index > this.n) {
             throw new IndexOutOfBoundsException();
         } else if (isEmpty()) {
-            elements[effectiveSize++] = element;
-        } else if (capacity == effectiveSize) {
+            elements[n++] = element;
+        } else if (capacidad == n) {
             addCapacity();
         }
-        effectiveSize++;
-        for (int i = effectiveSize; i > index; i--) {
+        n++;
+        for (int i = n; i > index; i--) {
             elements[i] = elements[i - 1];
 
         }
@@ -75,16 +75,16 @@ public class ArrayList<E> implements List<E>, Serializable {
         if (element == null) {
             return false;
         } else if (isEmpty()) {
-            elements[effectiveSize++] = element;
+            elements[n++] = element;
             return true;
-        } else if (capacity == effectiveSize) {
+        } else if (capacidad == n) {
             addCapacity();
         }
-        for (int i = effectiveSize - 1; i >= 0; i--) {
+        for (int i = n - 1; i >= 0; i--) {
             elements[i + 1] = elements[i];
         }
         elements[0] = element;
-        effectiveSize++;
+        n++;
         return true;
     }
 
@@ -92,28 +92,28 @@ public class ArrayList<E> implements List<E>, Serializable {
         if (element == null) {
             return false;
         } else if (isEmpty()) {
-            elements[effectiveSize++] = element;
+            elements[n++] = element;
             return true;
-        } else if (capacity == effectiveSize) {
+        } else if (capacidad == n) {
             addCapacity();
         }
-        int index = effectiveSize;
+        int index = n;
         elements[index] = element;
-        effectiveSize++;
+        n++;
         return true;
     }
 
     @Override
     public E remove(int index) {
         E elementToRemove = null;
-        if (this.isEmpty() || index >= this.effectiveSize || index < 0) {
+        if (this.isEmpty() || index >= this.n || index < 0) {
             throw new IndexOutOfBoundsException();
         } else {
             elementToRemove = elements[index];
-            for (int i = index; i < this.effectiveSize - 1; i++) {
+            for (int i = index; i < this.n - 1; i++) {
                 elements[i] = elements[i + 1];
             }
-            this.effectiveSize--;
+            this.n--;
         }
         return elementToRemove;
     }
@@ -123,12 +123,12 @@ public class ArrayList<E> implements List<E>, Serializable {
     }
 
     public E removeLast() {
-        return remove(this.effectiveSize - 1);
+        return remove(this.n - 1);
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= this.effectiveSize) {
+        if (index < 0 || index >= this.n) {
             throw new IndexOutOfBoundsException();
         } else {
             return elements[index];
@@ -137,7 +137,7 @@ public class ArrayList<E> implements List<E>, Serializable {
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= this.effectiveSize) {
+        if (index < 0 || index >= this.n) {
             throw new IndexOutOfBoundsException();
         }
         E oldElement = elements[index];
@@ -152,10 +152,10 @@ public class ArrayList<E> implements List<E>, Serializable {
         if (isEmpty()) {
             return result + "]";
         } else {
-            for (int i = 0; i < effectiveSize - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 result += elements[i].toString() + ", ";
             }
-            result += elements[effectiveSize - 1].toString() + "]";
+            result += elements[n - 1].toString() + "]";
         }
         return result;
     }
@@ -165,40 +165,22 @@ public class ArrayList<E> implements List<E>, Serializable {
             return false;
         }
 
-        ArrayList<E> aux = new ArrayList<E>();
+        ArrayList<E> listaRevertida = new ArrayList<E>();
 
-        for (int i = effectiveSize - 1; i > -1; i--) {
-            aux.addLast(this.elements[i]);
+        for (int i = n - 1; i > -1; i--) {
+            listaRevertida.addLast(this.elements[i]);
         }
 
-        for (int i = 0; i < effectiveSize; i++) {
-            this.elements[i] = aux.get(i);
+        for (int i = 0; i < n; i++) {
+            this.elements[i] = listaRevertida.get(i);
         }
 
         return true;
     }
-
-    public boolean addAll(List<E> l) {
-        if (l == null) {
-            return false;
-        }
-        int total_a_tener = effectiveSize + l.size();
-        int añadir_capacity = total_a_tener / 100;
-        if (total_a_tener > capacity) {
-            for (int i = 0; i < (añadir_capacity + 1); i++) {
-                addCapacity();
-            }
-        }
-        for (int u = 0; u < l.size(); u++) {
-            elements[effectiveSize] = l.get(u);
-            effectiveSize++;
-        }
-        return true;
-    }
-
+    
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < effectiveSize; i++) {
+        for (int i = 0; i < n; i++) {
             if (o == null ? elements[i] == null : o.equals(elements[i])) {
                 return true;
             }
@@ -207,7 +189,7 @@ public class ArrayList<E> implements List<E>, Serializable {
     }
 
     public boolean contains(E element, Comparator<E> cmp) {
-        for (int i = 0; i < effectiveSize; i++) {
+        for (int i = 0; i < n; i++) {
             if (cmp.compare(element, elements[i]) == 0) {
                 return true;
             }
@@ -217,12 +199,12 @@ public class ArrayList<E> implements List<E>, Serializable {
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < effectiveSize; i++) {
+        for (int i = 0; i < n; i++) {
             if (o == null ? elements[i] == null : o.equals(elements[i])) {
                 return i;
             }
         }
-        return -999999999; // Elemento no existe
+        return -999999999; 
     }
 
     @Override
@@ -235,7 +217,7 @@ public class ArrayList<E> implements List<E>, Serializable {
 
             @Override
             public boolean hasNext() {
-                return currentIndex < effectiveSize;
+                return currentIndex < n;
             }
 
             @Override

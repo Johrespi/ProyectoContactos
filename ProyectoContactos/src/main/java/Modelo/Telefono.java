@@ -34,6 +34,11 @@ public class Telefono implements Serializable{
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return tipoTelefono + ": " + telefono;
+    }
     
     
 }

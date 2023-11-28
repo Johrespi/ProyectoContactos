@@ -35,6 +35,11 @@ public class Relacion implements Serializable{
     public void setNombreContacto(String nombreContacto) {
         this.nombreContacto = nombreContacto;
     }
+
+    @Override
+    public String toString() {
+        return tipoRelacion + ": " + nombreContacto;
+    }
     
     
     

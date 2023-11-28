@@ -20,5 +20,11 @@ public class FechaInteres implements Serializable{
         this.fecha = fecha;
         this.tipoFechaInteres = tipoFechaInteres;
     }
+
+    @Override
+    public String toString() {
+        return tipoFechaInteres + ": " + fecha;
+    }
+    
     
 }

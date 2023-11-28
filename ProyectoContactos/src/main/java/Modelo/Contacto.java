@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collections;
 import javafx.scene.image.Image;
 
 /**
@@ -20,7 +21,7 @@ public class Contacto implements Serializable {
 
     private String nombre;
     private String apellido;
-    private String tipoContacto; //nombre de la empresa
+    private String tipoContacto; 
     private ArrayList<Direccion> direcciones;
     private ArrayList<Email> emails;
     private ArrayList<Telefono> numerosTelefono;
@@ -138,10 +139,6 @@ public class Contacto implements Serializable {
         this.redesSociales = redesSociales;
     }
 
-
-    
-    
-
     public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
             oos.writeObject(contactos);
@@ -164,14 +161,19 @@ public class Contacto implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{"
-                + "nombre='" + nombre + '\''
-                + ", apellido='" + apellido + '\''
-                + ", numeroTelefono='" + numerosTelefono + '\''
-                + ", email='" + emails + '\''
-                + ", direccion='" + direcciones + '\''
-                + ", tipoContacto='" + tipoContacto + '\''
-                + '}';
+        return nombre + " " + apellido;
+    }
+
+    public String toStringInformacion() {
+        return "Contacto{" + "nombre="
+                + nombre + ", apellido="
+                + apellido + ", tipoContacto="
+                + tipoContacto
+                + ", direcciones=" + direcciones + ", emails=" + emails
+                + ", numerosTelefono=" + numerosTelefono
+                + ", redesSociales=" + redesSociales + ", ContactosRelacionados="
+                + ContactosRelacionados + ", fotos=" + fotos
+                + ", fechasInteres=" + fechasInteres + ", esFavorito=" + esFavorito + '}';
     }
 
     public String toStringEmpresa() {

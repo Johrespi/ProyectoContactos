@@ -152,36 +152,52 @@ public class AgregarContactosController implements Initializable {
     private void crearContacto(ActionEvent event) throws IOException {
         Usuario u = contactosController.usuario;
         System.out.println(u);
-        if ((!nombreField.getText().isBlank() && !apellidoField.getText().isBlank()) || !empresaLabel.getText().isBlank()) {
+        if ((!nombreField.getText().isBlank() && !apellidoField.getText().isBlank())) {
             contacto.setNombre(nombreField.getText());
             contacto.setApellido(apellidoField.getText());
             contacto.setTipoContacto(tipoContactoField.getText());
-
-            if (FavoritoBox.getValue() == null || FavoritoBox.getValue().equals(esFavorito[1])) {
-                contacto.setEsFavorito(false);
-            } else {
-                contacto.setEsFavorito(true);
-            }
-            contactosController.usuario.getContactos().add(contacto);
-            ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
-            for (Usuario user : AllUsers) {
-                if (u.equals(user)) {
-                    user.getContactos().add(contacto);
-                    Usuario.saveListToFileSerUsuarios(AllUsers);
-
-                }
-            }
-            contactosController.actualizarListView();
-            Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
-            Guardado.setTitle("Guardado");
-            Guardado.setContentText("Su contacto se a guardado");
-            Guardado.showAndWait();
-
+            Favorito();
+            guardarContacto();
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
 
+        } else if (!empresaField.getText().isBlank()) {
+            contacto.setNombre(empresaField.getText());
+            contacto.setApellido(null);
+            contacto.setTipoContacto("Empresa");
+            Favorito();
+            guardarContacto();
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
         }
+    }
+
+    public void Favorito() {
+        if (FavoritoBox.getValue() == null || FavoritoBox.getValue().equals(esFavorito[1])) {
+            contacto.setEsFavorito(false);
+        } else {
+            contacto.setEsFavorito(true);
+        }
+    }
+
+    public void guardarContacto() {
+        contactosController.usuario.getContactos().add(contacto);
+        ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
+        for (Usuario user : AllUsers) {
+            if (contactosController.usuario.equals(user)) {
+                user.getContactos().add(contacto);
+                System.out.println(contacto);
+                Usuario.saveListToFileSerUsuarios(AllUsers);
+
+            }
+        }
+        contactosController.actualizarListView();
+        Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
+        Guardado.setTitle("Guardado");
+        Guardado.setContentText("Su contacto se a guardado");
+        Guardado.showAndWait();
     }
 
     @FXML
@@ -194,7 +210,7 @@ public class AgregarContactosController implements Initializable {
         if (fechaField.getValue() != null && !tipoFechaField.getText().isBlank()) {
             LocalDate myDate = fechaField.getValue();
             FechaInteres fechaInteres = new FechaInteres(myDate.toString(), tipoFechaField.getText());
-            contacto.getFechasInteres().add(fechaInteres);
+            contacto.getFechasInteres().addLast(fechaInteres);
             AlertaAdd();
         } else if ((fechaField.getValue() == null && !tipoFechaField.getText().isBlank()) || (fechaField.getValue() != null && tipoFechaField.getText().isBlank())) {
             AlertaCampos();
@@ -205,7 +221,7 @@ public class AgregarContactosController implements Initializable {
     private void addRelacion(ActionEvent event) {
         if (!tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) {
             Relacion relacion = new Relacion(tipoRelacionField.getText(), nombreRelacionField.getText());
-            contacto.getContactosRelacionados().add(relacion);
+            contacto.getContactosRelacionados().addLast(relacion);
             AlertaAdd();
         } else if ((tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) || (!tipoRelacionField.getText().isBlank() && nombreRelacionField.getText().isBlank())) {
             AlertaCampos();
@@ -216,7 +232,7 @@ public class AgregarContactosController implements Initializable {
     private void addEmail(ActionEvent event) {
         if (!emailField.getText().isBlank() && !etiquetaEmailField.getText().isBlank()) {
             Email email = new Email(etiquetaEmailField.getText(), emailField.getText());
-            contacto.getEmails().add(email);
+            contacto.getEmails().addLast(email);
             AlertaAdd();
         } else if ((emailField.getText().isBlank() && !etiquetaEmailField.getText().isBlank()) || (!emailField.getText().isBlank() && etiquetaEmailField.getText().isBlank())) {
             AlertaCampos();
@@ -227,7 +243,7 @@ public class AgregarContactosController implements Initializable {
     private void addDireccion(ActionEvent event) {
         if (!direccionField.getText().isBlank() && !etiquetaDireccionField.getText().isBlank()) {
             Direccion direccion = new Direccion(etiquetaDireccionField.getText(), direccionField.getText());
-            contacto.getDirecciones().add(direccion);
+            contacto.getDirecciones().addLast(direccion);
             AlertaAdd();
         } else if ((direccionField.getText().isBlank() && !etiquetaDireccionField.getText().isBlank()) || (!direccionField.getText().isBlank() && etiquetaDireccionField.getText().isBlank())) {
             AlertaCampos();
@@ -238,7 +254,7 @@ public class AgregarContactosController implements Initializable {
     private void addTelefono(ActionEvent event) {
         if (!telefonoFIeld.getText().isBlank() && !etiquetaTelefonoField.getText().isBlank()) {
             Telefono telefono = new Telefono(etiquetaTelefonoField.getText(), telefonoFIeld.getText());
-            contacto.getNumerosTelefono().add(telefono);
+            contacto.getNumerosTelefono().addLast(telefono);
             AlertaAdd();
         } else if ((telefonoFIeld.getText().isBlank() && !etiquetaTelefonoField.getText().isBlank()) || (!telefonoFIeld.getText().isBlank() && etiquetaTelefonoField.getText().isBlank())) {
             AlertaCampos();
@@ -249,7 +265,7 @@ public class AgregarContactosController implements Initializable {
     private void addRed(ActionEvent event) {
         if (!etiquetaRedField.getText().isBlank() && !usernameRedField.getText().isBlank()) {
             redSocial redSocial = new redSocial(etiquetaRedField.getText(), usernameRedField.getText());
-            contacto.getRedesSociales().add(redSocial);
+            contacto.getRedesSociales().addLast(redSocial);
             AlertaAdd();
         } else if ((etiquetaRedField.getText().isBlank() && !usernameRedField.getText().isBlank()) || (!etiquetaRedField.getText().isBlank() && usernameRedField.getText().isBlank())) {
             AlertaCampos();

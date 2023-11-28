@@ -34,6 +34,11 @@ public class redSocial implements Serializable {
     public void setRedID(String redID) {
         this.redID = redID;
     }
+
+    @Override
+    public String toString() {
+        return tipoRedSocial + ": " + redID;
+    }
     
     
 }

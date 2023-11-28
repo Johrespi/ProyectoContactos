@@ -48,11 +48,11 @@ import javafx.scene.control.Alert;
 public class ContactosController implements Initializable {
 
     Usuario usuario;
+    
+    Contacto contacto;
+    
     @FXML
     private Button BtnAgregar;
-
-    @FXML
-    private AnchorPane ContactosRoot;
 
     @FXML
     private ListView<String> ListaContacto;
@@ -63,16 +63,52 @@ public class ContactosController implements Initializable {
      * Initializes the controller class.
      */
     public ArrayList<String> Contactos = new ArrayList<>();
-    public static ObservableList<Contacto> observable = FXCollections.observableArrayList();
+
+    @FXML
+    private Button mostrarInformacionBtn;
 
     public void initialize(URL url, ResourceBundle rb) {
 
-//        contactList.add(new Contacto("Raul", "Leon", "Amigo"));
-//        contactList.add(new Contacto("Johan", "Ramirez", "Amigo"));
-//        contactList.add(new Contacto("Michelle", "Arreaga", "Amigo"));
-//        contactList.add(new Contacto("Michelle123", "Arreaga", "Amigo"));
+        mostrarInformacionBtn.setDisable(true); // Para deshabilitar el botón
 
+        ListaContacto.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    mostrarInformacionBtn.setDisable(newValue == null); // Habilita el botón si se selecciona un contacto
+                }
+        );
 
+        mostrarInformacionBtn.setOnAction(e -> {
+            String selectedContact = ListaContacto.getSelectionModel().getSelectedItem();
+            if (selectedContact != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MostrarContacto.fxml"));
+                    Parent root = loader.load();
+
+                    DoubleCircleLinkedList<Contacto> contactosDelUsuario = usuario.getContactos();
+
+                    for (Contacto c : contactosDelUsuario) {
+                        if (selectedContact.equals(c.getNombre() + " " + c.getApellido())) {
+                            contacto =c;
+                            break;
+                        }
+                    }
+
+                    if (contacto != null) {
+                        MostrarContactoController mostrarContactoController = loader.getController();
+                        mostrarContactoController.setContactosController(this);
+
+                        Stage st = new Stage();
+                        st.setTitle("Editar contacto");
+                        Scene sc = new Scene(root);
+                        st.setScene(sc);
+                        st.show();
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
@@ -82,9 +118,6 @@ public class ContactosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AgregarContactos.fxml"));
             Parent root = loader.load();
 
-            // Obtener el controlador y setearlo
-//            AgregarUusuariosController agregarContactosController1 = loader.getController();
-//            agregarContactosController1.setContactosController(this);
             AgregarContactosController agregarContactosController = loader.getController();
             agregarContactosController.setContactosController(this);
 
@@ -108,7 +141,6 @@ public class ContactosController implements Initializable {
         this.loginController = loginController;
     }
 
-    @FXML
     public void navigateNext() {
         if (!usuario.getContactos().isEmpty()) {
             usuario.getContactos().moveToNext();
@@ -117,7 +149,6 @@ public class ContactosController implements Initializable {
 
     }
 
-    @FXML
     public void navigatePrevious() {
         if (!usuario.getContactos().isEmpty()) {
             usuario.getContactos().moveToPrevious();
