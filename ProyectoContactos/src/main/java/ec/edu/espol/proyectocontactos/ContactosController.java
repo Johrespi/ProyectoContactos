@@ -88,7 +88,7 @@ public class ContactosController implements Initializable {
 
                     for (Contacto c : contactosDelUsuario) {
                         if (selectedContact.equals(c.getNombre() + " " + c.getApellido())) {
-                            contacto =c;
+                            contacto = c;
                             break;
                         }
                     }

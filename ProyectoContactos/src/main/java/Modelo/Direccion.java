@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -38,6 +39,30 @@ public class Direccion implements Serializable {
     @Override
     public String toString() {
         return tipoDireccion + ": " + direccion;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Direccion other = (Direccion) obj;
+        if (!Objects.equals(this.tipoDireccion, other.tipoDireccion)) {
+            return false;
+        }
+        return Objects.equals(this.direccion, other.direccion);
     }
     
     

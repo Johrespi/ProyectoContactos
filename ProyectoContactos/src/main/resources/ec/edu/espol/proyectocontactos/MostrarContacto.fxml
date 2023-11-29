@@ -56,7 +56,7 @@
       <TextField fx:id="etFechaFIeld" layoutX="429.0" layoutY="870.0" prefHeight="25.0" prefWidth="82.0" />
       <Button fx:id="FechaBtn" layoutX="501.0" layoutY="908.0" mnemonicParsing="false" onAction="#addFecha" text="Agregar" />
       <TextField fx:id="etRelacionField" layoutX="742.0" layoutY="870.0" prefHeight="25.0" prefWidth="82.0" />
-      <TextField layoutX="860.0" layoutY="870.0" prefHeight="25.0" prefWidth="82.0" />
+      <TextField fx:id="relacionFieldd" layoutX="860.0" layoutY="870.0" prefHeight="25.0" prefWidth="82.0" />
       <Button fx:id="RelacionBtn" layoutX="813.0" layoutY="908.0" mnemonicParsing="false" onAction="#addRelacion" text="Agregar" />
       <Label layoutX="511.0" layoutY="274.0" text="Emails">
          <font>
@@ -108,8 +108,8 @@
       <TextField fx:id="nombreField" layoutX="209.0" layoutY="101.0" />
       <TextField fx:id="apellidoField" layoutX="209.0" layoutY="149.0" />
       <TextField fx:id="empresaField" layoutX="209.0" layoutY="193.0" />
-      <Button fx:id="nombreBtn" layoutX="370.0" layoutY="101.0" mnemonicParsing="false" text="Cambiar" />
-      <Button fx:id="apellidoBtn" layoutX="370.0" layoutY="149.0" mnemonicParsing="false" text="Cambiar" />
-      <Button fx:id="empresaBtn" layoutX="370.0" layoutY="193.0" mnemonicParsing="false" text="Cambiar" />
+      <Button fx:id="nombreBtn" layoutX="370.0" layoutY="101.0" mnemonicParsing="false" onAction="#cambiarNombre" text="Cambiar" />
+      <Button fx:id="apellidoBtn" layoutX="370.0" layoutY="149.0" mnemonicParsing="false" onAction="#cambiarApellido" text="Cambiar" />
+      <Button fx:id="empresaBtn" layoutX="370.0" layoutY="193.0" mnemonicParsing="false" onAction="#cambiarEmpresa" text="Cambiar" />
    </children>
 </AnchorPane>

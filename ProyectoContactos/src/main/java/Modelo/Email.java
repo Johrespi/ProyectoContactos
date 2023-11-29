@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -38,6 +39,30 @@ public class Email implements Serializable{
     @Override
     public String toString() {
         return tipoEmail + ": " + email;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Email other = (Email) obj;
+        if (!Objects.equals(this.tipoEmail, other.tipoEmail)) {
+            return false;
+        }
+        return Objects.equals(this.email, other.email);
     }
     
     

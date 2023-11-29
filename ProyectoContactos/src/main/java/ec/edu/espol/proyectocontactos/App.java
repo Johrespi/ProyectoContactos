@@ -42,11 +42,5 @@ public class App extends Application {
         launch();
     }
     
-//            Parent root = FXMLLoader.load(getClass().getResource("Contactos.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setTitle("Welcome!");
-//        stage.setScene(scene);
-//        stage.show();
 
 }

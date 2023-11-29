@@ -117,12 +117,11 @@ public class MostrarContactoController implements Initializable {
     private Button apellidoBtn;
     @FXML
     private Button empresaBtn;
+    @FXML
+    private TextField relacionFieldd;
 
     private ContactosController contactosController;
 
-    // este controlador tiene el usuario al que estamos editando, tal vez lo mejor seria eliminar el contacto previo y luego agregar el modificado y  volver a serializarlo??
-    // creo que lo mejor seria hacer un metodo que recorra la lista y hacer un equals para encontrar el contacto del usuario y luego a ese contacto encontrado añadirle las cosas
-    // y simplemente volver a serializar la lista de todos los usuarios, es mejor que eliminar el contacto anterior y ... etc.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -156,7 +155,42 @@ public class MostrarContactoController implements Initializable {
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
     }
-    
+
+    private void removerInformacionContacto(Contacto contacto, Object o) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : usuarios) {
+            if (contactosController.usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contacto)) {
+                        if (o instanceof Direccion) {
+                            int index = c.getDirecciones().indexOf((Direccion) o);
+                            c.getDirecciones().remove(index);
+                        } else if (o instanceof Email) {
+                            int index = c.getEmails().indexOf((Email) o);
+                            c.getEmails().remove(index);
+                        } else if (o instanceof Relacion) {
+                            int index = c.getContactosRelacionados().indexOf((Relacion) o);
+                            c.getContactosRelacionados().remove(index);
+                        } else if (o instanceof Telefono) {
+                            int index = c.getNumerosTelefono().indexOf((Telefono) o);
+                            c.getNumerosTelefono().remove(index);
+                        } else if (o instanceof redSocial) {
+                            int index = c.getRedesSociales().indexOf((redSocial) o);
+                            c.getRedesSociales().remove(index);
+                        } else if (o instanceof FechaInteres) {
+                            int index = c.getFechasInteres().indexOf((FechaInteres) o);
+                            c.getFechasInteres().remove(index);
+                        }
+
+                        break;
+
+                    }
+                }
+            }
+        }
+        Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
     @FXML
     private void addDireccion(ActionEvent event) {
         if (!direccionField.getText().isBlank() && !etDireccionField.getText().isBlank()) {
@@ -172,7 +206,6 @@ public class MostrarContactoController implements Initializable {
     private void addEmail(ActionEvent event) {
         if (!emailField.getText().isBlank() && !etEmailField.getText().isBlank()) {
             Email email = new Email(etEmailField.getText(), emailField.getText());
-           // contactosController.contacto.getEmails().addLast(email);
             agregarInformacionContacto(contactosController.contacto, email);
             initializeContacto();
 
@@ -185,10 +218,8 @@ public class MostrarContactoController implements Initializable {
     private void addTelefono(ActionEvent event) {
         if (!telefonoField.getText().isBlank() && !etTelefonoField.getText().isBlank()) {
             Telefono telefono = new Telefono(etTelefonoField.getText(), telefonoField.getText());
-           // contactosController.contacto.getNumerosTelefono().addLast(telefono);
             agregarInformacionContacto(contactosController.contacto, telefono);
             initializeContacto();
-            AlertaAdd();
         } else if ((telefonoField.getText().isBlank() && !etTelefonoField.getText().isBlank()) || (!telefonoField.getText().isBlank() && etTelefonoField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -198,7 +229,6 @@ public class MostrarContactoController implements Initializable {
     private void addRed(ActionEvent event) {
         if (!etRedField.getText().isBlank() && !redField.getText().isBlank()) {
             redSocial redSocial = new redSocial(etRedField.getText(), redField.getText());
-         //   contactosController.contacto.getRedesSociales().addLast(redSocial);
             agregarInformacionContacto(contactosController.contacto, redSocial);
             initializeContacto();
 
@@ -212,7 +242,6 @@ public class MostrarContactoController implements Initializable {
         if (fechaField.getValue() != null && !etFechaFIeld.getText().isBlank()) {
             LocalDate myDate = fechaField.getValue();
             FechaInteres fechaInteres = new FechaInteres(myDate.toString(), etFechaFIeld.getText());
-           // contactosController.contacto.getFechasInteres().addLast(fechaInteres);
             agregarInformacionContacto(contactosController.contacto, fechaInteres);
             initializeContacto();
 
@@ -223,38 +252,55 @@ public class MostrarContactoController implements Initializable {
 
     @FXML
     private void addRelacion(ActionEvent event) {
-        if (!etRelacionField.getText().isBlank() && !relacionField.getText().isBlank()) {
-            Relacion relacion = new Relacion(etRelacionField.getText(), relacionField.getText());
+        if (!etRelacionField.getText().isBlank() && !relacionFieldd.getText().isBlank()) {
+            Relacion relacion = new Relacion(etRelacionField.getText(), relacionFieldd.getText());
             agregarInformacionContacto(contactosController.contacto, relacion);
-           // contactosController.contacto.getContactosRelacionados().addLast(relacion);
             initializeContacto();
-        } else if ((etRelacionField.getText().isBlank() && !relacionField.getText().isBlank()) || (!etRelacionField.getText().isBlank() && relacionField.getText().isBlank())) {
+        } else if ((etRelacionField.getText().isBlank() && !relacionFieldd.getText().isBlank()) || (!etRelacionField.getText().isBlank() && relacionFieldd.getText().isBlank())) {
             AlertaCampos();
         }
     }
 
     @FXML
     private void removeTelefono(ActionEvent event) {
+        Telefono selectedTelefono = telefonosList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedTelefono);
+        initializeContacto();
     }
 
     @FXML
     private void removeEmail(ActionEvent event) {
+        Email selectedEmail = emailsList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedEmail);
+        initializeContacto();
     }
 
     @FXML
     private void removeDireccion(ActionEvent event) {
+        Direccion selectedDireccion = direccionesList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedDireccion);
+        initializeContacto();
     }
 
     @FXML
     private void removeRed(ActionEvent event) {
+        redSocial selectedRed = redesSocialesList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedRed);
+        initializeContacto();
     }
 
     @FXML
     private void removeFecha(ActionEvent event) {
+        FechaInteres selectedFecha = fechasList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedFecha);
+        initializeContacto();
     }
 
     @FXML
     private void removeRelacion(ActionEvent event) {
+        Relacion selectedRelacion = relacionesList.getSelectionModel().getSelectedItem();
+        removerInformacionContacto(contactosController.contacto, selectedRelacion);
+        initializeContacto();
     }
 
     public void setContactosController(ContactosController contactosController) {
@@ -263,13 +309,19 @@ public class MostrarContactoController implements Initializable {
     }
 
     private void initializeContacto() {
+        if(contactosController.contacto.getTipoContacto().equals("Empresa")){
+            nombreBtn.setDisable(true);
+            apellidoBtn.setDisable(true);
+        } else{
+            empresaBtn.setDisable(true);
+        }
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
             if (u.equals(contactosController.usuario)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
 
-                        if (c.getApellido() == null) {
+                        if (c.getApellido().isBlank()) {
                             empresaField.setText(c.getNombre());
                         } else {
                             nombreField.setText(c.getNombre());
@@ -301,6 +353,72 @@ public class MostrarContactoController implements Initializable {
 
     }
 
+    @FXML
+    private void cambiarNombre(ActionEvent event) {
+
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : usuarios) {
+            if (contactosController.usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contactosController.contacto)) {
+                        if (!nombreField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
+                            c.setNombre(nombreField.getText());
+                            AlertaAtributoCambiado();
+                            contactosController.contacto.setNombre(nombreField.getText());
+                            contactosController.actualizarListView();
+                        }
+
+                    }
+                }
+            }
+        }
+        Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
+    @FXML
+    private void cambiarApellido(ActionEvent event) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : usuarios) {
+            if (contactosController.usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contactosController.contacto)) {
+                        if (!apellidoField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
+                            c.setApellido(apellidoField.getText());
+                            AlertaAtributoCambiado();
+                            contactosController.contacto.setApellido(apellidoField.getText());
+                            contactosController.actualizarListView();
+
+                        }
+
+                    }
+                }
+            }
+        }
+        Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
+    @FXML
+    private void cambiarEmpresa(ActionEvent event) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : usuarios) {
+            if (contactosController.usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contactosController.contacto)) {
+                        if (c.getTipoContacto().equals("Empresa")) {
+                            c.setNombre(empresaField.getText());
+                            AlertaAtributoCambiado();
+                            contactosController.contacto.setNombre(empresaField.getText());
+                            contactosController.actualizarListView();
+
+                        }
+
+                    }
+                }
+            }
+        }
+        Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
     public void AlertaCampos() {
         Alert alertaCampos = new Alert(Alert.AlertType.ERROR);
         alertaCampos.setContentText("Usted no ha llenado los campos obligatorios");
@@ -312,6 +430,13 @@ public class MostrarContactoController implements Initializable {
         Alert alertaCampos = new Alert(Alert.AlertType.CONFIRMATION);
         alertaCampos.setContentText("Se ha agredado la información exitosamente");
         alertaCampos.setTitle("Agregación exitosa");
+        alertaCampos.showAndWait();
+    }
+
+    public void AlertaAtributoCambiado() {
+        Alert alertaCampos = new Alert(Alert.AlertType.CONFIRMATION);
+        alertaCampos.setContentText("Se ha cambiado la información");
+        alertaCampos.setTitle("Cambio exitoso");
         alertaCampos.showAndWait();
     }
 

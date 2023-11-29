@@ -163,7 +163,7 @@ public class AgregarContactosController implements Initializable {
 
         } else if (!empresaField.getText().isBlank()) {
             contacto.setNombre(empresaField.getText());
-            contacto.setApellido(null);
+            contacto.setApellido("");
             contacto.setTipoContacto("Empresa");
             Favorito();
             guardarContacto();
