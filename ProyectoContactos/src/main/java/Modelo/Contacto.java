@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Objects;
 import javafx.scene.image.Image;
 
 /**
@@ -186,5 +187,25 @@ public class Contacto implements Serializable {
                 + ", tipoContacto='" + tipoContacto + '\''
                 + '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Contacto other = (Contacto) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return Objects.equals(this.apellido, other.apellido);
+    }
+    
+    
 
 }

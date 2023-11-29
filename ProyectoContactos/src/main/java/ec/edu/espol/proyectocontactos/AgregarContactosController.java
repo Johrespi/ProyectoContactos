@@ -151,7 +151,6 @@ public class AgregarContactosController implements Initializable {
     @FXML
     private void crearContacto(ActionEvent event) throws IOException {
         Usuario u = contactosController.usuario;
-        System.out.println(u);
         if ((!nombreField.getText().isBlank() && !apellidoField.getText().isBlank())) {
             contacto.setNombre(nombreField.getText());
             contacto.setApellido(apellidoField.getText());

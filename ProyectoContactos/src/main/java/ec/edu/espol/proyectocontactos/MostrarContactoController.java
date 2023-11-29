@@ -4,12 +4,15 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import Modelo.ArrayList;
 import Modelo.Contacto;
 import Modelo.Direccion;
+import Modelo.DoubleCircleLinkedList;
 import Modelo.Email;
 import Modelo.FechaInteres;
 import Modelo.Relacion;
 import Modelo.Telefono;
+import Modelo.Usuario;
 import Modelo.redSocial;
 import java.net.URL;
 import java.time.LocalDate;
@@ -117,18 +120,49 @@ public class MostrarContactoController implements Initializable {
 
     private ContactosController contactosController;
 
+    // este controlador tiene el usuario al que estamos editando, tal vez lo mejor seria eliminar el contacto previo y luego agregar el modificado y  volver a serializarlo??
+    // creo que lo mejor seria hacer un metodo que recorra la lista y hacer un equals para encontrar el contacto del usuario y luego a ese contacto encontrado añadirle las cosas
+    // y simplemente volver a serializar la lista de todos los usuarios, es mejor que eliminar el contacto anterior y ... etc.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
+//    private void agregarInformacionContacto(Contacto contacto, Object o) {
+//        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+//        for (Usuario u : usuarios) {
+//            if (contactosController.usuario.equals(u)) {
+//                for (Contacto c : u.getContactos()) {
+//                    if (c.equals(contacto)) {
+//                        if (o instanceof Direccion) {
+//                            c.getDirecciones().addLast((Direccion) o);
+//                        } else if (o instanceof Email) {
+//                            c.getEmails().addLast((Email) o);
+//                        } else if (o instanceof Relacion) {
+//                            c.getContactosRelacionados().addLast((Relacion) o);
+//                        } else if (o instanceof Telefono) {
+//                            c.getNumerosTelefono().addLast((Telefono) o);
+//                        } else if (o instanceof redSocial) {
+//                            c.getRedesSociales().addLast((redSocial) o);
+//                        } else if (o instanceof FechaInteres) {
+//                            c.getFechasInteres().addLast((FechaInteres) o);
+//                        }
+//
+//                        break;
+//
+//                    }
+//                }
+//            }
+//        }
+//        Usuario.saveListToFileSerUsuarios(usuarios);
+//    }
+
     @FXML
     private void addDireccion(ActionEvent event) {
         if (!direccionField.getText().isBlank() && !etDireccionField.getText().isBlank()) {
-
             Direccion direccion = new Direccion(etDireccionField.getText(), direccionField.getText());
-            contactosController.contacto.getDirecciones().addLast(direccion);
-            AlertaAdd();
+           // agregarInformacionContacto(contactosController.contacto, direccion);
+            initializeContacto();
         } else if ((direccionField.getText().isBlank() && !etDireccionField.getText().isBlank()) || (!direccionField.getText().isBlank() && etDireccionField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -139,7 +173,9 @@ public class MostrarContactoController implements Initializable {
         if (!emailField.getText().isBlank() && !etEmailField.getText().isBlank()) {
             Email email = new Email(etEmailField.getText(), emailField.getText());
             contactosController.contacto.getEmails().addLast(email);
-            AlertaAdd();
+            //agregarInformacionContacto(contactosController.contacto, email);
+            initializeContacto();
+
         } else if ((emailField.getText().isBlank() && !etEmailField.getText().isBlank()) || (!emailField.getText().isBlank() && etEmailField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -149,7 +185,9 @@ public class MostrarContactoController implements Initializable {
     private void addTelefono(ActionEvent event) {
         if (!telefonoField.getText().isBlank() && !etTelefonoField.getText().isBlank()) {
             Telefono telefono = new Telefono(etTelefonoField.getText(), telefonoField.getText());
-            contactosController.contacto.getNumerosTelefono().addLast(telefono);
+                   contactosController.contacto.getNumerosTelefono().addLast(telefono);
+           // agregarInformacionContacto(contactosController.contacto, telefono);
+            initializeContacto();
             AlertaAdd();
         } else if ((telefonoField.getText().isBlank() && !etTelefonoField.getText().isBlank()) || (!telefonoField.getText().isBlank() && etTelefonoField.getText().isBlank())) {
             AlertaCampos();
@@ -160,8 +198,10 @@ public class MostrarContactoController implements Initializable {
     private void addRed(ActionEvent event) {
         if (!etRedField.getText().isBlank() && !redField.getText().isBlank()) {
             redSocial redSocial = new redSocial(etRedField.getText(), redField.getText());
-            contactosController.contacto.getRedesSociales().addLast(redSocial);
-            AlertaAdd();
+           contactosController.contacto.getRedesSociales().addLast(redSocial);
+          //  agregarInformacionContacto(contactosController.contacto, redSocial);
+            initializeContacto();
+
         } else if ((etRedField.getText().isBlank() && !redField.getText().isBlank()) || (!etRedField.getText().isBlank() && redField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -172,8 +212,10 @@ public class MostrarContactoController implements Initializable {
         if (fechaField.getValue() != null && !etFechaFIeld.getText().isBlank()) {
             LocalDate myDate = fechaField.getValue();
             FechaInteres fechaInteres = new FechaInteres(myDate.toString(), etFechaFIeld.getText());
-            contactosController.contacto.getFechasInteres().addLast(fechaInteres);
-            AlertaAdd();
+                 contactosController.contacto.getFechasInteres().addLast(fechaInteres);
+          //  agregarInformacionContacto(contactosController.contacto, fechaInteres);
+            initializeContacto();
+
         } else if ((fechaField.getValue() == null && !etFechaFIeld.getText().isBlank()) || (fechaField.getValue() != null && etFechaFIeld.getText().isBlank())) {
             AlertaCampos();
         }
@@ -183,8 +225,9 @@ public class MostrarContactoController implements Initializable {
     private void addRelacion(ActionEvent event) {
         if (!etRelacionField.getText().isBlank() && !relacionField.getText().isBlank()) {
             Relacion relacion = new Relacion(etRelacionField.getText(), relacionField.getText());
+           // agregarInformacionContacto(contactosController.contacto, relacion);
             contactosController.contacto.getContactosRelacionados().addLast(relacion);
-            AlertaAdd();
+            initializeContacto();
         } else if ((etRelacionField.getText().isBlank() && !relacionField.getText().isBlank()) || (!etRelacionField.getText().isBlank() && relacionField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -226,13 +269,25 @@ public class MostrarContactoController implements Initializable {
             nombreField.setText(contactosController.contacto.getNombre());
             apellidoField.setText(contactosController.contacto.getApellido());
         }
-
+        
+        if(!contactosController.contacto.getNumerosTelefono().isEmpty()){
         telefonosList.setItems(FXCollections.observableArrayList(contactosController.contacto.getNumerosTelefono()));
+        } 
+        if(!contactosController.contacto.getEmails().isEmpty()){
         emailsList.setItems(FXCollections.observableArrayList(contactosController.contacto.getEmails()));
+        } 
+        if(!contactosController.contacto.getDirecciones().isEmpty()){
         direccionesList.setItems(FXCollections.observableArrayList(contactosController.contacto.getDirecciones()));
+        } 
+        if(!contactosController.contacto.getContactosRelacionados().isEmpty()){
         relacionesList.setItems(FXCollections.observableArrayList(contactosController.contacto.getContactosRelacionados()));
+        }
+        if(!contactosController.contacto.getFechasInteres().isEmpty()){
         fechasList.setItems(FXCollections.observableArrayList(contactosController.contacto.getFechasInteres()));
+        } 
+        if(!contactosController.contacto.getRedesSociales().isEmpty()){
         redesSocialesList.setItems(FXCollections.observableArrayList(contactosController.contacto.getRedesSociales()));
+        }
     }
 
     public void AlertaCampos() {
