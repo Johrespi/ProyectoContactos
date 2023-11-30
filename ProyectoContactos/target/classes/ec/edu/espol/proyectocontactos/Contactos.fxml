@@ -14,7 +14,7 @@
          </font>
       </Label>
       <Button fx:id="BtnAgregar" layoutX="308.0" layoutY="87.0" mnemonicParsing="false" onAction="#AgregarContacto" prefHeight="25.0" prefWidth="29.0" text="+" />
-      <Button layoutX="269.0" layoutY="87.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
+      <Button fx:id="removeContacto" layoutX="269.0" layoutY="87.0" mnemonicParsing="false" onAction="#removerContacto" prefHeight="25.0" prefWidth="29.0" text="-" />
       <ListView fx:id="ListaContacto" layoutX="23.0" layoutY="142.0" prefHeight="296.0" prefWidth="326.0" />
       <Button fx:id="mostrarInformacionBtn" layoutX="134.0" layoutY="87.0" mnemonicParsing="false" text="Mostrar Información" />
    </children>

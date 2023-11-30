@@ -13,14 +13,15 @@ import javafx.collections.ObservableList;
  *
  * @author Raul Leon
  */
-public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
+public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable {
+
     Node<E> primero, ultimo;
     int n = 0;
-    
-    
-    public class Node<E> implements Serializable{
+
+    public class Node<E> implements Serializable {
+
         E contenido;
-        Node<E> sig , anterior;
+        Node<E> sig, anterior;
 
         public Node(E contenido) {
             this.contenido = contenido;
@@ -28,10 +29,11 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
             this.anterior = anterior;
         }
     }
-    
+
     public Node<E> getLast() {
         return ultimo;
     }
+
     public DoubleCircleLinkedList() {
         primero = null;
         ultimo = null;
@@ -54,7 +56,7 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
         n++;
         return true;
     }
-    
+
     public void add(int index, E element) {
         if (index < 0 || index > n) {
             throw new IndexOutOfBoundsException("Índice fuera de rango");
@@ -132,7 +134,7 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
         n--;
         return eliminado;
     }
-    
+
     public String toString() {
         if (isEmpty()) {
             return "[]";
@@ -150,7 +152,6 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
         return resultado.toString();
     }
 
-    
     public void iteracionCircular(ObservableList<String> observableList) {
         if (!isEmpty()) {
             Node<E> current = ultimo;
@@ -160,30 +161,56 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
             } while (current != ultimo);
         }
     }
-    
-     public void iteracionCircular2(){
-       Node<E> actual = this.primero;
+
+    public void iteracionCircular2() {
+        Node<E> actual = this.primero;
         actual = this.ultimo;
         for (int i = 0; i < this.size(); i++) {
             System.out.print(actual.contenido + " ");
             actual = actual.anterior;
         }
         System.out.println();
-        
+
     }
-     
+
     public void moveToNext() {
         if (!isEmpty()) {
             ultimo = ultimo.sig;
         }
     }
-    
+
     public void moveToPrevious() {
         if (!isEmpty()) {
             ultimo = ultimo.anterior;
         }
     }
+
+
+    public int indexOf(E e) {
+        if (e == null) {
+            return -1;
+        }
+        if (isEmpty()) {
+            return -1;
+        }
+        if (e == ultimo.contenido) {
+            return size() - 1;
+        }
+
+        Node<E> node = primero;
+        int index = 0;
+        while (node != ultimo) {
+            if (node.contenido == e) {
+                return index;
+            }
+            index++;
+            node = node.sig;
+        }
+
+        return -1;
+    }
     
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {

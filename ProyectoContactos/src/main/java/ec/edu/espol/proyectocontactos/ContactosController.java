@@ -46,17 +46,19 @@ import javafx.scene.control.Alert;
  * @author johan
  */
 public class ContactosController implements Initializable {
-
-    Usuario usuario;
-    
-    Contacto contacto;
     
     @FXML
     private Button BtnAgregar;
-
     @FXML
     private ListView<String> ListaContacto;
+    @FXML
+    private Button mostrarInformacionBtn;
+    @FXML
+    private Button removeContacto;
 
+
+    Usuario usuario;
+    Contacto contacto;
     private LoginController loginController;
 
     /**
@@ -64,8 +66,6 @@ public class ContactosController implements Initializable {
      */
     public ArrayList<String> Contactos = new ArrayList<>();
 
-    @FXML
-    private Button mostrarInformacionBtn;
 
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -174,5 +174,27 @@ public class ContactosController implements Initializable {
             noContacts.setContentText("Su lista de contactos esta vacía");
             noContacts.showAndWait();
         }
+    }
+
+    @FXML
+    private void removerContacto(ActionEvent event) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        String selectedContact = ListaContacto.getSelectionModel().getSelectedItem();
+        DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (selectedContact.equals(c.getNombre() + " " + c.getApellido())) {
+                        int index = u.getContactos().indexOf(c);
+                        u.getContactos().remove(index);
+                        usuario.getContactos().remove(index);
+                        break;
+
+                    }
+                }
+            }
+        }
+        actualizarListView();
+        Usuario.saveListToFileSerUsuarios(usuarios);
     }
 }
