@@ -274,6 +274,7 @@ public class AgregarContactosController implements Initializable {
     public void setContactosController(ContactosController contactosController) {
         this.contactosController = contactosController;
     }
+    
 
     public void AlertaCampos() {
         Alert alertaCampos = new Alert(Alert.AlertType.ERROR);

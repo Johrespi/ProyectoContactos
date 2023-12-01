@@ -39,6 +39,7 @@ import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 
 /**
  * FXML Controller class
@@ -46,7 +47,15 @@ import javafx.scene.control.Alert;
  * @author johan
  */
 public class ContactosController implements Initializable {
+<<<<<<< Updated upstream
     
+=======
+
+    Usuario usuario;
+
+    Contacto contacto;
+
+>>>>>>> Stashed changes
     @FXML
     private Button BtnAgregar;
     @FXML
@@ -66,8 +75,21 @@ public class ContactosController implements Initializable {
      */
     public ArrayList<String> Contactos = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+    @FXML
+    private Button mostrarInformacionBtn;
+    @FXML
+    private ChoiceBox<String> choiceOrdenar;
+
+    private String[] ordenamientos = {"Favoritos", "Predeterminado"};
+    @FXML
+    private Button ordenarButton;
+>>>>>>> Stashed changes
 
     public void initialize(URL url, ResourceBundle rb) {
+
+        choiceOrdenar.getItems().addAll(ordenamientos);
 
         mostrarInformacionBtn.setDisable(true); // Para deshabilitar el botón
 
@@ -149,6 +171,25 @@ public class ContactosController implements Initializable {
 
     }
 
+    private void ordenarPorFavorito() {
+
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        ArrayList<String> contactosAOrdenar = new ArrayList<>();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u)) {
+                DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
+                for (Contacto c : contactos) {
+                    if (c.isEsFavorito() == true) {
+                        contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());
+                    }
+
+                }
+                ObservableList<String> contactArray = FXCollections.observableArrayList(contactosAOrdenar);
+                ListaContacto.setItems(contactArray);
+            }
+        }
+    }
+
     public void navigatePrevious() {
         if (!usuario.getContactos().isEmpty()) {
             usuario.getContactos().moveToPrevious();
@@ -161,7 +202,6 @@ public class ContactosController implements Initializable {
         DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
         if (!contactosDelUsuario.isEmpty()) {
             Iterator<Contacto> iterator = contactosDelUsuario.iterator();
-            System.out.println(contactosDelUsuario);
             while (iterator.hasNext()) {
                 Contacto contacto = iterator.next();
                 Contactos.addLast(contacto.getNombre() + " " + contacto.getApellido());
@@ -177,6 +217,7 @@ public class ContactosController implements Initializable {
     }
 
     @FXML
+<<<<<<< Updated upstream
     private void removerContacto(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         String selectedContact = ListaContacto.getSelectionModel().getSelectedItem();
@@ -196,5 +237,16 @@ public class ContactosController implements Initializable {
         }
         actualizarListView();
         Usuario.saveListToFileSerUsuarios(usuarios);
+=======
+    private void ordenarLista(ActionEvent event) {
+        if (choiceOrdenar.getValue() == null) {
+
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[0])) {
+            ordenarPorFavorito();
+        } else if(choiceOrdenar.getValue().equals(ordenamientos[1])){
+            actualizarListView();
+        }
+
+>>>>>>> Stashed changes
     }
 }

@@ -187,6 +187,10 @@ public class Contacto implements Serializable {
                 + ", tipoContacto='" + tipoContacto + '\''
                 + '}';
     }
+    
+    public String toStringLista(){
+        return nombre + "" + apellido;
+    }
 
     @Override
     public boolean equals(Object obj) {
