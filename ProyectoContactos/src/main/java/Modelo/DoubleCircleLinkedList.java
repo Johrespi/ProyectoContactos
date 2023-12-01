@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
     Node<E> primero, ultimo;
     int n = 0;
-    
+    private long serialVersionUID = 7068802015907096238L;
     
     public class Node<E> implements Serializable{
         E contenido;
@@ -24,14 +24,23 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
 
         public Node(E contenido) {
             this.contenido = contenido;
-            this.sig = sig;
-            this.anterior = anterior;
+            this.sig = null;
+            this.anterior = null;
+        }
+        
+        public E getContenido(){
+            return contenido;
         }
     }
     
     public Node<E> getLast() {
         return ultimo;
     }
+    
+    public Node<E> getFirst() {
+        return primero;
+    }
+    
     public DoubleCircleLinkedList() {
         primero = null;
         ultimo = null;
@@ -168,7 +177,6 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
             System.out.print(actual.contenido + " ");
             actual = actual.anterior;
         }
-        System.out.println();
         
     }
      
