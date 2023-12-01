@@ -21,23 +21,26 @@ public class Usuario implements Serializable {
     private String nombreUsuario;
     private String contraseña;
     private String tipoUsuario; // Usuario o administrador
-    private DoubleCircleLinkedList<Contacto> contactos;
-
+    private DoublyCircularLInkedList<Contacto> contactos;
+    
+    private long serialVersionUID = 5874329925320491266L;
+            
     public Usuario(String nombreUsuario, String contraseña, String tipoUsuario) {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.contactos = new DoubleCircleLinkedList<>();
+        this.contactos = new DoublyCircularLInkedList<>();
     }
 
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Usuarios.ser"))) {
             usuarios = (ArrayList<Usuario>) ois.readObject();
-        } catch (IOException e) {
-        } catch (ClassNotFoundException e) {
+            System.out.println("USUARIOS: "+usuarios);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
         } catch (Exception a) {
-            a.printStackTrace();
+            System.err.println(a.getMessage());
         }
         return usuarios;
 
@@ -54,6 +57,7 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.nombreUsuario.toLowerCase());
         return hash;
     }
 
@@ -69,11 +73,9 @@ public class Usuario implements Serializable {
             return false;
         }
         final Usuario other = (Usuario) obj;
-        if (!Objects.equals(this.nombreUsuario, other.nombreUsuario)) {
-            return false;
-        }
-        return Objects.equals(this.contraseña, other.contraseña);
+        return Objects.equals(this.nombreUsuario.toLowerCase(), other.nombreUsuario.toLowerCase());
     }
+
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -99,11 +101,11 @@ public class Usuario implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public DoubleCircleLinkedList<Contacto> getContactos() {
+    public DoublyCircularLInkedList<Contacto> getContactos() {
         return contactos;
     }
 
-    public void setContactos(DoubleCircleLinkedList<Contacto> contactos) {
+    public void setContactos(DoublyCircularLInkedList<Contacto> contactos) {
         this.contactos = contactos;
     }
 

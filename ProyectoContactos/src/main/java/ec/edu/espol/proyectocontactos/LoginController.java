@@ -23,6 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import static util.Utilitario.soloNumerosYLetras;
 
 /**
  * FXML Controller class
@@ -54,7 +55,12 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        formatosTextField();
 
+    }
+    
+    private void formatosTextField(){
+        soloNumerosYLetras(userField);
     }
 
     //Metodo cuando el usuario accede al sistema
@@ -62,7 +68,6 @@ public class LoginController implements Initializable {
     private void signIn(ActionEvent event) throws IOException {
         //Leer todos los usuarios registrados en el sistema
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
-        System.out.println(usuarios);
         //Validar Login
         Usuario usuarioAVerificar = new Usuario(userField.getText(), passwordField.getText(), null);
         if (userField.getText().isBlank() || passwordField.getText().isBlank() || userField.getText().contains(" ")
@@ -74,18 +79,21 @@ public class LoginController implements Initializable {
             campoVacio.showAndWait();
 
         } else if (usuarios.contains(usuarioAVerificar)) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Contactos.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("Contactos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ContactosPrincipal.fxml"));
             Parent root = loader.load();
-            ContactosController controller = loader.getController();
+            //ContactosController controller = loader.getController();
+            ContactosPrincipalController controller = loader.getController();
             for (Usuario u : usuarios) {
                 if (u.equals(usuarioAVerificar)) {
-                    controller.setLoginController(this);
+                    //controller.setLoginController(this);
                     controller.setUsuario(u);
-                    controller.actualizarListView();
+                    //controller.actualizarListView();
                     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setTitle("Welcome!");
                     stage.setScene(scene);
+                    stage.setResizable(true);
                     stage.show();
                     System.out.println(u); 
                 }
