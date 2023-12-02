@@ -83,8 +83,8 @@ public class LoginController implements Initializable {
             //FXMLLoader loader = new FXMLLoader(getClass().getResource("Contactos.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ContactosPrincipal.fxml"));
             Parent root = loader.load();
-            ContactosController controller = loader.getController();
-            //ContactosPrincipalController controller = loader.getController();
+            //ContactosController controller = loader.getController();
+            ContactosPrincipalController controller = loader.getController();
             for (Usuario u : usuarios) {
                 if (u.equals(usuarioAVerificar)) {
                     //controller.setLoginController(this);
