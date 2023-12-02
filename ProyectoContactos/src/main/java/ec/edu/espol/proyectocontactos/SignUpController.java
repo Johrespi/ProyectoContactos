@@ -24,8 +24,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import static util.Utilitario.mensajeAlertaAdvertencia;
+import static util.Utilitario.soloNumerosYLetras;
+import static util.Utilitario.mensajeAlertaConfirmacion;
+import static util.Utilitario.mensajeAlertaError;
+import static util.Utilitario.mensajeAlertaInfo;
 /**
  * FXML Controller class
  *
@@ -56,6 +62,10 @@ public class SignUpController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
+    private HBox hbAdmin;
+    @FXML
+    private VBox vbRegistro;
 
     /**
      * Initializes the controller class.
@@ -64,9 +74,35 @@ public class SignUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         choiceBox.getItems().addAll(tiposUsuarios);
-
+        formatosTextField();
+    }
+    
+      private void formatosTextField(){
+        soloNumerosYLetras(this.usuarioField);
     }
 
+    private void mostrarConfigAdmin(ArrayList<Usuario> actualizarLista, Usuario u1){
+        PasswordField pf = new PasswordField();        
+        Button bt = new Button("Registrar Administrador");
+        bt.setId("boton");
+        bt.getStyleClass().add((getClass().getResource("/styles/contactosprincipal.css").toString()));        
+        registrarButton.setDisable(true);        
+        HBox.setHgrow(pf, javafx.scene.layout.Priority.ALWAYS);
+        this.hbAdmin.getChildren().addAll(pf);                    
+        this.vbRegistro.getChildren().add(1, bt);
+        bt.setOnAction(event1 -> {
+            if (pf.getText().equals(AdminPassword)) {
+                actualizarLista.addLast(u1);
+                //usuariosListaSer = actualizarLista;
+                Usuario.saveListToFileSerUsuarios(actualizarLista);
+                mensajeAlertaConfirmacion("Registro exitoso","Su cuenta ha sido registrada exitosamente, Usted es un Usuario Administrador");
+                this.regresarButton.fire();
+            } else {
+                mensajeAlertaError("ERROR","Contraseña Incorrecta");
+            }
+        });
+    }
+    
     @FXML
     private void registrar(ActionEvent event) throws IOException {
         //Lista de usuarios
@@ -77,100 +113,37 @@ public class SignUpController implements Initializable {
 
         if (usuarioField.getText().isBlank() || passwordField.getText().isBlank() || usuarioField.getText().contains(" ")
                 || passwordField.getText().contains(" ") || choiceBox.getValue() == null) {
-
-            Alert campoVacio = new Alert(Alert.AlertType.WARNING);
-            campoVacio.setTitle("Advertencia");
-            campoVacio.setContentText("No se admiten espacios vacíos");
-            campoVacio.showAndWait();
-
+            mensajeAlertaAdvertencia("Advertencia","No se admiten espacios vacíos");
         }
         else if (usuariosListaSer.isEmpty()) {
             Usuario primerUsuario = new Usuario(usuarioField.getText(), passwordField.getText(), tiposUsuarios[0]);
             //usuariosListaSer.add(primerUsuario);
             actualizarLista.addLast(primerUsuario);
             Usuario.saveListToFileSerUsuarios(actualizarLista);
-            Alert RegistroUsuarioAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            RegistroUsuarioAlert.setTitle("Registro exitoso");
-            RegistroUsuarioAlert.setContentText("Su cuenta ha sido registrada exitosamente");
-            RegistroUsuarioAlert.showAndWait();
-            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setTitle("Welcome!");
-            stage.setScene(scene);
-            stage.show();
+            mensajeAlertaConfirmacion("Registro exitoso","Su cuenta ha sido registrada exitosamente");
+            this.regresarButton.fire();
 
         } else {
-
             Usuario u1 = new Usuario(usuarioField.getText(), passwordField.getText(), choiceBox.getValue());
             boolean condicion = usuariosListaSer.contains(u1);
             if (!condicion) {
                 if (choiceBox.getValue().equals(tiposUsuarios[1])) {
                     adminPassword.setText("Admin Password");
-                    PasswordField pf = new PasswordField();
-                    Button bt = new Button("Registrar Administrador");
-                    registrarButton.setDisable(true);
-                    anchorPane.getChildren().addAll(pf, bt);
-                    bt.setLayoutX(350);
-                    bt.setLayoutY(250);
-                    pf.setLayoutX(195);
-                    pf.setLayoutY(250);
-                    bt.setOnAction(event1 -> {
-                        if (pf.getText().equals(AdminPassword)) {
-                            try {
-                                actualizarLista.addLast(u1);
-                                //usuariosListaSer = actualizarLista;
-                                Usuario.saveListToFileSerUsuarios(actualizarLista);
-                                Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);
-                                ConfirmacionAdmin.setTitle("Registro exitoso");
-                                ConfirmacionAdmin.setContentText("Su cuenta ha sido registrada exitosamente, Usted es un Usuario Administrador");
-                                ConfirmacionAdmin.showAndWait();
-                                Parent root;
-                                root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-                                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                scene = new Scene(root);
-                                stage.setTitle("Welcome!");
-                                stage.setScene(scene);
-                                stage.show();
-                            } catch (IOException ex) {
-                            }
-
-                        } else {
-                            Alert campoVacio = new Alert(Alert.AlertType.ERROR);
-                            campoVacio.setTitle("ERROR");
-                            campoVacio.setContentText("Contraseña Incorrecta");
-                            campoVacio.showAndWait();
-
-                        }
-                    });
+                    mostrarConfigAdmin(actualizarLista,u1);
                 } else {
                     actualizarLista.addLast(u1);
                     //usuariosListaSer = actualizarLista;
                     Usuario.saveListToFileSerUsuarios(actualizarLista);
-                    Alert ConfirmacionAdmin = new Alert(Alert.AlertType.CONFIRMATION);
-                    ConfirmacionAdmin.setTitle("Registro exitoso");
-                    ConfirmacionAdmin.setContentText("Su cuenta ha sido registrada exitosamente");
-                    ConfirmacionAdmin.showAndWait();
-                    Parent root;
-                    root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setTitle("Welcome!");
-                    stage.setScene(scene);
-                    stage.show();
-
+                    mensajeAlertaConfirmacion("Registro exitoso","Su cuenta ha sido registrada exitosamente");
+                    this.regresarButton.fire();
                 }
             } else {
-                Alert usuarioExistente = new Alert(Alert.AlertType.INFORMATION);
-                usuarioExistente.setTitle("Lo sentimos");
-                usuarioExistente.setContentText("Este username ya existe, intente con otro");
-                usuarioExistente.showAndWait();
+                mensajeAlertaInfo("Lo sentimos","Este username ya existe, intente con otro");
             }
-
         }
-
     }
-
+    
+    
     @FXML
     private void regresar(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));

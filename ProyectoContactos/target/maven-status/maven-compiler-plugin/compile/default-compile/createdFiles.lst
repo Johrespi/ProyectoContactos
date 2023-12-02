@@ -2,11 +2,7 @@ Modelo\redSocial.class
 Modelo\CircularNodeList.class
 ec\edu\espol\proyectocontactos\SignUpController.class
 module-info.class
-ec\edu\espol\proyectocontactos\ContactosController.class
-ec\edu\espol\proyectocontactos\MostrarContactoController.class
 ec\edu\espol\proyectocontactos\App.class
-ec\edu\espol\proyectocontactos\LoginController.class
-ec\edu\espol\proyectocontactos\AgregarContactosController.class
 Modelo\Relacion.class
 Modelo\Direccion.class
 Modelo\Contacto.class

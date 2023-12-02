@@ -1,0 +1,24 @@
+/*
+ * Empty Stylesheet file.
+ */
+.hbox-contacto {
+    -fx-background-color: #3498db;
+    -fx-border-color: #000000; 
+    -fx-border-width: 2px;
+    -fx-padding: 5px; 
+}
+
+
+.button{
+    -fx-border-color:   #0D0D0D;     
+    -fx-font-family: Monospaced;
+}
+
+#boton{
+    -fx-border-color:   #0D0D0D;     
+    -fx-font-family: Monospaced;
+    -fx-background-color:  #595659;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+     -fx-font-size: 12px;
+}
