@@ -83,6 +83,7 @@ public class ContactosController implements Initializable {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MostrarContacto.fxml"));
                     Parent root = loader.load();
+                    //MostrarContactoController mostrar = loader.getController();
 
                     DoubleCircleLinkedList<Contacto> contactosDelUsuario = usuario.getContactos();
 
@@ -96,7 +97,7 @@ public class ContactosController implements Initializable {
                     if (contacto != null) {
                         MostrarContactoController mostrarContactoController = loader.getController();
                         mostrarContactoController.setContactosController(this);
-
+                        mostrarContactoController.setContacto(contacto);
                         Stage st = new Stage();
                         st.setTitle("Editar contacto");
                         Scene sc = new Scene(root);

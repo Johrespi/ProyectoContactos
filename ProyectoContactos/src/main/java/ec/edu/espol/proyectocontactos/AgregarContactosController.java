@@ -14,9 +14,16 @@ import Modelo.Relacion;
 import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +38,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -147,7 +157,7 @@ public class AgregarContactosController implements Initializable {
         FavoritoBox.getItems().addAll(esFavorito);
 
     }
-
+    
     @FXML
     private void crearContacto(ActionEvent event) throws IOException {
         Usuario u = contactosController.usuario;
@@ -199,11 +209,34 @@ public class AgregarContactosController implements Initializable {
         Guardado.showAndWait();
     }
 
-    @FXML
-    private void addFoto(ActionEvent event) {
+        @FXML
+    private void addFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona una foto");
 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.jpeg", "*.gif");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        Stage stage = new Stage(); 
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            
+            Image imagen = new Image(selectedFile.toURI().toString());
+            
+            this.contacto.setFotos(selectedFile.toURI().toString());
+            this.contacto.getFotos();
+            /*
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("mapaSerializado.dat"))) {
+                out.writeObject(fotoMapa);
+                System.out.println("Mapa serializado correctamente.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            */
+        }
     }
-
+    
     @FXML
     private void addFecha(ActionEvent event) {
         if (fechaField.getValue() != null && !tipoFechaField.getText().isBlank()) {
@@ -274,7 +307,7 @@ public class AgregarContactosController implements Initializable {
     public void setContactosController(ContactosController contactosController) {
         this.contactosController = contactosController;
     }
-
+    
     public void AlertaCampos() {
         Alert alertaCampos = new Alert(Alert.AlertType.ERROR);
         alertaCampos.setContentText("Usted no ha llenado los campos obligatorios");

@@ -28,7 +28,7 @@ public class Contacto implements Serializable {
     private ArrayList<Telefono> numerosTelefono;
     private ArrayList<redSocial> redesSociales;
     private ArrayList<Relacion> ContactosRelacionados;
-    private DoubleCircleLinkedList<Image> fotos; //podria ser
+    private DoubleCircleLinkedList<String> fotos; //podria ser
     private ArrayList<FechaInteres> fechasInteres;
     private boolean esFavorito;
 
@@ -41,9 +41,9 @@ public class Contacto implements Serializable {
         this.emails = new ArrayList<>();
         this.numerosTelefono = new ArrayList<>();
         this.redesSociales = new ArrayList<>();
-        this.fotos = new DoubleCircleLinkedList<>();
         this.fechasInteres = new ArrayList<>();
         this.ContactosRelacionados = new ArrayList<>();
+        this.fotos = new DoubleCircleLinkedList();
     }
 
     public Contacto() {
@@ -55,13 +55,22 @@ public class Contacto implements Serializable {
         this.emails = new ArrayList<>();
         this.numerosTelefono = new ArrayList<>();
         this.redesSociales = new ArrayList<>();
-        this.fotos = new DoubleCircleLinkedList<>();
         this.fechasInteres = new ArrayList<>();
+        //this.fotos=new Image("null");
         this.ContactosRelacionados = new ArrayList<>();
+        this.fotos = new DoubleCircleLinkedList();
     }
 
     public String getNombre() {
         return nombre;
+    }
+
+    public DoubleCircleLinkedList getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(String fotos) {
+        this.fotos.add(fotos);
     }
 
     public void setNombre(String nombre) {

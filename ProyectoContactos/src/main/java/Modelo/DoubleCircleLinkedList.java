@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javafx.collections.ObservableList;
@@ -207,5 +208,29 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable{
                 return dato;
             }
         };
+    }
+    
+    public E findAndNext(Comparator<E> cmp, E s) {
+        Node<E> current = primero;
+        while (current != null) {
+            System.out.println(current.contenido);
+            System.out.println(current.sig.contenido);
+            if (cmp.compare(current.contenido, s) == 1) {
+                return current.sig.contenido;
+            }
+            current = current.sig;
+        }
+        return null;
+    }
+    
+    public E findAndBefore(Comparator<E> cmp, E s) {
+        Node<E> current = primero;
+        while (current != null) {
+            if (cmp.compare(current.contenido, s) == 1) {
+                return current.anterior.contenido;
+            }
+            current = current.anterior;
+        }
+        return null;
     }
 }

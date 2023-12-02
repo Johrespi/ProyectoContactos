@@ -4,6 +4,8 @@
  */
 package ec.edu.espol.proyectocontactos;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import Modelo.ArrayList;
 import Modelo.Contacto;
 import Modelo.Direccion;
@@ -14,8 +16,14 @@ import Modelo.Relacion;
 import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +36,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -94,6 +105,8 @@ public class MostrarContactoController implements Initializable {
     @FXML
     private Label relacionField;
     @FXML
+    private HBox hboxImagenes;
+    @FXML
     private Button removeTelefonoBtn;
     @FXML
     private Button removeEmailBtn;
@@ -119,14 +132,96 @@ public class MostrarContactoController implements Initializable {
     private Button empresaBtn;
     @FXML
     private TextField relacionFieldd;
-
+    @FXML
+    private ImageView image1;
+    @FXML
+    private ImageView image2;
+    @FXML
+    private Button btnBefore;
+    @FXML
+    private Button btnNext;
+    
+    private String primeraImagen;
+    
+    private String segundaImagen;
+    
     private ContactosController contactosController;
+    
+    private AgregarContactosController agregarContactos = new AgregarContactosController();;
+    
+    DoubleCircleLinkedList<Contacto> contactosLista;
+    
+    Contacto contacto;
+    
+    //DoubleCircleLinkedList fotos;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       
     }
-
+   
+   
+    private void mostrarImagenesEnHBox(Contacto c) {
+        
+        DoubleCircleLinkedList fotos = c.getFotos();
+        
+        Iterator<String> it = fotos.iterator();
+        
+        String url = it.next(); 
+                
+        cargarImagenEnImageView(URLDecoder.decode(url, StandardCharsets.UTF_8),image1);
+        
+        primeraImagen = url;
+        
+        if(it.hasNext()){
+          url = it.next();
+          cargarImagenEnImageView(URLDecoder.decode(url, StandardCharsets.UTF_8),image2);
+          segundaImagen = url;
+        }
+               
+        System.out.println("imagenes cargadas correctamente");
+    }
+    
+    
+    private void cargarImagenEnImageView(String url ,ImageView img) {
+        Image imagen = new Image(url);
+        img.setImage(imagen);
+        img.setFitHeight(150);
+        img.setFitWidth(150);
+        
+        img.setPreserveRatio(false);
+        System.out.println("imagen cargada correctamente");
+    }
+    
+    public void next(ActionEvent actionEvent) {
+        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
+        Object imagen = contacto.getFotos().findAndNext(cmp, primeraImagen);
+        if(imagen!=null){
+            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8),image1);
+            primeraImagen = imagen.toString();
+        }
+        Object imagen2 = contacto.getFotos().findAndNext(cmp, segundaImagen);
+        if(imagen2!=null){
+            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8),image2);
+            segundaImagen = imagen2.toString();
+        }
+    }
+    
+    public void before(ActionEvent actionEvent) {
+        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
+        Object imagen = contacto.getFotos().findAndBefore(cmp, primeraImagen);
+        if(imagen!=null){
+            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8),image1);
+            primeraImagen = imagen.toString();
+        }
+        Object imagen2 = contacto.getFotos().findAndBefore(cmp, segundaImagen);
+        if(imagen2!=null){
+            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8),image2);
+            segundaImagen = imagen2.toString();
+        }
+    }
+    
+    
     private void agregarInformacionContacto(Contacto contacto, Object o) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
@@ -309,6 +404,7 @@ public class MostrarContactoController implements Initializable {
     }
 
     private void initializeContacto() {
+        this.contactosLista = contactosController.usuario.getContactos();
         if(contactosController.contacto.getTipoContacto().equals("Empresa")){
             nombreBtn.setDisable(true);
             apellidoBtn.setDisable(true);
@@ -316,11 +412,17 @@ public class MostrarContactoController implements Initializable {
             empresaBtn.setDisable(true);
         }
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        
         for (Usuario u : usuarios) {
             if (u.equals(contactosController.usuario)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
-
+                        this.mostrarImagenesEnHBox(c);
+                        this.contacto = c;
+                        if(contacto.getFotos().size()<=1){
+                            btnBefore.setDisable(true);
+                            btnNext.setDisable(true);
+                        }
                         if (c.getApellido().isBlank()) {
                             empresaField.setText(c.getNombre());
                         } else {
@@ -360,6 +462,7 @@ public class MostrarContactoController implements Initializable {
         for (Usuario u : usuarios) {
             if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
+            
                     if (c.equals(contactosController.contacto)) {
                         if (!nombreField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
                             c.setNombre(nombreField.getText());
@@ -439,5 +542,34 @@ public class MostrarContactoController implements Initializable {
         alertaCampos.setTitle("Cambio exitoso");
         alertaCampos.showAndWait();
     }
+   
+    public void circularFotos(){
+        
+    }
+    private static class IteratorBefore<E> implements Iterator<E> {
+        private final Iterator<E> iterator;
 
+        public IteratorBefore(Iterator<E> iterator) {
+            this.iterator = iterator;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return iterator.hasNext();
+        }
+
+        @Override
+        public E next() {
+            return iterator.next();
+        }
+
+        @Override
+        public void remove() {
+            iterator.remove();
+        }
+    }
+    
+    public void setContacto(Contacto contacto){
+        this.contacto = contacto;
+    }
 }
