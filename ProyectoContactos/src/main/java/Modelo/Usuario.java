@@ -36,7 +36,6 @@ public class Usuario implements Serializable {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Usuarios.ser"))) {
             usuarios = (ArrayList<Usuario>) ois.readObject();
-            System.out.println("USUARIOS: "+usuarios);
         } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         } catch (Exception a) {

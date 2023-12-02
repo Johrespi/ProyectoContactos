@@ -39,6 +39,7 @@ import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 
 /**
  * FXML Controller class
@@ -48,14 +49,21 @@ import javafx.scene.control.Alert;
 public class ContactosController implements Initializable {
 
     Usuario usuario;
-    
+
     Contacto contacto;
-    
-    @FXML
-    private Button BtnAgregar;
 
     @FXML
+    private Button BtnAgregar;
+    @FXML
     private ListView<String> ListaContacto;
+    @FXML
+    private Button mostrarInformacionBtn;
+    @FXML
+    private Button removeBtn;
+    @FXML
+    private ChoiceBox<String> choiceOrdenar;
+    @FXML
+    private Button ordenarButton;
 
     private LoginController loginController;
 
@@ -64,11 +72,11 @@ public class ContactosController implements Initializable {
      */
     public ArrayList<String> Contactos = new ArrayList<>();
 
-    @FXML
-    private Button mostrarInformacionBtn;
+    private String[] ordenamientos = {"Favoritos", "Predeterminado"};
 
     public void initialize(URL url, ResourceBundle rb) {
 
+        choiceOrdenar.getItems().addAll(ordenamientos);
         mostrarInformacionBtn.setDisable(true); // Para deshabilitar el botón
 
         ListaContacto.getSelectionModel().selectedItemProperty().addListener(
@@ -99,7 +107,8 @@ public class ContactosController implements Initializable {
                         mostrarContactoController.setContactosController(this);
                         mostrarContactoController.setContacto(contacto);
                         Stage st = new Stage();
-                        st.setTitle("Editar contacto");
+                        st.setTitle("Información contacto");
+                        st.setResizable(false);
                         Scene sc = new Scene(root);
                         st.setScene(sc);
                         st.show();
@@ -176,4 +185,59 @@ public class ContactosController implements Initializable {
             noContacts.showAndWait();
         }
     }
+
+    @FXML
+    private void removerContacto(ActionEvent event) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        String selectedContact = ListaContacto.getSelectionModel().getSelectedItem();
+        DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (selectedContact.equals(c.getNombre() + " " + c.getApellido())) {
+                        int index = u.getContactos().indexOf(c);
+                        u.getContactos().remove(index);
+                        usuario.getContactos().remove(index);
+                        break;
+
+                    }
+                }
+            }
+        }
+        actualizarListView();
+        Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
+    private void ordenarPorFavorito() {
+
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        ArrayList<String> contactosAOrdenar = new ArrayList<>();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u) && !usuario.getContactos().isEmpty()) {
+                DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
+                for (Contacto c : contactos) {
+                    if (c.isEsFavorito() == true) {
+                        contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());
+                        ObservableList<String> contactArray = FXCollections.observableArrayList(contactosAOrdenar);
+                        ListaContacto.setItems(contactArray);
+                    } else {
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    @FXML
+    private void ordenarLista(ActionEvent event) {
+        if (choiceOrdenar.getValue() == null) {
+
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[0])) {
+            ordenarPorFavorito();
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[1])) {
+            actualizarListView();
+        }
+    }
+
 }

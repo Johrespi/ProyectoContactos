@@ -93,7 +93,7 @@ public class LoginController implements Initializable {
                     scene = new Scene(root);
                     stage.setTitle("Welcome!");
                     stage.setScene(scene);
-                    stage.setResizable(true);
+                    stage.setResizable(false);
                     stage.show();
                     System.out.println(u); 
                 }
