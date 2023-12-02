@@ -7,11 +7,8 @@ package ec.edu.espol.proyectocontactos;
 import Modelo.ArrayList;
 import Modelo.Contacto;
 
-import Modelo.CircularNodeList;
-
-import Modelo.DoubleCircleLinkedList;
+import Modelo.DoublyCircularLInkedList;
 import Modelo.Usuario;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -19,21 +16,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
-import javafx.fxml.FXML;
 
 import javafx.fxml.FXML;
 
@@ -93,8 +82,8 @@ public class ContactosController implements Initializable {
                     Parent root = loader.load();
                     //MostrarContactoController mostrar = loader.getController();
 
-                    DoubleCircleLinkedList<Contacto> contactosDelUsuario = usuario.getContactos();
-
+                    //DoubleCircleLinkedList<Contacto> contactosDelUsuario = usuario.getContactos();
+                    DoublyCircularLInkedList<Contacto> contactosDelUsuario = usuario.getContactos();
                     for (Contacto c : contactosDelUsuario) {
                         if (selectedContact.equals(c.getNombre() + " " + c.getApellido())) {
                             contacto = c;
@@ -104,7 +93,7 @@ public class ContactosController implements Initializable {
 
                     if (contacto != null) {
                         MostrarContactoController mostrarContactoController = loader.getController();
-                        mostrarContactoController.setContactosController(this);
+                        //mostrarContactoController.setContactosController(this);
                         mostrarContactoController.setContacto(contacto);
                         Stage st = new Stage();
                         st.setTitle("Información contacto");
@@ -129,7 +118,7 @@ public class ContactosController implements Initializable {
             Parent root = loader.load();
 
             AgregarContactosController agregarContactosController = loader.getController();
-            agregarContactosController.setContactosController(this);
+            //agregarContactosController.setContactosController(this);
 
             Stage st = new Stage();
             st.setTitle("Agrega tus contactos!");
@@ -153,7 +142,7 @@ public class ContactosController implements Initializable {
 
     public void navigateNext() {
         if (!usuario.getContactos().isEmpty()) {
-            usuario.getContactos().moveToNext();
+            //usuario.getContactos().moveToNext();
             actualizarListView();
         }
 
@@ -161,14 +150,15 @@ public class ContactosController implements Initializable {
 
     public void navigatePrevious() {
         if (!usuario.getContactos().isEmpty()) {
-            usuario.getContactos().moveToPrevious();
+            //usuario.getContactos().moveToPrevious();
             actualizarListView();
         }
     }
 
     public void actualizarListView() {
         Contactos.clear();
-        DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        //DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        DoublyCircularLInkedList<Contacto> contactosDelUsuario = usuario.getContactos();
         if (!contactosDelUsuario.isEmpty()) {
             Iterator<Contacto> iterator = contactosDelUsuario.iterator();
             System.out.println(contactosDelUsuario);
@@ -190,7 +180,8 @@ public class ContactosController implements Initializable {
     private void removerContacto(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         String selectedContact = ListaContacto.getSelectionModel().getSelectedItem();
-        DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
+        DoublyCircularLInkedList<Contacto> contactosDelUsuario = usuario.getContactos();
+        //DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
         for (Usuario u : usuarios) {
             if (usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
@@ -214,7 +205,8 @@ public class ContactosController implements Initializable {
         ArrayList<String> contactosAOrdenar = new ArrayList<>();
         for (Usuario u : usuarios) {
             if (usuario.equals(u) && !usuario.getContactos().isEmpty()) {
-                DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
+                DoublyCircularLInkedList<Contacto> contactos = usuario.getContactos();
+                //DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
                 for (Contacto c : contactos) {
                     if (c.isEsFavorito() == true) {
                         contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());

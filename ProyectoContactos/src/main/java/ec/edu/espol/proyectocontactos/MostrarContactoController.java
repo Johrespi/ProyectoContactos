@@ -10,6 +10,7 @@ import Modelo.ArrayList;
 import Modelo.Contacto;
 import Modelo.Direccion;
 import Modelo.DoubleCircleLinkedList;
+import Modelo.DoublyCircularLInkedList;
 import Modelo.Email;
 import Modelo.FechaInteres;
 import Modelo.Relacion;
@@ -144,13 +145,14 @@ public class MostrarContactoController implements Initializable {
     private String primeraImagen;
 
     private String segundaImagen;
-
-    private ContactosController contactosController;
+    
+    //private ContactosController contactosController;
+    private ContactosPrincipalController contactosController;
 
     private AgregarContactosController agregarContactos = new AgregarContactosController();
-    ;
     
-    DoubleCircleLinkedList<Contacto> contactosLista;
+    DoublyCircularLInkedList<Contacto> contactosLista;
+    //DoubleCircleLinkedList<Contacto> contactosLista;
 
     Contacto contacto;
 
@@ -224,7 +226,7 @@ public class MostrarContactoController implements Initializable {
     private void agregarInformacionContacto(Contacto contacto, Object o) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.usuario.equals(u)) {
+            if (contactosController.getUsuario().equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contacto)) {
                         if (o instanceof Direccion) {
@@ -253,7 +255,7 @@ public class MostrarContactoController implements Initializable {
     private void removerInformacionContacto(Contacto contacto, Object o) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.usuario.equals(u)) {
+            if (contactosController.getUsuario().equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contacto)) {
                         if (o instanceof Direccion) {
@@ -397,13 +399,18 @@ public class MostrarContactoController implements Initializable {
         initializeContacto();
     }
 
-    public void setContactosController(ContactosController contactosController) {
+    public void setContactosController(ContactosPrincipalController contactosController, Contacto contacto) {
         this.contactosController = contactosController;
         initializeContacto();
     }
+    /*
+    public void setContactosController(ContactosController contactosController) {
+        this.contactosController = contactosController;
+        initializeContacto();
+    }*/
 
     private void initializeContacto() {
-        this.contactosLista = contactosController.usuario.getContactos();
+        this.contactosLista = contactosController.getUsuario().getContactos();
         if (contactosController.contacto.getTipoContacto().equals("Empresa")) {
             nombreBtn.setDisable(true);
             apellidoBtn.setDisable(true);
@@ -413,7 +420,7 @@ public class MostrarContactoController implements Initializable {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
 
         for (Usuario u : usuarios) {
-            if (u.equals(contactosController.usuario)) {
+            if (u.equals(contactosController.getUsuario())) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         this.mostrarImagenesEnHBox(c);
@@ -459,7 +466,7 @@ public class MostrarContactoController implements Initializable {
 
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.usuario.equals(u)) {
+            if (contactosController.getUsuario().equals(u)) {
                 for (Contacto c : u.getContactos()) {
 
                     if (c.equals(contactosController.contacto)) {
@@ -467,7 +474,8 @@ public class MostrarContactoController implements Initializable {
                             c.setNombre(nombreField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setNombre(nombreField.getText());
-                            contactosController.actualizarListView();
+                            contactosController.actualizarIteratorContactos();
+                            //contactosController.actualizarListView();
                         }
 
                     }
@@ -481,14 +489,15 @@ public class MostrarContactoController implements Initializable {
     private void cambiarApellido(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.usuario.equals(u)) {
+            if (contactosController.getUsuario().equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         if (!apellidoField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
                             c.setApellido(apellidoField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setApellido(apellidoField.getText());
-                            contactosController.actualizarListView();
+                            contactosController.actualizarIteratorContactos();                            
+                            //contactosController.actualizarListView();
 
                         }
 
@@ -503,14 +512,15 @@ public class MostrarContactoController implements Initializable {
     private void cambiarEmpresa(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.usuario.equals(u)) {
+            if (contactosController.getUsuario().equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         if (c.getTipoContacto().equals("Empresa")) {
                             c.setNombre(empresaField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setNombre(empresaField.getText());
-                            contactosController.actualizarListView();
+                            contactosController.actualizarIteratorContactos();
+                            //contactosController.actualizarListView();
 
                         }
 

@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Objects;
-import javafx.scene.image.Image;
 
 /**
  *
@@ -29,6 +27,7 @@ public class Contacto implements Serializable {
     private ArrayList<redSocial> redesSociales;
     private ArrayList<Relacion> ContactosRelacionados;
     private DoubleCircleLinkedList<String> fotos; //podria ser
+    //private DoublyCircularLInkedList<String> fotos; //podria ser
     private ArrayList<FechaInteres> fechasInteres;
     private boolean esFavorito;
 
@@ -44,6 +43,7 @@ public class Contacto implements Serializable {
         this.fechasInteres = new ArrayList<>();
         this.ContactosRelacionados = new ArrayList<>();
         this.fotos = new DoubleCircleLinkedList();
+        //this.fotos = new DoublyCircularLInkedList();
     }
 
     public Contacto() {
@@ -56,23 +56,32 @@ public class Contacto implements Serializable {
         this.numerosTelefono = new ArrayList<>();
         this.redesSociales = new ArrayList<>();
         this.fechasInteres = new ArrayList<>();
-        //this.fotos=new Image("null");
-        this.ContactosRelacionados = new ArrayList<>();
         this.fotos = new DoubleCircleLinkedList();
+        this.ContactosRelacionados = new ArrayList<>();
+        //this.fotos = new DoublyCircularLInkedList();
     }
 
     public String getNombre() {
         return nombre;
     }
 
+    /*public DoublyCircularLInkedList getFotos() {
+        return fotos;
+    }*/
+
     public DoubleCircleLinkedList getFotos() {
         return fotos;
     }
-
+    
     public void setFotos(String fotos) {
         this.fotos.add(fotos);
     }
 
+    /*
+    public void setFotos(String fotos) {
+        this.fotos.addLast(fotos);
+    }*/
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -149,6 +158,7 @@ public class Contacto implements Serializable {
         this.redesSociales = redesSociales;
     }
 
+    /*
     public static void saveListToFileSerContactos(DoubleCircleLinkedList<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
             oos.writeObject(contactos);
@@ -161,6 +171,26 @@ public class Contacto implements Serializable {
         DoubleCircleLinkedList<Contacto> contactos = new DoubleCircleLinkedList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Contactos.ser"))) {
             contactos = (DoubleCircleLinkedList<Contacto>) ois.readObject();
+        } catch (IOException e) {
+        } catch (ClassNotFoundException e) {
+        } catch (Exception a) {
+        }
+        return contactos;
+
+    }
+*/
+    public static void saveListToFileSerContactos(DoublyCircularLInkedList<Contacto> contactos) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
+            oos.writeObject(contactos);
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static DoublyCircularLInkedList<Contacto> readListFromFileSerContactos() {
+        DoublyCircularLInkedList<Contacto> contactos = new DoublyCircularLInkedList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Contactos.ser"))) {
+            contactos = (DoublyCircularLInkedList<Contacto>) ois.readObject();
         } catch (IOException e) {
         } catch (ClassNotFoundException e) {
         } catch (Exception a) {

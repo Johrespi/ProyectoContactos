@@ -135,7 +135,8 @@ public class AgregarContactosController implements Initializable {
     @FXML
     private ChoiceBox<String> FavoritoBox;
 
-    private ContactosController contactosController;
+    //private ContactosController contactosController;
+    private ContactosPrincipalController contactosController;
 
     Contacto contacto = new Contacto();
 
@@ -160,7 +161,7 @@ public class AgregarContactosController implements Initializable {
     
     @FXML
     private void crearContacto(ActionEvent event) throws IOException {
-        Usuario u = contactosController.usuario;
+        Usuario u = contactosController.getUsuario();
         if ((!nombreField.getText().isBlank() && !apellidoField.getText().isBlank())) {
             contacto.setNombre(nombreField.getText());
             contacto.setApellido(apellidoField.getText());
@@ -192,17 +193,20 @@ public class AgregarContactosController implements Initializable {
     }
 
     public void guardarContacto() {
-        contactosController.usuario.getContactos().add(contacto);
+        //contactosController.usuario.getContactos().add(contacto);
+        contactosController.getUsuario().getContactos().addLast(contacto);
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         for (Usuario user : AllUsers) {
-            if (contactosController.usuario.equals(user)) {
-                user.getContactos().add(contacto);
+            if (contactosController.getUsuario().equals(user)) {
+                //user.getContactos().add(contacto);
+                user.getContactos().addLast(contacto);
                 System.out.println(contacto);
                 Usuario.saveListToFileSerUsuarios(AllUsers);
 
             }
         }
-        contactosController.actualizarListView();
+        //contactosController.actualizarListView();
+        contactosController.actualizarIteratorContactos();
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
         Guardado.setTitle("Guardado");
         Guardado.setContentText("Su contacto se a guardado");
@@ -304,7 +308,12 @@ public class AgregarContactosController implements Initializable {
         }
     }
 
+    /*
     public void setContactosController(ContactosController contactosController) {
+        this.contactosController = contactosController;
+    }*/
+    
+    public void setContactosController(ContactosPrincipalController contactosController) {
         this.contactosController = contactosController;
     }
     

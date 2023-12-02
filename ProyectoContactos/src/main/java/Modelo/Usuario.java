@@ -21,7 +21,8 @@ public class Usuario implements Serializable {
     private String nombreUsuario;
     private String contraseña;
     private String tipoUsuario; // Usuario o administrador
-    private DoubleCircleLinkedList<Contacto> contactos;
+    //private DoubleCircleLinkedList<Contacto> contactos;
+    private DoublyCircularLInkedList<Contacto> contactos;
     
     private long serialVersionUID = 5874329925320491266L;
             
@@ -29,13 +30,14 @@ public class Usuario implements Serializable {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.contactos = new DoubleCircleLinkedList<>();
+        this.contactos = new DoublyCircularLInkedList<>();
     }
 
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Usuarios.ser"))) {
             usuarios = (ArrayList<Usuario>) ois.readObject();
+            System.out.println("USUARIOS: "+usuarios);
         } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         } catch (Exception a) {
@@ -100,14 +102,22 @@ public class Usuario implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public DoubleCircleLinkedList<Contacto> getContactos() {
+    /*public DoubleCircleLinkedList<Contacto> getContactos() {
         return contactos;
     }
 
     public void setContactos(DoubleCircleLinkedList<Contacto> contactos) {
         this.contactos = contactos;
+    }*/
+
+      public DoublyCircularLInkedList<Contacto> getContactos() {
+        return contactos;
     }
 
+    public void setContactos(DoublyCircularLInkedList<Contacto> contactos) {
+        this.contactos = contactos;
+    }
+    
     @Override
     public String toString() {
         return "User{" + "nombreUsuario='" + nombreUsuario + '\'' + ", contraseña='" + contraseña + '\'' + ", tipoUsuario='" + tipoUsuario + '\'' + '}';
