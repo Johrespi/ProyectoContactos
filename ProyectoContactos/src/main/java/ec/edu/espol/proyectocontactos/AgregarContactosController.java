@@ -207,6 +207,7 @@ public class AgregarContactosController implements Initializable {
         }
         //contactosController.actualizarListView();
         contactosController.actualizarIteratorContactos();
+        contactosController.llenarContatos(null);
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
         Guardado.setTitle("Guardado");
         Guardado.setContentText("Su contacto se a guardado");
