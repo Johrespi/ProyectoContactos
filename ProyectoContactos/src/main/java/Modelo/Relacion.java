@@ -14,11 +14,11 @@ import java.util.Objects;
 public class Relacion implements Serializable{
     
     private String tipoRelacion;
-    private String nombreContacto;
+    private Contacto contacto;
 
-    public Relacion(String tipoRelacion, String nombreContacto) {
+    public Relacion(String tipoRelacion, Contacto contacto) {
         this.tipoRelacion = tipoRelacion;
-        this.nombreContacto = nombreContacto;
+        this.contacto = contacto;
     }
 
     public String getTipoRelacion() {
@@ -29,17 +29,19 @@ public class Relacion implements Serializable{
         this.tipoRelacion = tipoRelacion;
     }
 
-    public String getNombreContacto() {
-        return nombreContacto;
+    public Contacto getContacto() {
+        return contacto;
     }
 
-    public void setNombreContacto(String nombreContacto) {
-        this.nombreContacto = nombreContacto;
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
+
+
 
     @Override
     public String toString() {
-        return tipoRelacion + ": " + nombreContacto;
+        return tipoRelacion + ": " + contacto.getNombre() + " " + contacto.getApellido();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class Relacion implements Serializable{
         if (!Objects.equals(this.tipoRelacion, other.tipoRelacion)) {
             return false;
         }
-        return Objects.equals(this.nombreContacto, other.nombreContacto);
+        return Objects.equals(this.contacto, other.contacto);
     }
     
     

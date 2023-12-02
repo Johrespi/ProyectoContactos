@@ -72,7 +72,7 @@ public class ContactosController implements Initializable {
      */
     public ArrayList<String> Contactos = new ArrayList<>();
 
-    private String[] ordenamientos = {"Favoritos", "Predeterminado"};
+    private String[] ordenamientos = {"Predeterminado", "Favoritos", "Empresas", "Personas Naturales"};
 
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -147,6 +147,10 @@ public class ContactosController implements Initializable {
         this.usuario = usuario;
     }
 
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
@@ -171,7 +175,6 @@ public class ContactosController implements Initializable {
         DoubleCircleLinkedList contactosDelUsuario = usuario.getContactos();
         if (!contactosDelUsuario.isEmpty()) {
             Iterator<Contacto> iterator = contactosDelUsuario.iterator();
-            System.out.println(contactosDelUsuario);
             while (iterator.hasNext()) {
                 Contacto contacto = iterator.next();
                 Contactos.addLast(contacto.getNombre() + " " + contacto.getApellido());
@@ -220,7 +223,6 @@ public class ContactosController implements Initializable {
                         contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());
                         ObservableList<String> contactArray = FXCollections.observableArrayList(contactosAOrdenar);
                         ListaContacto.setItems(contactArray);
-                    } else {
                     }
 
                 }
@@ -229,14 +231,56 @@ public class ContactosController implements Initializable {
         }
     }
 
+    private void ordenarPorEmpresa() {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        ArrayList<String> contactosAOrdenar = new ArrayList<>();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u) && !usuario.getContactos().isEmpty()) {
+                DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
+                for (Contacto c : contactos) {
+                    if (c.getTipoContacto().equals("Empresa")) {
+                        contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());
+                        ObservableList<String> contactArray = FXCollections.observableArrayList(contactosAOrdenar);
+                        ListaContacto.setItems(contactArray);
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    private void ordenarPorPersonaNatural() {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        ArrayList<String> contactosAOrdenar = new ArrayList<>();
+        for (Usuario u : usuarios) {
+            if (usuario.equals(u) && !usuario.getContactos().isEmpty()) {
+                DoubleCircleLinkedList<Contacto> contactos = u.getContactos();
+                for (Contacto c : contactos) {
+                    if (!c.getTipoContacto().equals("Empresa")) {
+                        contactosAOrdenar.addLast(c.getNombre() + " " + c.getApellido());
+                        ObservableList<String> contactArray = FXCollections.observableArrayList(contactosAOrdenar);
+                        ListaContacto.setItems(contactArray);
+                    }
+
+                }
+
+            }
+        }
+
+    }
+
     @FXML
     private void ordenarLista(ActionEvent event) {
         if (choiceOrdenar.getValue() == null) {
-
         } else if (choiceOrdenar.getValue().equals(ordenamientos[0])) {
-            ordenarPorFavorito();
-        } else if (choiceOrdenar.getValue().equals(ordenamientos[1])) {
             actualizarListView();
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[1])) {
+            ordenarPorFavorito();
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[2])) {
+            ordenarPorEmpresa();
+        } else if (choiceOrdenar.getValue().equals(ordenamientos[3])) {
+            ordenarPorPersonaNatural();
         }
     }
 

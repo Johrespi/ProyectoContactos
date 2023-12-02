@@ -157,7 +157,7 @@ public class AgregarContactosController implements Initializable {
         FavoritoBox.getItems().addAll(esFavorito);
 
     }
-    
+
     @FXML
     private void crearContacto(ActionEvent event) throws IOException {
         Usuario u = contactosController.usuario;
@@ -209,7 +209,7 @@ public class AgregarContactosController implements Initializable {
         Guardado.showAndWait();
     }
 
-        @FXML
+    @FXML
     private void addFoto() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona una foto");
@@ -217,13 +217,13 @@ public class AgregarContactosController implements Initializable {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.jpeg", "*.gif");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        Stage stage = new Stage(); 
+        Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
-            
+
             Image imagen = new Image(selectedFile.toURI().toString());
-            
+
             this.contacto.setFotos(selectedFile.toURI().toString());
             this.contacto.getFotos();
             /*
@@ -233,10 +233,10 @@ public class AgregarContactosController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            */
+             */
         }
     }
-    
+
     @FXML
     private void addFecha(ActionEvent event) {
         if (fechaField.getValue() != null && !tipoFechaField.getText().isBlank()) {
@@ -251,10 +251,23 @@ public class AgregarContactosController implements Initializable {
 
     @FXML
     private void addRelacion(ActionEvent event) {
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
         if (!tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) {
-            Relacion relacion = new Relacion(tipoRelacionField.getText(), nombreRelacionField.getText());
-            contacto.getContactosRelacionados().addLast(relacion);
-            AlertaAdd();
+            for (Usuario u : Usuarios) {
+                if (u.equals(contactosController.usuario)) {
+                    for (Contacto c : u.getContactos()) {
+                        String nombreApellido = c.getNombre() + " " + c.getApellido();
+                        if (nombreApellido.equals(nombreRelacionField.getText())) {
+                            Relacion relacion = new Relacion(tipoRelacionField.getText(), c);
+                            contacto.getContactosRelacionados().addLast(relacion);
+                            AlertaAdd();
+
+                        }
+                    }
+
+                }
+
+            }
         } else if ((tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) || (!tipoRelacionField.getText().isBlank() && nombreRelacionField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -307,7 +320,7 @@ public class AgregarContactosController implements Initializable {
     public void setContactosController(ContactosController contactosController) {
         this.contactosController = contactosController;
     }
-    
+
     public void AlertaCampos() {
         Alert alertaCampos = new Alert(Alert.AlertType.ERROR);
         alertaCampos.setContentText("Usted no ha llenado los campos obligatorios");

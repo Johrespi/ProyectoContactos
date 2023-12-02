@@ -95,7 +95,6 @@ public class LoginController implements Initializable {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.show();
-                    System.out.println(u); 
                 }
             }
 
