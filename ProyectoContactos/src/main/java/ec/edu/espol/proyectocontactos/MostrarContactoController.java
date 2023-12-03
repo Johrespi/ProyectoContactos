@@ -156,6 +156,10 @@ public class MostrarContactoController implements Initializable {
     Contacto contacto;
     @FXML
     private Button mostrarRelacionBtn;
+    @FXML
+    private Button removeLeftPhotoBtn;
+    @FXML
+    private Button addFotoBtn;
 
     //DoubleCircleLinkedList fotos;
     @Override
@@ -631,6 +635,14 @@ public class MostrarContactoController implements Initializable {
 
     public void circularFotos() {
 
+    }
+
+    @FXML
+    private void removeLeftPhoto(ActionEvent event) {
+    }
+
+    @FXML
+    private void addFoto(ActionEvent event) {
     }
 
     private static class IteratorBefore<E> implements Iterator<E> {

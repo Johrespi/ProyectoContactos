@@ -322,12 +322,15 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            int posN = 0;
             Node<E> nodoN = isEmpty() ? null : last.getPrevious();
+            Node<E> currentNode = null;
 
             @Override
             public boolean hasNext() {
-                return nodoN != null && posN < size();
+                if (nodoN == null) {
+                    return false;
+                }
+                return currentNode == null || currentNode.getNext() != last.getNext();
             }
 
             @Override
@@ -335,16 +338,17 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E value = nodoN.getContent();
-                nodoN = nodoN.getNext();
-                posN++;
-                return value;
+                if (currentNode == null) {
+                    currentNode = last.getNext();
+                } else {
+                    currentNode = currentNode.getNext();
+                }
+                return currentNode.getContent();
             }
         };
     }
 
-
-    
+        
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();
