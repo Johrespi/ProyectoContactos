@@ -14,7 +14,8 @@ import java.util.Objects;
 public class Direccion implements Serializable {
     private String tipoDireccion;
     private String direccion;
-
+    private static final long serialVersionUID = 54558121L;
+    
     public Direccion(String tipoDireccion, String direccion) {
         this.tipoDireccion = tipoDireccion;
         this.direccion = direccion;

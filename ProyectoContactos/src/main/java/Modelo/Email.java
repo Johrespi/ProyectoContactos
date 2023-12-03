@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Email implements Serializable{
     private String tipoEmail;
     private String email;
+    private static final long serialVersionUID = 545812101L;
 
     public Email(String tipoEmail, String email) {
         this.tipoEmail = tipoEmail;

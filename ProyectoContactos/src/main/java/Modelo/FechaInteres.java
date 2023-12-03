@@ -16,6 +16,7 @@ public class FechaInteres implements Serializable{
     
     private String fecha;
     private String tipoFechaInteres;
+    private static final long serialVersionUID = 5400558121L;
 
     public FechaInteres(String fecha, String tipoFechaInteres) {
         this.fecha = fecha;

@@ -18,7 +18,7 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable {
 
     Node<E> primero, ultimo;
     int n = 0;
-    private long serialVersionUID = 7068802015907096238L;
+    private static final long serialVersionUID = 54581265561L;
 
     public class Node<E> implements Serializable {
 

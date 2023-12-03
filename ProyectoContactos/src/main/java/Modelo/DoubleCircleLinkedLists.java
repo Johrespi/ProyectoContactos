@@ -5,11 +5,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 
 public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
     private Node<E> last;
     private int effective;
-    private final long serialVersionUID = 58743299253201266L;
+    private static final long serialVersionUID = 58743299253201266L;
     
     public void setLast(int index){
         if(index>size()||index<0||isEmpty()){
@@ -32,6 +33,11 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
         effective=0;
     }
         
+    public void addAll(PriorityQueue<E> cola){
+        while(!cola.isEmpty())
+            this.addFirst(cola.poll());
+    }
+    
     public boolean addFirst(E element) {
         Node<E> nodo=new Node<>(element);
         if(element==null){
@@ -259,66 +265,78 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
         return effective;
     }
     
-    public ListIterator<E> listIterator(){
-        return new ListIterator<E>(){
-            Node<E> nodo = last.getNext();
+    public ListIterator<E> listIterator() {
+        return new ListIterator<E>() {
+            Node<E> nodo = last != null ? last.getNext() : null;
+            Node<E> lastReturned = null;
+
             @Override
             public boolean hasNext() {
-                return size()>0;
+                return size() > 0 && nodo != null;
             }
 
             @Override
             public E next() {
-                if(!hasNext()){
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 E value = nodo.getContent();
+                lastReturned = nodo; 
                 nodo = nodo.getNext();
                 return value;
             }
 
             @Override
             public boolean hasPrevious() {
-                return size()>0;
+                return size() > 0 && nodo != null;
             }
 
             @Override
             public E previous() {
-                if(!hasPrevious()){
+                if (!hasPrevious()) {
                     throw new NoSuchElementException();
                 }
-                E value = nodo.getContent();
-                nodo = nodo.getPrevious();
-                return value;
-            }           
+                if (lastReturned == null) {
+                    lastReturned = last; 
+                } else {
+                    lastReturned = lastReturned.getPrevious();
+                }
+                nodo = lastReturned;
+                return nodo.getContent();
+            }
 
             @Override
             public int nextIndex() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // Implementa si es necesario
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public int previousIndex() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // Implementa si es necesario
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public void remove() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // Implementa si es necesario
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public void set(E e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // Implementa si es necesario
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public void add(E e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // Implementa si es necesario
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
     }
-    
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {

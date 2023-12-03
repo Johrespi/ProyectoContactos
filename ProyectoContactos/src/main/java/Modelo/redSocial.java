@@ -14,6 +14,7 @@ import java.util.Objects;
 public class redSocial implements Serializable {
     private String tipoRedSocial;
     private String redID;
+    private static final long serialVersionUID = 15485458121L;
 
     public redSocial(String tipoRedSocial, String redID) {
         this.tipoRedSocial = tipoRedSocial;

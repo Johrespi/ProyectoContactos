@@ -31,6 +31,8 @@ public class Contacto implements Serializable {
     private ArrayList<FechaInteres> fechasInteres;
     private boolean esFavorito;
 
+    private static final long serialVersionUID = 5458121L;
+            
     public Contacto(String nombre, String apellido, String tipoContacto, boolean esFavorito) {
         this.nombre = nombre;
         this.apellido = apellido;

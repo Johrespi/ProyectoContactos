@@ -645,6 +645,7 @@ public class MostrarContactoController implements Initializable {
     private void addFoto(ActionEvent event) {
     }
 
+
     private static class IteratorBefore<E> implements Iterator<E> {
 
         private final Iterator<E> iterator;

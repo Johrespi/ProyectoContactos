@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Telefono implements Serializable{
     private String tipoTelefono;
     private String telefono;
+    private static final long serialVersionUID = 1285458121L;
 
     public Telefono(String tipoTelefono, String telefono) {
         this.tipoTelefono = tipoTelefono;

@@ -15,7 +15,8 @@ public class Relacion implements Serializable{
     
     private String tipoRelacion;
     private Contacto contacto;
-
+    private static final long serialVersionUID = 105458121L;
+    
     public Relacion(String tipoRelacion, Contacto contacto) {
         this.tipoRelacion = tipoRelacion;
         this.contacto = contacto;

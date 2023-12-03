@@ -35,9 +35,9 @@
                         </Menu>
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Usuario">
+                <Menu fx:id="itmCuenta" mnemonicParsing="false" text="Usuario">
                   <items>
-                    <MenuItem fx:id="itmCuenta" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesion" />
+                    <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesion" />
                   </items>
                 </Menu>
               </menus>
@@ -62,7 +62,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
                <top>
-                  <GridPane BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="39.0" prefWidth="634.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="10.0" prefWidth="532.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="92.0" />
@@ -89,8 +89,8 @@
                                  <children>
                                     <Label text="Filtrar:" />
                                     <TextField fx:id="txtBusqueda" />
-                                    <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar" />
                                     <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
+                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" text="Buscar" />
                                  </children>
                               </HBox>
                            </children>
@@ -100,7 +100,7 @@
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="40.0" prefWidth="99.0" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </children>

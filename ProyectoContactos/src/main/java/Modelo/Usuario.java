@@ -24,7 +24,7 @@ public class Usuario implements Serializable {
     //private DoubleCircleLinkedList<Contacto> contactos;
     private DoubleCircleLinkedLists<Contacto> contactos;
     
-    private long serialVersionUID = 5874329925320491266L;
+    private static final long serialVersionUID = 5874329925320491266L;
             
     public Usuario(String nombreUsuario, String contraseña, String tipoUsuario) {
         this.nombreUsuario = nombreUsuario;
