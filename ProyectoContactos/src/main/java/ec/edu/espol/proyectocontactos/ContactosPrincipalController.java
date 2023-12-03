@@ -36,6 +36,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -204,18 +206,30 @@ public class ContactosPrincipalController implements Initializable {
         }                
     }
     
-    private HBox cajaContacto(Contacto contacto){
+    private GridPane cajaContacto(Contacto contacto){
         HBox hbContacto = new HBox(5);       
       
         String nombres = contacto.getApellido() + " " + contacto.getNombre();
         Label lblApellido = new Label(nombres);        
+        Label orden = new Label(nombres);        
         
-        hbContacto.getChildren().addAll(lblApellido, botonesEdicion(contacto));
+        GridPane gridPane = new GridPane();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        column1.setPercentWidth(85);
+        column2.setPercentWidth(15);
+
+        gridPane.getColumnConstraints().addAll(column1, column2);
+        
+        gridPane.add(hbContacto, 0, 0);
+        gridPane.add(botonesEdicion(contacto), 1, 0);
+        
+        hbContacto.getChildren().addAll(lblApellido);
                 
         HBox.setHgrow(hbContacto, Priority.ALWAYS);
         VBox.setVgrow(hbContacto, Priority.ALWAYS);
         hbContacto.setId("hbox-contacto");
-        return hbContacto;
+        return gridPane;
     }
 
     private VBox botonesEdicion(Contacto contacto){                
