@@ -246,8 +246,6 @@ public class DoubleCircleLinkedList<E> implements Iterable<E>, Serializable {
     public E findAndNext(Comparator<E> cmp, E s) {
         Node<E> current = primero;
         while (current != null) {
-            System.out.println(current.contenido);
-            System.out.println(current.sig.contenido);
             if (cmp.compare(current.contenido, s) == 1) {
                 return current.sig.contenido;
             }

@@ -226,6 +226,7 @@ public class AgregarContactosController implements Initializable {
 
             this.contacto.setFotos(selectedFile.toURI().toString());
             this.contacto.getFotos();
+            AlertaAdd();
             /*
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("mapaSerializado.dat"))) {
                 out.writeObject(fotoMapa);

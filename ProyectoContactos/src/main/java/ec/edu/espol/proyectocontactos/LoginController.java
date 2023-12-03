@@ -58,8 +58,8 @@ public class LoginController implements Initializable {
         formatosTextField();
 
     }
-    
-    private void formatosTextField(){
+
+    private void formatosTextField() {
         soloNumerosYLetras(userField);
     }
 
@@ -85,7 +85,7 @@ public class LoginController implements Initializable {
             ContactosController controller = loader.getController();
             //ContactosPrincipalController controller = loader.getController();
             for (Usuario u : usuarios) {
-                if (u.equals(usuarioAVerificar)) {
+                if (u.equals(usuarioAVerificar) && u.getTipoUsuario().equals("Persona natural")) {
                     controller.setLoginController(this);
                     controller.setUsuario(u);
                     controller.actualizarListView();
@@ -95,6 +95,18 @@ public class LoginController implements Initializable {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.show();
+                } else if (u.equals(usuarioAVerificar) && u.getTipoUsuario().equals("Administrador")) {
+                    controller.setLoginController(this);
+                    controller.setUsuario(u);
+                    controller.actualizarListViewAdmin();
+                    controller.desactivarBotones();
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setTitle("Welcome!");
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.show();
+
                 }
             }
 
@@ -116,7 +128,5 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-
 
 }

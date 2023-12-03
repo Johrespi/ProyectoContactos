@@ -16,6 +16,7 @@ import Modelo.Relacion;
 import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.net.URL;
@@ -42,7 +43,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import util.Utilitario;
 
 /**
  * FXML Controller class
@@ -159,6 +162,10 @@ public class MostrarContactoController implements Initializable {
     Contacto contacto;
     @FXML
     private Button mostrarRelacionBtn;
+    @FXML
+    private Button removeLeftPhotoBtn;
+    @FXML
+    private Button addFotoBtn;
 
     //DoubleCircleLinkedList fotos;
     @Override
@@ -201,6 +208,8 @@ public class MostrarContactoController implements Initializable {
 
                         Stage st = new Stage();
                         st.setTitle("Información relación");
+                        Image icono = new Image("imgs/Login.jpg");
+                        st.getIcons().add(icono);
                         st.setResizable(false);
                         Scene sc = new Scene(root);
                         st.setScene(sc);
@@ -217,7 +226,28 @@ public class MostrarContactoController implements Initializable {
 
     private void mostrarImagenesEnHBox(Contacto c) {
 
-        if (!c.getFotos().isEmpty()) {
+        if (c.getFotos().size() <= 1) {
+            btnBefore.setDisable(true);
+            btnNext.setDisable(true);
+        } else {
+            btnBefore.setDisable(false);
+            btnNext.setDisable(false);
+        }
+
+        if (c.getFotos().size() == 1) {
+            image1.setImage(null);
+            image2.setImage(null);
+            DoubleCircleLinkedList fotos = c.getFotos();
+
+            Iterator<String> it = fotos.iterator();
+            String url = it.next();
+
+            cargarImagenEnImageView(URLDecoder.decode(url, StandardCharsets.UTF_8), image1);
+            image2.setImage(null);
+
+        } else if (!c.getFotos().isEmpty()) {
+            image1.setImage(null);
+            image2.setImage(null);
             DoubleCircleLinkedList fotos = c.getFotos();
 
             Iterator<String> it = fotos.iterator();
@@ -233,9 +263,11 @@ public class MostrarContactoController implements Initializable {
                 cargarImagenEnImageView(URLDecoder.decode(url, StandardCharsets.UTF_8), image2);
                 segundaImagen = url;
             }
-
-            System.out.println("imagenes cargadas correctamente");
+        } else {
+            image1.setImage(null);
+            image2.setImage(null);
         }
+
     }
 
     private void cargarImagenEnImageView(String url, ImageView img) {
@@ -245,37 +277,59 @@ public class MostrarContactoController implements Initializable {
         img.setFitWidth(150);
 
         img.setPreserveRatio(false);
-        System.out.println("imagen cargada correctamente");
     }
 
     @FXML
     public void next(ActionEvent actionEvent) {
-        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
-        Object imagen = contacto.getFotos().findAndNext(cmp, primeraImagen);
-        if (imagen != null) {
-            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8), image1);
-            primeraImagen = imagen.toString();
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : Usuarios) {
+            if (u.equals(contactosController.usuario)) {
+                for (Contacto c : u.getContactos()) {
+                    if (contactosController.contacto.equals(c)) {
+                        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
+                        Object imagen = c.getFotos().findAndNext(cmp, primeraImagen);
+                        if (imagen != null) {
+                            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8), image1);
+                            primeraImagen = imagen.toString();
+                        }
+                        Object imagen2 = c.getFotos().findAndNext(cmp, segundaImagen);
+                        if (imagen2 != null) {
+                            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8), image2);
+                            segundaImagen = imagen2.toString();
+                        }
+
+                    }
+                }
+            }
         }
-        Object imagen2 = contacto.getFotos().findAndNext(cmp, segundaImagen);
-        if (imagen2 != null) {
-            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8), image2);
-            segundaImagen = imagen2.toString();
-        }
+
     }
 
     @FXML
     public void before(ActionEvent actionEvent) {
-        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
-        Object imagen = contacto.getFotos().findAndBefore(cmp, primeraImagen);
-        if (imagen != null) {
-            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8), image1);
-            primeraImagen = imagen.toString();
+
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : Usuarios) {
+            if (u.equals(contactosController.usuario)) {
+                for (Contacto c : u.getContactos()) {
+                    if (contactosController.contacto.equals(c)) {
+                        Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
+                        Object imagen = c.getFotos().findAndBefore(cmp, primeraImagen);
+                        if (imagen != null) {
+                            cargarImagenEnImageView(URLDecoder.decode(imagen.toString(), StandardCharsets.UTF_8), image1);
+                            primeraImagen = imagen.toString();
+                        }
+                        Object imagen2 = c.getFotos().findAndBefore(cmp, segundaImagen);
+                        if (imagen2 != null) {
+                            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8), image2);
+                            segundaImagen = imagen2.toString();
+                        }
+
+                    }
+                }
+            }
         }
-        Object imagen2 = contacto.getFotos().findAndBefore(cmp, segundaImagen);
-        if (imagen2 != null) {
-            cargarImagenEnImageView(URLDecoder.decode(imagen2.toString(), StandardCharsets.UTF_8), image2);
-            segundaImagen = imagen2.toString();
-        }
+
     }
 
     private void agregarInformacionContacto(Contacto contacto, Object o) {
@@ -414,12 +468,12 @@ public class MostrarContactoController implements Initializable {
                             Relacion relacion = new Relacion(etRelacionField.getText(), c);
                             agregarInformacionContacto(contactosController.contacto, relacion);
                             initializeContacto();
-                            
+
                         } else if (empresa.equals(relacionFieldd.getText()) && c.getApellido().equals("")) {
                             Relacion relacion = new Relacion(etRelacionField.getText(), c);
                             agregarInformacionContacto(contactosController.contacto, relacion);
                             initializeContacto();
-                            
+
                         }
                     }
                 }
@@ -429,43 +483,135 @@ public class MostrarContactoController implements Initializable {
         }
     }
 
+//    @FXML
+//    private void removeLeftPhoto(ActionEvent event) {
+//        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
+//        if (!indexField.getText().isBlank()) {
+//            for (Usuario u : Usuarios) {
+//                if (u.equals(contactosController.usuario)) {
+//                    for (Contacto c : u.getContactos()) {
+//                        if (c.equals(contacto)) {
+//                            if (!c.getFotos().isEmpty()) {
+//                                try {
+//                                    int index = Integer.parseInt(indexField.getText());
+//                                    c.getFotos().remove(index - 1);
+//                                    contacto.getFotos().remove(index - 1);
+//                                    mostrarImagenesEnHBox(contacto);
+//                                    Usuario.saveListToFileSerUsuarios(Usuarios);
+//
+//                                } catch (NumberFormatException e) {
+//                                    Utilitario.mensajeAlertaAdvertencia("Advertencia", "Usted no ha ingresado un número");
+//                                } catch (IndexOutOfBoundsException e2) {
+//                                    Utilitario.mensajeAlertaError("ERROR", "Usted no tiene esa cantidad de imágenes");
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//            AlertaCampos();
+//        }
+//        
+//
+//    }
     @FXML
-    private void removeTelefono(ActionEvent event) {
+    private void addFoto() {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : usuarios) {
+            if (contactosController.usuario.equals(u)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contactosController.contacto)) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Selecciona una foto");
+
+                        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.jpeg", "*.gif");
+                        fileChooser.getExtensionFilters().add(extFilter);
+
+                        Stage stage = new Stage();
+                        File selectedFile = fileChooser.showOpenDialog(stage);
+
+                        if (selectedFile != null) {
+
+                            Image imagen = new Image(selectedFile.toURI().toString());
+                            c.getFotos().add(selectedFile.toURI().toString());
+                            mostrarImagenesEnHBox(c);
+
+                        }
+                    }
+                }
+                Usuario.saveListToFileSerUsuarios(usuarios);
+
+            }
+
+        }
+    }
+
+    @FXML
+    private void removeLeftPhoto(ActionEvent event) {
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : Usuarios) {
+            if (u.equals(contactosController.usuario)) {
+                for (Contacto c : u.getContactos()) {
+                    if (c.equals(contacto)) {
+                        try {
+                            c.getFotos().remove(0);
+                            mostrarImagenesEnHBox(c);
+                        } catch (IndexOutOfBoundsException e) {
+                            Utilitario.mensajeAlertaError("ERROR", "Usted no tiene esa cantidad de imágenes");
+                        }
+
+                    }
+                }
+            }
+        }
+        Usuario.saveListToFileSerUsuarios(Usuarios);
+    }
+
+    @FXML
+    private void removeTelefono(ActionEvent event
+    ) {
         Telefono selectedTelefono = telefonosList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedTelefono);
         initializeContacto();
     }
 
     @FXML
-    private void removeEmail(ActionEvent event) {
+    private void removeEmail(ActionEvent event
+    ) {
         Email selectedEmail = emailsList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedEmail);
         initializeContacto();
     }
 
     @FXML
-    private void removeDireccion(ActionEvent event) {
+    private void removeDireccion(ActionEvent event
+    ) {
         Direccion selectedDireccion = direccionesList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedDireccion);
         initializeContacto();
     }
 
     @FXML
-    private void removeRed(ActionEvent event) {
+    private void removeRed(ActionEvent event
+    ) {
         redSocial selectedRed = redesSocialesList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedRed);
         initializeContacto();
     }
 
     @FXML
-    private void removeFecha(ActionEvent event) {
+    private void removeFecha(ActionEvent event
+    ) {
         FechaInteres selectedFecha = fechasList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedFecha);
         initializeContacto();
     }
 
     @FXML
-    private void removeRelacion(ActionEvent event) {
+    private void removeRelacion(ActionEvent event
+    ) {
         Relacion selectedRelacion = relacionesList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedRelacion);
         initializeContacto();
@@ -492,10 +638,10 @@ public class MostrarContactoController implements Initializable {
                     if (c.equals(contactosController.contacto)) {
                         this.mostrarImagenesEnHBox(c);
                         this.contacto = c;
-                        if (contacto.getFotos().size() <= 1) {
-                            btnBefore.setDisable(true);
-                            btnNext.setDisable(true);
-                        }
+//                        if (c.getFotos().size() <= 1) {
+//                            btnBefore.setDisable(true);
+//                            btnNext.setDisable(true);
+//                        }
                         if (c.getApellido().isBlank()) {
                             empresaField.setText(c.getNombre());
                         } else {

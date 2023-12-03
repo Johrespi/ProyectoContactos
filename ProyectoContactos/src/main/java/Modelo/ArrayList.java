@@ -28,12 +28,12 @@ public class ArrayList<E> implements List<E>, Serializable {
         this.n = 0;
     }
 
-    public void addCapacity() {
-        E[] tmp = (E[]) new Object[capacidad * 2];
+    public void addCapacidad() {
+        E[] arreglo = (E[]) new Object[capacidad * 2];
         for (int i = 0; i < capacidad; i++) {
-            tmp[i] = elements[i];
+            arreglo[i] = elements[i];
         }
-        elements = tmp;
+        elements = arreglo;
         capacidad = capacidad * 2;
     }
 
@@ -61,7 +61,7 @@ public class ArrayList<E> implements List<E>, Serializable {
         } else if (isEmpty()) {
             elements[n++] = element;
         } else if (capacidad == n) {
-            addCapacity();
+            addCapacidad();
         }
         n++;
         for (int i = n; i > index; i--) {
@@ -78,7 +78,7 @@ public class ArrayList<E> implements List<E>, Serializable {
             elements[n++] = element;
             return true;
         } else if (capacidad == n) {
-            addCapacity();
+            addCapacidad();
         }
         for (int i = n - 1; i >= 0; i--) {
             elements[i + 1] = elements[i];
@@ -95,7 +95,7 @@ public class ArrayList<E> implements List<E>, Serializable {
             elements[n++] = element;
             return true;
         } else if (capacidad == n) {
-            addCapacity();
+            addCapacidad();
         }
         int index = n;
         elements[index] = element;
@@ -159,38 +159,11 @@ public class ArrayList<E> implements List<E>, Serializable {
         }
         return result;
     }
-
-    public boolean reverse() {
-        if (this.isEmpty()) {
-            return false;
-        }
-
-        ArrayList<E> listaRevertida = new ArrayList<E>();
-
-        for (int i = n - 1; i > -1; i--) {
-            listaRevertida.addLast(this.elements[i]);
-        }
-
-        for (int i = 0; i < n; i++) {
-            this.elements[i] = listaRevertida.get(i);
-        }
-
-        return true;
-    }
     
     @Override
     public boolean contains(Object o) {
         for (int i = 0; i < n; i++) {
             if (o == null ? elements[i] == null : o.equals(elements[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean contains(E element, Comparator<E> cmp) {
-        for (int i = 0; i < n; i++) {
-            if (cmp.compare(element, elements[i]) == 0) {
                 return true;
             }
         }

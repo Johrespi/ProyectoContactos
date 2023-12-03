@@ -40,6 +40,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.Image;
 
 /**
  * FXML Controller class
@@ -107,6 +108,8 @@ public class ContactosController implements Initializable {
                         mostrarContactoController.setContactosController(this);
                         mostrarContactoController.setContacto(contacto);
                         Stage st = new Stage();
+                        Image icono = new Image("imgs/Login.jpg");
+                        st.getIcons().add(icono);
                         st.setTitle("Información contacto");
                         st.setResizable(false);
                         Scene sc = new Scene(root);
@@ -189,6 +192,23 @@ public class ContactosController implements Initializable {
         }
     }
 
+    public void actualizarListViewAdmin() {
+        Contactos.clear();
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
+        for (Usuario u : Usuarios) {
+            DoubleCircleLinkedList contactosDelUsuario = u.getContactos();
+            if (!contactosDelUsuario.isEmpty()) {
+                Iterator<Contacto> iterator = contactosDelUsuario.iterator();
+                while (iterator.hasNext()) {
+                    Contacto contacto = iterator.next();
+                    Contactos.addLast(contacto.getNombre() + " " + contacto.getApellido());
+                }
+                ObservableList<String> contactArray = FXCollections.observableArrayList(Contactos);
+                ListaContacto.setItems(contactArray);
+            }
+        }
+    }
+
     @FXML
     private void removerContacto(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
@@ -268,6 +288,12 @@ public class ContactosController implements Initializable {
             }
         }
 
+    }
+    public void desactivarBotones(){
+        BtnAgregar.setDisable(true);
+        mostrarInformacionBtn.setDisable(true);
+        removeBtn.setDisable(true);
+        ordenarButton.setDisable(true);
     }
 
     @FXML
