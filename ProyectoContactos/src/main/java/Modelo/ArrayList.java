@@ -209,15 +209,12 @@ public class ArrayList<E> implements List<E>, Serializable {
 
     @Override
     public Iterator<E> iterator() {
-        if (isEmpty()) {
-            return null;
-        }
         return new Iterator<E>() {
             private int currentIndex = 0;
 
             @Override
             public boolean hasNext() {
-                return currentIndex < n;
+                return currentIndex < size();
             }
 
             @Override
@@ -226,11 +223,10 @@ public class ArrayList<E> implements List<E>, Serializable {
                     throw new NoSuchElementException();
                 }
                 return elements[currentIndex++];
-
             }
-
         };
     }
+
 
     @Override
     public Object[] toArray() {

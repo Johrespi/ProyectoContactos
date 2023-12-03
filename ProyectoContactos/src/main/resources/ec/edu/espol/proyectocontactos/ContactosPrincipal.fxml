@@ -14,7 +14,7 @@
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu fx:id="itmContactos" mnemonicParsing="false" text="Contactos">
+                <Menu fx:id="itmContactos" mnemonicParsing="false" style="-fx-background-color: #D9BA82;" text="Contactos">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#agregarContacto" text="Añadir Contacto" />
                   </items>
@@ -43,23 +43,37 @@
          <center>
             <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
-                  <VBox fx:id="vbContactos" prefHeight="349.0" prefWidth="645.0" BorderPane.alignment="CENTER">
+                  <VBox fx:id="vbContactos" prefHeight="349.0" prefWidth="645.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
                      </padding>
                   </VBox>
                </center>
                <right>
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" text="&gt;" BorderPane.alignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+                     <children>
+                        <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" text="&gt;" BorderPane.alignment="CENTER" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets right="20.0" />
+                     </BorderPane.margin>
+                  </VBox>
                </right>
                <left>
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" text="&lt;" BorderPane.alignment="CENTER" />
+                  <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_RIGHT">
+                     <children>
+                        <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" text="&lt;" BorderPane.alignment="CENTER" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="20.0" />
+                     </BorderPane.margin>
+                  </VBox>
                </left>
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
                <top>
-                  <GridPane prefHeight="82.0" prefWidth="695.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="82.0" prefWidth="695.0" style="-fx-background-color: #595659;" BorderPane.alignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="591.0" minWidth="10.0" percentWidth="85.0" prefWidth="585.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="15.0" />
@@ -68,44 +82,50 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <VBox prefHeight="76.0" prefWidth="585.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox id="vbFiltro" prefHeight="76.0" prefWidth="585.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label text="Ordenar por:" />
-                                    <RadioButton fx:id="optionAtr" mnemonicParsing="false" text="Cantidad de atributos">
+                                    <Label text="Ordenar por:" textFill="WHITE" />
+                                    <RadioButton fx:id="optionAtr" mnemonicParsing="false" text="Cantidad de atributos" textFill="WHITE">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="ordenes" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="optionTipo" mnemonicParsing="false" text="Tipo de Contacto" toggleGroup="$ordenes" />
-                                    <RadioButton fx:id="optionApellido" mnemonicParsing="false" text="Apellido" toggleGroup="$ordenes" />
+                                    <RadioButton fx:id="optionTipo" mnemonicParsing="false" text="Tipo de Contacto" textFill="WHITE" toggleGroup="$ordenes" />
+                                    <RadioButton fx:id="optionApellido" mnemonicParsing="false" text="Apellido" textFill="WHITE" toggleGroup="$ordenes" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label text="Filtrar:" />
+                                    <Label text="Filtrar:" textFill="WHITE" />
                                     <TextField fx:id="txtBusqueda" />
                                     <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" text="Buscar" />
-                                    <Label text="Parametro:" />
+                                    <Label text="Parametro:" textFill="WHITE" />
                                     <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                  </children>
                               </HBox>
                            </children>
                            <padding>
-                              <Insets top="10.0" />
+                              <Insets left="10.0" right="5.0" top="10.0" />
                            </padding>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
                         </VBox>
                         <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </GridPane>
                </top>
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets top="10.0" />
                </padding>
             </BorderPane>
          </center>

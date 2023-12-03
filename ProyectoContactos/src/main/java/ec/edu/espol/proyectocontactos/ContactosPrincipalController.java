@@ -132,6 +132,8 @@ public class ContactosPrincipalController implements Initializable {
     }
 
     public void actualizarIteratorContactos(){
+        //int i = this.usuario.getContactos().indexOf(contacto);
+        //this.usuario.getContactos().set(i, contacto);
         actualizarArchContactos();
         iteratorContactos = this.usuario.getContactos().listIterator();
         llenarContatos(null);
@@ -206,8 +208,7 @@ public class ContactosPrincipalController implements Initializable {
         HBox hbContacto = new HBox(5);       
       
         String nombres = contacto.getApellido() + " " + contacto.getNombre();
-        Label lblApellido = new Label(nombres);
-        
+        Label lblApellido = new Label(nombres);        
         
         hbContacto.getChildren().addAll(lblApellido, botonesEdicion(contacto));
                 
@@ -271,9 +272,10 @@ public class ContactosPrincipalController implements Initializable {
     private void actualizarArchContactos(){
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         int i = AllUsers.indexOf(getUsuario());
-        AllUsers.set(i, usuario);                
-        this.usuario.setContactos(AllUsers.get(i).getContactos());
-        Usuario.saveListToFileSerUsuarios(AllUsers);        
+        //AllUsers.set(i, usuario);                
+        this.usuario = AllUsers.get(i);
+        
+        //Usuario.saveListToFileSerUsuarios(AllUsers);        
     }
     
     private boolean mostrarDialogoConfirmacion() {
@@ -491,7 +493,7 @@ public class ContactosPrincipalController implements Initializable {
                 if("Email".equals(this.cbParametros.getValue()))
                     for(Email e: c.getEmails())
                         agregarItemFiltrado(e.getEmail(), c);
-                if("Direccion".equals(this.cbParametros.getValue()))
+                if("Direccion".equals(this.cbParametros.getValue()) )
                     for(Direccion d: c.getDirecciones())
                         agregarItemFiltrado(d.getDireccion(), c);
             }     
@@ -510,7 +512,7 @@ public class ContactosPrincipalController implements Initializable {
             cola.offer(c);            
         }
         while(!cola.isEmpty())
-            contactosOrdenados.addFirst(cola.poll());
+            contactosOrdenados.addLast(cola.poll());
         
         this.iteratorFiltrados = listaFiltrada.listIterator();
     }

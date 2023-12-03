@@ -546,9 +546,10 @@ public class MostrarContactoController implements Initializable {
                     if (c.equals(contactosController.contacto)) {
                         if (!nombreField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
                             c.setNombre(nombreField.getText());
-                            AlertaAtributoCambiado();
+                            AlertaAtributoCambiado();                            
                             contactosController.contacto.setNombre(nombreField.getText());
                             //contactosController.actualizarListView();
+                            Usuario.saveListToFileSerUsuarios(usuarios);
                             contactosController.actualizarIteratorContactos();
                         }
 
@@ -570,6 +571,8 @@ public class MostrarContactoController implements Initializable {
                             c.setApellido(apellidoField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setApellido(apellidoField.getText());
+                            //int i = contactosController.usuario.getContactos().indexOf(contacto);
+                            Usuario.saveListToFileSerUsuarios(usuarios);
                             contactosController.actualizarIteratorContactos();
                             //contactosController.actualizarListView();
 
@@ -593,7 +596,8 @@ public class MostrarContactoController implements Initializable {
                             c.setNombre(empresaField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setNombre(empresaField.getText());
-                            contactosController.actualizarIteratorContactos();                            
+                            Usuario.saveListToFileSerUsuarios(usuarios);
+                            contactosController.actualizarIteratorContactos();                          
                             //contactosController.actualizarListView();
 
                         }

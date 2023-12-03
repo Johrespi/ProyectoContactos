@@ -10,7 +10,6 @@
     
 }
 
-
 .grid-pane {
     -fx-background-color: #F2F2F2; 
 }
@@ -40,7 +39,6 @@
     -fx-background-color: #BF9B6F;
 }
 
-/* Estilo para la sección de filtros de búsqueda */
 .grid-pane {
     -fx-background-color: #FFFFFF; /* Color de fondo */
     -fx-border-color: #D9BA82; /* Color del borde */

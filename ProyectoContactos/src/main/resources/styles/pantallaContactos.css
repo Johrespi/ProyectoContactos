@@ -1,13 +1,12 @@
 /*
  * Empty Stylesheet file.
  */
-.hbox-contacto {
-    -fx-background-color: #3498db;
-    -fx-border-color: #000000; 
-    -fx-border-width: 2px;
-    -fx-padding: 5px; 
+#hbox-contacto {
+    -fx-background-color: #F2F2F2;
+    -fx-border-color: #D9BA82; 
+    -fx-border-width: 0 0 1 0; 
+    -fx-padding: 5; 
 }
-
 
 .button{
     -fx-border-color:   #0D0D0D;     
@@ -44,10 +43,15 @@
     -fx-background-color: #F2F2F2; 
 }
 
-.label, .text-field,.combo-box {
+.text-field,
+.combo-box {
     -fx-background-color: #FFFFFF; 
     -fx-text-fill: #595659;
     -fx-border-color: #D9BA82;
 }
 
+#vbFiltro{
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF; 
+}
 
