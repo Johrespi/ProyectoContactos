@@ -397,6 +397,7 @@ public class MostrarContactoController implements Initializable {
             }
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
+        initializeContacto();
     }
 
     @FXML
