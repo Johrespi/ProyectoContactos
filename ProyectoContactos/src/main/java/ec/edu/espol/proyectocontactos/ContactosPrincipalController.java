@@ -520,7 +520,7 @@ public class ContactosPrincipalController implements Initializable {
     
     
     private void agregarItemFiltrado(String valor, Contacto contacto){
-        if(valor.trim().toLowerCase().contains(this.txtBusqueda.getText().trim()))
+        if(valor.trim().toLowerCase().contains(this.txtBusqueda.getText().trim().toLowerCase()))
             listaFiltrada.addFirst(contacto);
     }   
     
