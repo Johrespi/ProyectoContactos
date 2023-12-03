@@ -10,27 +10,25 @@ import Modelo.ArrayList;
 import Modelo.Contacto;
 import Modelo.Direccion;
 import Modelo.DoubleCircleLinkedList;
-import Modelo.DoublyCircularLInkedList;
+import Modelo.DoubleCircleLinkedLists;
 import Modelo.Email;
 import Modelo.FechaInteres;
 import Modelo.Relacion;
 import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -40,6 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -145,20 +144,71 @@ public class MostrarContactoController implements Initializable {
     private String primeraImagen;
 
     private String segundaImagen;
-    
+
     //private ContactosController contactosController;
     private ContactosPrincipalController contactosController;
 
     private AgregarContactosController agregarContactos = new AgregarContactosController();
     
-    DoublyCircularLInkedList<Contacto> contactosLista;
+    DoubleCircleLinkedLists<Contacto> contactosLista;
     //DoubleCircleLinkedList<Contacto> contactosLista;
 
     Contacto contacto;
+    @FXML
+    private Button mostrarRelacionBtn;
 
     //DoubleCircleLinkedList fotos;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        mostrarRelacionBtn.setDisable(true);
+
+        relacionesList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    mostrarRelacionBtn.setDisable(newValue == null); // Habilita el botón si se selecciona un contacto
+                }
+        );
+
+        mostrarRelacionBtn.setOnAction(e -> {
+            Relacion selectedContact = relacionesList.getSelectionModel().getSelectedItem();
+            if (selectedContact != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MostrarContacto.fxml"));
+                    Parent root = loader.load();
+                    if (contacto != null) {
+                        MostrarContactoController mostrarContactoController = loader.getController();
+                        contactosController.setContacto(selectedContact.getContacto());
+                        mostrarContactoController.setContactosController(contactosController);
+                        mostrarContactoController.initializeContacto();
+                        mostrarContactoController.nombreBtn.setDisable(true);
+                        mostrarContactoController.apellidoBtn.setDisable(true);
+                        mostrarContactoController.removeTelefonoBtn.setDisable(true);
+                        mostrarContactoController.TelefonoBtn.setDisable(true);
+                        mostrarContactoController.removeEmailBtn.setDisable(true);
+                        mostrarContactoController.EmailBtn.setDisable(true);
+                        mostrarContactoController.removeDireccionBtn.setDisable(true);
+                        mostrarContactoController.DireccionBtn.setDisable(true);
+                        mostrarContactoController.removeRelacionBtn.setDisable(true);
+                        mostrarContactoController.RelacionBtn.setDisable(true);
+                        mostrarContactoController.mostrarRelacionBtn.setDisable(true);
+                        mostrarContactoController.removeFechaBtn.setDisable(true);
+                        mostrarContactoController.FechaBtn.setDisable(true);
+                        mostrarContactoController.removeRedBtn.setDisable(true);
+                        mostrarContactoController.RedBtn.setDisable(true);
+
+                        Stage st = new Stage();
+                        st.setTitle("Información relación");
+                        st.setResizable(false);
+                        Scene sc = new Scene(root);
+                        st.setScene(sc);
+                        st.show();
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -195,6 +245,7 @@ public class MostrarContactoController implements Initializable {
         System.out.println("imagen cargada correctamente");
     }
 
+    @FXML
     public void next(ActionEvent actionEvent) {
         Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
         Object imagen = contacto.getFotos().findAndNext(cmp, primeraImagen);
@@ -209,6 +260,7 @@ public class MostrarContactoController implements Initializable {
         }
     }
 
+    @FXML
     public void before(ActionEvent actionEvent) {
         Comparator<String> cmp = (p1, p2) -> p1.equals(p2) ? 1 : 0;
         Object imagen = contacto.getFotos().findAndBefore(cmp, primeraImagen);
@@ -226,7 +278,7 @@ public class MostrarContactoController implements Initializable {
     private void agregarInformacionContacto(Contacto contacto, Object o) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.getUsuario().equals(u)) {
+            if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contacto)) {
                         if (o instanceof Direccion) {
@@ -255,7 +307,7 @@ public class MostrarContactoController implements Initializable {
     private void removerInformacionContacto(Contacto contacto, Object o) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.getUsuario().equals(u)) {
+            if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contacto)) {
                         if (o instanceof Direccion) {
@@ -348,10 +400,27 @@ public class MostrarContactoController implements Initializable {
 
     @FXML
     private void addRelacion(ActionEvent event) {
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
         if (!etRelacionField.getText().isBlank() && !relacionFieldd.getText().isBlank()) {
-            Relacion relacion = new Relacion(etRelacionField.getText(), relacionFieldd.getText());
-            agregarInformacionContacto(contactosController.contacto, relacion);
-            initializeContacto();
+            for (Usuario u : Usuarios) {
+                if (u.equals(contactosController.usuario)) {
+                    for (Contacto c : u.getContactos()) {
+                        String nombreApellido = c.getNombre() + " " + c.getApellido();
+                        String empresa = c.getNombre();
+                        if (nombreApellido.equalsIgnoreCase(relacionFieldd.getText())) {
+                            Relacion relacion = new Relacion(etRelacionField.getText(), c);
+                            agregarInformacionContacto(contactosController.contacto, relacion);
+                            initializeContacto();
+                            
+                        } else if (empresa.equals(relacionFieldd.getText()) && c.getApellido().equals("")) {
+                            Relacion relacion = new Relacion(etRelacionField.getText(), c);
+                            agregarInformacionContacto(contactosController.contacto, relacion);
+                            initializeContacto();
+                            
+                        }
+                    }
+                }
+            }
         } else if ((etRelacionField.getText().isBlank() && !relacionFieldd.getText().isBlank()) || (!etRelacionField.getText().isBlank() && relacionFieldd.getText().isBlank())) {
             AlertaCampos();
         }
@@ -399,18 +468,19 @@ public class MostrarContactoController implements Initializable {
         initializeContacto();
     }
 
-    public void setContactosController(ContactosPrincipalController contactosController, Contacto contacto) {
-        this.contactosController = contactosController;
-        initializeContacto();
-    }
     /*
     public void setContactosController(ContactosController contactosController) {
         this.contactosController = contactosController;
         initializeContacto();
     }*/
+    
+    public void setContactosController(ContactosPrincipalController contactosController) {
+        this.contactosController = contactosController;
+        initializeContacto();
+    }
 
     private void initializeContacto() {
-        this.contactosLista = contactosController.getUsuario().getContactos();
+        this.contactosLista = contactosController.usuario.getContactos();
         if (contactosController.contacto.getTipoContacto().equals("Empresa")) {
             nombreBtn.setDisable(true);
             apellidoBtn.setDisable(true);
@@ -420,7 +490,7 @@ public class MostrarContactoController implements Initializable {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
 
         for (Usuario u : usuarios) {
-            if (u.equals(contactosController.getUsuario())) {
+            if (u.equals(contactosController.usuario)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         this.mostrarImagenesEnHBox(c);
@@ -466,7 +536,7 @@ public class MostrarContactoController implements Initializable {
 
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.getUsuario().equals(u)) {
+            if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
 
                     if (c.equals(contactosController.contacto)) {
@@ -474,8 +544,8 @@ public class MostrarContactoController implements Initializable {
                             c.setNombre(nombreField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setNombre(nombreField.getText());
-                            contactosController.actualizarIteratorContactos();
                             //contactosController.actualizarListView();
+                            contactosController.actualizarIteratorContactos();
                         }
 
                     }
@@ -489,14 +559,14 @@ public class MostrarContactoController implements Initializable {
     private void cambiarApellido(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.getUsuario().equals(u)) {
+            if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         if (!apellidoField.getText().isBlank() && !c.getTipoContacto().equals("Empresa")) {
                             c.setApellido(apellidoField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setApellido(apellidoField.getText());
-                            contactosController.actualizarIteratorContactos();                            
+                            contactosController.actualizarIteratorContactos();
                             //contactosController.actualizarListView();
 
                         }
@@ -512,14 +582,14 @@ public class MostrarContactoController implements Initializable {
     private void cambiarEmpresa(ActionEvent event) {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSerUsuarios();
         for (Usuario u : usuarios) {
-            if (contactosController.getUsuario().equals(u)) {
+            if (contactosController.usuario.equals(u)) {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         if (c.getTipoContacto().equals("Empresa")) {
                             c.setNombre(empresaField.getText());
                             AlertaAtributoCambiado();
                             contactosController.contacto.setNombre(empresaField.getText());
-                            contactosController.actualizarIteratorContactos();
+                            contactosController.actualizarIteratorContactos();                            
                             //contactosController.actualizarListView();
 
                         }
@@ -529,6 +599,13 @@ public class MostrarContactoController implements Initializable {
             }
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
+    }
+
+    public void AlertaRelacionNoExiste() {
+        Alert alertaCampos = new Alert(Alert.AlertType.ERROR);
+        alertaCampos.setContentText("Este contacto no existe en su lista");
+        alertaCampos.setTitle("Contacto no existente");
+        alertaCampos.showAndWait();
     }
 
     public void AlertaCampos() {

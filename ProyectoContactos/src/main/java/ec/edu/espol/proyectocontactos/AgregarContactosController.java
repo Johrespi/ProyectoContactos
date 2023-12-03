@@ -8,30 +8,20 @@ import Modelo.ArrayList;
 import Modelo.Contacto;
 import Modelo.Direccion;
 import Modelo.Email;
-import Modelo.Email;
 import Modelo.FechaInteres;
 import Modelo.Relacion;
 import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -39,7 +29,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -158,10 +147,10 @@ public class AgregarContactosController implements Initializable {
         FavoritoBox.getItems().addAll(esFavorito);
 
     }
-    
+
     @FXML
     private void crearContacto(ActionEvent event) throws IOException {
-        Usuario u = contactosController.getUsuario();
+        Usuario u = contactosController.usuario;
         if ((!nombreField.getText().isBlank() && !apellidoField.getText().isBlank())) {
             contacto.setNombre(nombreField.getText());
             contacto.setApellido(apellidoField.getText());
@@ -194,12 +183,12 @@ public class AgregarContactosController implements Initializable {
 
     public void guardarContacto() {
         //contactosController.usuario.getContactos().add(contacto);
-        contactosController.getUsuario().getContactos().addLast(contacto);
+        contactosController.usuario.getContactos().addLast(contacto);
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         for (Usuario user : AllUsers) {
-            if (contactosController.getUsuario().equals(user)) {
-                //user.getContactos().add(contacto);
+            if (contactosController.usuario.equals(user)) {
                 user.getContactos().addLast(contacto);
+                //user.getContactos().add(contacto);
                 System.out.println(contacto);
                 Usuario.saveListToFileSerUsuarios(AllUsers);
 
@@ -207,14 +196,13 @@ public class AgregarContactosController implements Initializable {
         }
         //contactosController.actualizarListView();
         contactosController.actualizarIteratorContactos();
-        contactosController.llenarContatos(null);
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
         Guardado.setTitle("Guardado");
         Guardado.setContentText("Su contacto se a guardado");
         Guardado.showAndWait();
     }
 
-        @FXML
+    @FXML
     private void addFoto() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona una foto");
@@ -222,13 +210,13 @@ public class AgregarContactosController implements Initializable {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.jpeg", "*.gif");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        Stage stage = new Stage(); 
+        Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
-            
+
             Image imagen = new Image(selectedFile.toURI().toString());
-            
+
             this.contacto.setFotos(selectedFile.toURI().toString());
             this.contacto.getFotos();
             /*
@@ -238,10 +226,10 @@ public class AgregarContactosController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            */
+             */
         }
     }
-    
+
     @FXML
     private void addFecha(ActionEvent event) {
         if (fechaField.getValue() != null && !tipoFechaField.getText().isBlank()) {
@@ -256,10 +244,23 @@ public class AgregarContactosController implements Initializable {
 
     @FXML
     private void addRelacion(ActionEvent event) {
+        ArrayList<Usuario> Usuarios = Usuario.readListFromFileSerUsuarios();
         if (!tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) {
-            Relacion relacion = new Relacion(tipoRelacionField.getText(), nombreRelacionField.getText());
-            contacto.getContactosRelacionados().addLast(relacion);
-            AlertaAdd();
+            for (Usuario u : Usuarios) {
+                if (u.equals(contactosController.usuario)) {
+                    for (Contacto c : u.getContactos()) {
+                        String nombreApellido = c.getNombre() + " " + c.getApellido();
+                        if (nombreApellido.equals(nombreRelacionField.getText())) {
+                            Relacion relacion = new Relacion(tipoRelacionField.getText(), c);
+                            contacto.getContactosRelacionados().addLast(relacion);
+                            AlertaAdd();
+
+                        }
+                    }
+
+                }
+
+            }
         } else if ((tipoRelacionField.getText().isBlank() && !nombreRelacionField.getText().isBlank()) || (!tipoRelacionField.getText().isBlank() && nombreRelacionField.getText().isBlank())) {
             AlertaCampos();
         }
@@ -308,12 +309,12 @@ public class AgregarContactosController implements Initializable {
             AlertaCampos();
         }
     }
-
-    /*
+/*
     public void setContactosController(ContactosController contactosController) {
         this.contactosController = contactosController;
-    }*/
-    
+    }
+*/
+
     public void setContactosController(ContactosPrincipalController contactosController) {
         this.contactosController = contactosController;
     }

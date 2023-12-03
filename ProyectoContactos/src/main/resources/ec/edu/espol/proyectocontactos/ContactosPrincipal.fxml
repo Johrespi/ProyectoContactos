@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
+<AnchorPane id="AnchorPane" prefHeight="438.0" prefWidth="654.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
     <stylesheets>
         <URL value="@/styles/contactosprincipal.css" />
     </stylesheets>
@@ -46,9 +46,9 @@
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <VBox fx:id="vbContactos" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                  <VBox fx:id="vbContactos" prefHeight="327.0" prefWidth="584.0" BorderPane.alignment="CENTER">
                      <padding>
-                        <Insets top="20.0" />
+                        <Insets bottom="10.0" top="25.0" />
                      </padding>
                   </VBox>
                </center>
@@ -64,16 +64,16 @@
                <top>
                   <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="472.0" minWidth="10.0" prefWidth="455.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="125.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="10.0" prefWidth="532.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="92.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label text="Ordenar por:" />
                                     <RadioButton fx:id="optionAtr" mnemonicParsing="false" text="Cantidad de atributos">
@@ -85,16 +85,24 @@
                                     <RadioButton fx:id="optionApellido" mnemonicParsing="false" text="Apellido" toggleGroup="$ordenes" />
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label text="Filtrar:" />
                                     <TextField fx:id="txtBusqueda" />
-                                    <Button mnemonicParsing="false" text="Buscar" />
+                                    <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar" />
+                                    <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                  </children>
                               </HBox>
                            </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
                         </VBox>
-                        <Button mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" GridPane.columnIndex="1" />
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
                      </children>
                   </GridPane>
                </top>

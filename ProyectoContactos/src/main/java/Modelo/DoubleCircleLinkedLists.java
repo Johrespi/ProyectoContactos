@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class DoublyCircularLInkedList<E> implements Iterable<E>, Serializable {
+public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
     private Node<E> last;
     private int effective;
     private final long serialVersionUID = 58743299253201266L;
@@ -321,17 +321,18 @@ public class DoublyCircularLInkedList<E> implements Iterable<E>, Serializable {
     
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>(){
+        return new Iterator<E>() {
             int posN = 0;
-            Node<E> nodoN = last.getPrevious();
+            Node<E> nodoN = isEmpty() ? null : last.getPrevious();
+
             @Override
             public boolean hasNext() {
-                return posN<size();
+                return nodoN != null && posN < size();
             }
 
             @Override
             public E next() {
-                if(!hasNext()){
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 E value = nodoN.getContent();
@@ -339,9 +340,10 @@ public class DoublyCircularLInkedList<E> implements Iterable<E>, Serializable {
                 posN++;
                 return value;
             }
-            
         };
     }
+
+
     
     @Override
     public String toString(){

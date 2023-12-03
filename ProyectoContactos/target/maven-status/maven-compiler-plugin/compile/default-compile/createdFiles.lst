@@ -1,7 +1,10 @@
+Modelo\DoubleCircleLinkedLists$2.class
 Modelo\redSocial.class
 Modelo\CircularNodeList.class
 ec\edu\espol\proyectocontactos\SignUpController.class
+Modelo\DoubleCircleLinkedLists$Node.class
 module-info.class
+Modelo\DoubleCircleLinkedLists.class
 ec\edu\espol\proyectocontactos\ContactosController.class
 ec\edu\espol\proyectocontactos\MostrarContactoController.class
 ec\edu\espol\proyectocontactos\App.class
@@ -14,15 +17,12 @@ util\Utilitario.class
 Modelo\Usuario.class
 Modelo\ArrayList$1.class
 ec\edu\espol\proyectocontactos\ContactosPrincipalController.class
+Modelo\DoubleCircleLinkedLists$1.class
 Modelo\DoubleCircleLinkedList$1.class
-Modelo\DoublyCircularLInkedList$2.class
-Modelo\DoublyCircularLInkedList.class
 Modelo\Telefono.class
 Modelo\Email.class
 Modelo\DoubleCircleLinkedList$Node.class
 Modelo\DoubleCircleLinkedList.class
-Modelo\DoublyCircularLInkedList$1.class
 Modelo\ArrayList.class
 ec\edu\espol\proyectocontactos\MostrarContactoController$IteratorBefore.class
 Modelo\FechaInteres.class
-Modelo\DoublyCircularLInkedList$Node.class

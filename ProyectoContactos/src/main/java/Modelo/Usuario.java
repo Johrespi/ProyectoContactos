@@ -22,7 +22,7 @@ public class Usuario implements Serializable {
     private String contraseña;
     private String tipoUsuario; // Usuario o administrador
     //private DoubleCircleLinkedList<Contacto> contactos;
-    private DoublyCircularLInkedList<Contacto> contactos;
+    private DoubleCircleLinkedLists<Contacto> contactos;
     
     private long serialVersionUID = 5874329925320491266L;
             
@@ -30,7 +30,7 @@ public class Usuario implements Serializable {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.contactos = new DoublyCircularLInkedList<>();
+        this.contactos = new DoubleCircleLinkedLists<>();
     }
 
     public static ArrayList<Usuario> readListFromFileSerUsuarios() {
@@ -110,11 +110,11 @@ public class Usuario implements Serializable {
         this.contactos = contactos;
     }*/
 
-      public DoublyCircularLInkedList<Contacto> getContactos() {
+      public DoubleCircleLinkedLists<Contacto> getContactos() {
         return contactos;
     }
 
-    public void setContactos(DoublyCircularLInkedList<Contacto> contactos) {
+    public void setContactos(DoubleCircleLinkedLists<Contacto> contactos) {
         this.contactos = contactos;
     }
     

@@ -179,7 +179,7 @@ public class Contacto implements Serializable {
 
     }
 */
-    public static void saveListToFileSerContactos(DoublyCircularLInkedList<Contacto> contactos) {
+    public static void saveListToFileSerContactos(DoubleCircleLinkedLists<Contacto> contactos) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Contactos.ser"))) {
             oos.writeObject(contactos);
         } catch (Exception e) {
@@ -187,10 +187,10 @@ public class Contacto implements Serializable {
         }
     }
 
-    public static DoublyCircularLInkedList<Contacto> readListFromFileSerContactos() {
-        DoublyCircularLInkedList<Contacto> contactos = new DoublyCircularLInkedList<>();
+    public static DoubleCircleLinkedLists<Contacto> readListFromFileSerContactos() {
+        DoubleCircleLinkedLists<Contacto> contactos = new DoubleCircleLinkedLists<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Contactos.ser"))) {
-            contactos = (DoublyCircularLInkedList<Contacto>) ois.readObject();
+            contactos = (DoubleCircleLinkedLists<Contacto>) ois.readObject();
         } catch (IOException e) {
         } catch (ClassNotFoundException e) {
         } catch (Exception a) {
