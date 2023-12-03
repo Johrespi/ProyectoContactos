@@ -8,16 +8,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="438.0" prefWidth="715.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
-    <stylesheets>
-        <URL value="@/styles/contactosprincipal.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" minHeight="440.0" minWidth="715.0" prefHeight="547.0" prefWidth="715.0" styleClass="mainFxmlClass" stylesheets="@../../../../styles/pantallaContactos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
    <children>
       <BorderPane layoutX="157.0" layoutY="133.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="Contactos">
+                <Menu fx:id="itmContactos" mnemonicParsing="false" text="Contactos">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#agregarContacto" text="Añadir Contacto" />
                   </items>
@@ -44,34 +41,34 @@
             </MenuBar>
          </top>
          <center>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
-                  <VBox fx:id="vbContactos" prefHeight="327.0" prefWidth="584.0" BorderPane.alignment="CENTER">
+                  <VBox fx:id="vbContactos" prefHeight="349.0" prefWidth="645.0" BorderPane.alignment="CENTER">
                      <padding>
-                        <Insets bottom="10.0" top="25.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
                      </padding>
                   </VBox>
                </center>
                <right>
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" text="&gt;" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" text="&gt;" BorderPane.alignment="CENTER" />
                </right>
                <left>
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" text="&lt;" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" text="&lt;" BorderPane.alignment="CENTER" />
                </left>
                <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets />
                </BorderPane.margin>
                <top>
-                  <GridPane prefHeight="39.0" prefWidth="634.0" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="82.0" prefWidth="695.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.0" minWidth="10.0" prefWidth="585.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="110.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="591.0" minWidth="10.0" percentWidth="85.0" prefWidth="585.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="15.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox prefHeight="76.0" prefWidth="585.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
@@ -99,14 +96,17 @@
                               <Insets top="10.0" />
                            </padding>
                         </VBox>
-                        <VBox prefHeight="39.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="40.0" prefWidth="99.0" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </children>
                   </GridPane>
                </top>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </BorderPane>
          </center>
       </BorderPane>

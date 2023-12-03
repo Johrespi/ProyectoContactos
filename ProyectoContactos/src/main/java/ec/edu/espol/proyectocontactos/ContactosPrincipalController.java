@@ -13,7 +13,9 @@ import Modelo.Telefono;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -75,9 +78,14 @@ public class ContactosPrincipalController implements Initializable {
     public Contacto contacto;
     private ListIterator<Contacto> iteratorContactos;
     private ListIterator<Contacto> iteratorFiltrados;    
+    
     private DoubleCircleLinkedLists<Contacto> listaFiltrada;
+    private Map<Usuario, DoubleCircleLinkedLists<Contacto>> todosLosContactos;
+    
     public Usuario usuario;
     private boolean isFiltrado;
+    @FXML
+    private Menu itmContactos;
     
     /**
      * Initializes the controller class.
@@ -89,17 +97,30 @@ public class ContactosPrincipalController implements Initializable {
         this.numPaginas = 4;       
         llenarParametros();
         isFiltrado = false;
+        todosLosContactos = new HashMap<>();
     }    
 
     public void setUsuario(Usuario u) {
         this.usuario = u;
         this.itmCuenta.setText("Cuenta: "+u.getNombreUsuario());        
         confOptionButton();
-        if (!u.getContactos().isEmpty()){
+        if (!u.getContactos().isEmpty() && !u.getTipoUsuario().equals("Administrador")){
+            llenarListaContactos();
             iteratorContactos = u.getContactos().listIterator();
             llenarContatos(null);
         }
+        if (u.getTipoUsuario().equals("Administrador")){
+            itmContactos.setVisible(false);
+            System.out.println("Probanco");
+        }
             
+    }
+    
+    
+    private void llenarListaContactos(){
+        if (this.usuario.getTipoUsuario().equalsIgnoreCase("Administrador")){
+            
+        }
     }
     
     private void llenarParametros(){
@@ -399,7 +420,7 @@ public class ContactosPrincipalController implements Initializable {
             cola.offer(c);            
         }
         while(!cola.isEmpty())
-            contactosOrdenados.addFirst(cola.poll());
+            contactosOrdenados.addLast(cola.poll());
         return contactosOrdenados;
     }
     
@@ -409,7 +430,7 @@ public class ContactosPrincipalController implements Initializable {
             cola.offer(c);            
         }
         while(!cola.isEmpty())
-            contactosOrdenados.addFirst(cola.poll());
+            contactosOrdenados.addLast(cola.poll());
                            
         this.usuario.getContactos().clear();
         this.usuario.setContactos(contactosOrdenados);

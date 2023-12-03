@@ -1,24 +1,48 @@
-/*
- * Empty Stylesheet file.
- */
-.hbox-contacto {
-    -fx-background-color: #3498db;
-    -fx-border-color: #000000; 
-    -fx-border-width: 2px;
-    -fx-padding: 5px; 
+.menu-bar {
+    -fx-background-color: #D9BA82; 
+    -fx-text-fill: #595659;
+    -fx-border-width: 0 0 1 0;
+}
+
+.menu-item {
+    -fx-text-fill: #595659; 
+    -fx-background-color: #D9BA82; 
+    
 }
 
 
-.button{
-    -fx-border-color:   #0D0D0D;     
-    -fx-font-family: Monospaced;
+.grid-pane {
+    -fx-background-color: #F2F2F2; 
 }
 
-#boton{
-    -fx-border-color:   #0D0D0D;     
-    -fx-font-family: Monospaced;
-    -fx-background-color:  #595659;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;
-     -fx-font-size: 12px;
+.label, .text-field, .button, .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #595659; 
+    -fx-border-color: #D9BA82;
+}
+
+
+.button#btnAnterior, .button#btnSiguiente {
+    -fx-background-color: #D9BA82; 
+    -fx-text-fill: #595659; 
+}
+
+.radio-button {
+    -fx-text-fill: #595659; 
+}
+
+.button#btnLimpiar {
+    -fx-background-color: #595659; 
+    -fx-text-fill: #FFFFFF; 
+}
+
+.menu-item:pressed {
+    -fx-background-color: #BF9B6F;
+}
+
+/* Estilo para la sección de filtros de búsqueda */
+.grid-pane {
+    -fx-background-color: #FFFFFF; /* Color de fondo */
+    -fx-border-color: #D9BA82; /* Color del borde */
+    -fx-border-width: 0 0 1 0; /* Añade un borde en la parte inferior */
 }
