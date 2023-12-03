@@ -75,6 +75,7 @@ public class ContactosPrincipalController implements Initializable {
     public Contacto contacto;
     private ListIterator<Contacto> iteratorContactos;
     private ListIterator<Contacto> iteratorFiltrados;    
+    private DoubleCircleLinkedLists<Contacto> listaFiltrada;
     public Usuario usuario;
     private boolean isFiltrado;
     
@@ -157,9 +158,8 @@ public class ContactosPrincipalController implements Initializable {
 
     @FXML
     private void limpiarFiltros(ActionEvent event) {        
-        ordenes.getToggles().forEach(toggle -> ((RadioButton) toggle).setSelected(false));
-        this.cbParametros.setValue(null);
-        this.cbParametros.setPromptText("Parametros");
+        ordenes.getToggles().forEach(toggle -> ((RadioButton) toggle).setSelected(false));        
+        this.cbParametros.setValue(null);        
         this.txtBusqueda.setText("");
         isFiltrado = false;
         ordenNombre();
@@ -319,8 +319,10 @@ public class ContactosPrincipalController implements Initializable {
 
         }            
 
-        if (cola!=null)
+        if (cola!=null && !isFiltrado)
             ordenarLista(cola);
+        else if(cola!=null && isFiltrado) 
+            actualizarIteratorFiltrado(cola);
         return cola;
 
     }  
@@ -341,9 +343,10 @@ public class ContactosPrincipalController implements Initializable {
                     return tipo1.compareTo(tipo2);
                 });
         }
-        if (cola!=null)
+        if (cola!=null && !isFiltrado)
             ordenarLista(cola);
-        
+        else if(cola!=null && isFiltrado) 
+            actualizarIteratorFiltrado(cola);
         return cola;
     }
     
@@ -357,8 +360,10 @@ public class ContactosPrincipalController implements Initializable {
                 return Integer.compare(atributosNoNulos1, atributosNoNulos2);
             });
         }
-        if (cola!=null)
+        if (cola!=null && !isFiltrado)
             ordenarLista(cola);
+        else if(cola!=null && isFiltrado) 
+            actualizarIteratorFiltrado(cola);
         return cola;
     }
     
@@ -386,6 +391,16 @@ public class ContactosPrincipalController implements Initializable {
         if (contacto.getFechasInteres() != null && !contacto.getFechasInteres().isEmpty())
             contador++;        
         return contador;
+    }
+    
+    private DoubleCircleLinkedLists<Contacto> llenarListaPriority(PriorityQueue<Contacto> cola){
+        DoubleCircleLinkedLists<Contacto> contactosOrdenados = new DoubleCircleLinkedLists<>();
+        for(Contacto c: this.usuario.getContactos()){
+            cola.offer(c);            
+        }
+        while(!cola.isEmpty())
+            contactosOrdenados.addFirst(cola.poll());
+        return contactosOrdenados;
     }
     
     private void ordenarLista(PriorityQueue<Contacto> cola){
@@ -429,45 +444,59 @@ public class ContactosPrincipalController implements Initializable {
         return this.cbParametros.getValue()==null;
     }
     
+    
     @FXML
     private void filtrar(ActionEvent event) {
-        DoubleCircleLinkedLists<Contacto> listaFiltrada = new DoubleCircleLinkedLists<>();
+        listaFiltrada = new DoubleCircleLinkedLists<>();
         DoubleCircleLinkedLists<Contacto> contactos = new DoubleCircleLinkedLists<>();
         if(!this.txtBusqueda.getText().isBlank() && !validarParametros()){            
             if(ordenes.getSelectedToggle() == null) contactos = this.usuario.getContactos();
             else{
-                if(optionAtr.isSelected()) contactos.addAll(ordenAtributos());
-                if(optionTipo.isSelected()) contactos.addAll(ordenTipo());
-                if(optionApellido.isSelected()) contactos.addAll(ordenApellido());
-            }                
+                if(optionAtr.isSelected()) contactos = llenarListaPriority(ordenAtributos());
+                if(optionTipo.isSelected())contactos = llenarListaPriority(ordenTipo());
+                if(optionApellido.isSelected()) contactos = llenarListaPriority(ordenApellido());
+            }                            
             for(Contacto c: contactos){
                 if("Nombre".equals(this.cbParametros.getValue()))
-                    agregarItemFiltrado(c.getNombre(), c, listaFiltrada);                        
+                    agregarItemFiltrado(c.getNombre(), c);                        
                 if("Apellido".equals(this.cbParametros.getValue()))
-                    agregarItemFiltrado(c.getApellido(), c, listaFiltrada);
+                    agregarItemFiltrado(c.getApellido(), c);  
                 if("Tipo".equals(this.cbParametros.getValue()))
-                    agregarItemFiltrado(c.getTipoContacto(), c, listaFiltrada);
+                    agregarItemFiltrado(c.getTipoContacto(), c);
                 if("Numero".equals(this.cbParametros.getValue())){
                     for(Telefono t: c.getNumerosTelefono())
-                        agregarItemFiltrado(t.getTelefono(), c, listaFiltrada);
+                        agregarItemFiltrado(t.getTelefono(), c);
                 }                        
                 if("Email".equals(this.cbParametros.getValue()))
                     for(Email e: c.getEmails())
-                        agregarItemFiltrado(e.getEmail(), c, listaFiltrada);
+                        agregarItemFiltrado(e.getEmail(), c);
                 if("Direccion".equals(this.cbParametros.getValue()))
                     for(Direccion d: c.getDirecciones())
-                        agregarItemFiltrado(d.getDireccion(), c, listaFiltrada);
+                        agregarItemFiltrado(d.getDireccion(), c);
             }     
             System.out.println(listaFiltrada);
             isFiltrado = true;
             this.iteratorFiltrados = listaFiltrada.listIterator();
-            llenarContatosFiltrados(null);
-            
+            llenarContatosFiltrados(null);   
+         
         }        
         
     }
     
-    private void agregarItemFiltrado(String valor, Contacto contacto, DoubleCircleLinkedLists<Contacto> listaFiltrada){
+    private void actualizarIteratorFiltrado(PriorityQueue<Contacto> cola){
+        DoubleCircleLinkedLists<Contacto> contactosOrdenados = new DoubleCircleLinkedLists<>();
+        for(Contacto c: this.listaFiltrada){
+            cola.offer(c);            
+        }
+        while(!cola.isEmpty())
+            contactosOrdenados.addFirst(cola.poll());
+        
+        this.iteratorFiltrados = listaFiltrada.listIterator();
+    }
+   
+    
+    
+    private void agregarItemFiltrado(String valor, Contacto contacto){
         if(valor.trim().toLowerCase().contains(this.txtBusqueda.getText().trim()))
             listaFiltrada.addFirst(contacto);
     }   
@@ -476,7 +505,7 @@ public class ContactosPrincipalController implements Initializable {
         vbContactos.getChildren().clear();
         int cont = 0;                             
         
-        while (cont<numPaginas &&  this.iteratorFiltrados.hasNext() ){            
+        while (cont<numPaginas &&  this.iteratorFiltrados.hasNext() && cont<this.listaFiltrada.size() ){            
             if(cont<this.usuario.getContactos().size()){                                
                 if ("back".equals(modo))                    
                     this.vbContactos.getChildren().add(cajaContacto(iteratorFiltrados.previous()));   

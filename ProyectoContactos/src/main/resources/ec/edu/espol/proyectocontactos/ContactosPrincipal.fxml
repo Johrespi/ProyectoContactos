@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="438.0" prefWidth="654.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
+<AnchorPane id="AnchorPane" prefHeight="438.0" prefWidth="715.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
     <stylesheets>
         <URL value="@/styles/contactosprincipal.css" />
     </stylesheets>
@@ -64,8 +64,8 @@
                <top>
                   <GridPane prefHeight="39.0" prefWidth="634.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="10.0" prefWidth="532.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="92.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.0" minWidth="10.0" prefWidth="585.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="110.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -89,8 +89,9 @@
                                  <children>
                                     <Label text="Filtrar:" />
                                     <TextField fx:id="txtBusqueda" />
-                                    <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                     <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" text="Buscar" />
+                                    <Label text="Parametro:" />
+                                    <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                  </children>
                               </HBox>
                            </children>
@@ -98,7 +99,7 @@
                               <Insets top="10.0" />
                            </padding>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox prefHeight="39.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="40.0" prefWidth="99.0" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
