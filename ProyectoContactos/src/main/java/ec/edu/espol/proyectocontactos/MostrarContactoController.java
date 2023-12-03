@@ -397,7 +397,7 @@ public class MostrarContactoController implements Initializable {
             }
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
-        initializeContacto();
+        //initializeContacto();
     }
 
     @FXML
@@ -574,8 +574,7 @@ public class MostrarContactoController implements Initializable {
     }
 
     @FXML
-    private void removeTelefono(ActionEvent event
-    ) {
+    private void removeTelefono(ActionEvent event) {
         Telefono selectedTelefono = telefonosList.getSelectionModel().getSelectedItem();
         removerInformacionContacto(contactosController.contacto, selectedTelefono);
         initializeContacto();
