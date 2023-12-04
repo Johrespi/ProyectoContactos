@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -9,11 +11,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="440.0" minWidth="715.0" prefHeight="547.0" prefWidth="715.0" styleClass="mainFxmlClass" stylesheets="@../../../../styles/pantallaContactos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
+<AnchorPane id="AnchorPane" minHeight="440.0" minWidth="715.0" prefHeight="596.0" prefWidth="715.0" styleClass="mainFxmlClass" stylesheets="@../../../../styles/pantallaContactos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
    <children>
       <BorderPane layoutX="157.0" layoutY="133.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar prefHeight="14.0" prefWidth="715.0" BorderPane.alignment="CENTER">
               <menus>
                 <Menu fx:id="itmContactos" mnemonicParsing="false" style="-fx-background-color: #D9BA82;" text="Contactos">
                   <items>
@@ -44,38 +46,62 @@
          <center>
             <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
-                  <VBox fx:id="vbContactos" alignment="CENTER" prefHeight="349.0" prefWidth="645.0" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
-                     </padding>
+                  <ScrollPane fitToWidth="true" prefViewportHeight="463.0" prefViewportWidth="585.0" BorderPane.alignment="TOP_RIGHT">
+                     <content>
+                        <VBox fx:id="vbContactos" alignment="CENTER" prefHeight="349.0" prefWidth="645.0" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" />
+                           </BorderPane.margin>
+                        </VBox>
+                     </content>
                      <BorderPane.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </BorderPane.margin>
-                  </VBox>
+                  </ScrollPane>
                </center>
                <right>
                   <VBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
                      <children>
-                        <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" style="-fx-background-color: #F2F2F2;" text="&gt;" BorderPane.alignment="CENTER">
+                        <Button id="btnFlecha" fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" text="&gt;" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
-                           </font></Button>
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect></Button>
                      </children>
                      <BorderPane.margin>
-                        <Insets right="20.0" />
+                        <Insets left="5.0" right="20.0" />
                      </BorderPane.margin>
                   </VBox>
                </right>
                <left>
                   <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_RIGHT">
                      <children>
-                        <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" style="-fx-background-color: #F2F2F2;" text="&lt;" BorderPane.alignment="CENTER">
+                        <Button id="btnFlecha" fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" text="&lt;" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
-                           </font></Button>
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect></Button>
                      </children>
                      <BorderPane.margin>
-                        <Insets left="20.0" />
+                        <Insets left="20.0" right="5.0" />
                      </BorderPane.margin>
                   </VBox>
                </left>
@@ -111,7 +137,7 @@
                                  <children>
                                     <Label text="Filtrar:" textFill="WHITE" />
                                     <TextField fx:id="txtBusqueda" />
-                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" style="-fx-background-color: #D9BA82;" text="Buscar" />
+                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" style="-fx-background-color: #FFFFFF;" text="Buscar" />
                                     <Label text="Parametro:" textFill="WHITE" />
                                     <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                  </children>
@@ -126,7 +152,7 @@
                         </VBox>
                         <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #D9BA82;" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #FFFFFF;" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets right="10.0" />

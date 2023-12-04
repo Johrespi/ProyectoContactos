@@ -18,17 +18,12 @@ import Modelo.Telefono;
 import Modelo.Usuario;
 import Modelo.redSocial;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -528,8 +523,7 @@ public class MostrarContactoController implements Initializable {
                 for (Contacto c : u.getContactos()) {
                     if (c.equals(contactosController.contacto)) {
                         FileChooser fileChooser = new FileChooser();
-                        fileChooser.setTitle("Selecciona una foto");
-
+                        fileChooser.setTitle("Selecciona una foto");                        
                         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.jpeg", "*.gif");
                         fileChooser.getExtensionFilters().add(extFilter);
 

@@ -8,8 +8,7 @@
     -fx-padding: 5; 
 }
 
-.button{
-    -fx-border-color:   #0D0D0D;     
+.button{         
     -fx-font-family: Monospaced;
 }
 
@@ -19,7 +18,7 @@
     -fx-background-color:  #595659;
     -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
-     -fx-font-size: 12px;
+    -fx-font-size: 12px;
 }
 
 *{    
@@ -55,3 +54,39 @@
     -fx-text-fill: #FFFFFF; 
 }
 
+#btnFlecha {
+    -fx-background-color: #D9BA82;
+    -fx-text-fill: #593F1E;
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+#etiquetaNumero{
+    -fx-font-style: italic;
+    -fx-font-size: 11px;
+}
+
+#btnEliminar {
+    -fx-background-color: transparent;  
+    
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+    -fx-pref-width: 50px;
+    -fx-border-color:   #595659;     
+}
+
+#btnEditarMostrar {
+    -fx-background-color: transparent;    
+    -fx-padding: 5; 
+    -fx-background-insets: 0;
+    -fx-background-radius: 0; 
+}
+
+#lblNombre{
+    -fx-font-weight: bold;
+    -fx-font-style: bold;
+    -fx-font-size: 13px;
+}

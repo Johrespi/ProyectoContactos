@@ -37,6 +37,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -214,12 +217,8 @@ public class ContactosPrincipalController implements Initializable {
     }
     
     private GridPane cajaContacto(Contacto contacto){        
-        HBox hbContacto = new HBox(5);       
-      
-        String nombres = contacto.getNombre() + " "+contacto.getApellido();
-        Label lblApellido = new Label(nombres);        
-        Label orden = new Label(nombres);        
-        
+        VBox hbContacto = new VBox(5);       
+   
         GridPane gridPane = new GridPane();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();
@@ -227,22 +226,58 @@ public class ContactosPrincipalController implements Initializable {
         column2.setPercentWidth(15);
         gridPane.setPadding(new javafx.geometry.Insets(5, 0, 5, 0));        
         gridPane.getColumnConstraints().addAll(column1, column2);
-        
+        gridPane.setId("hbox-contacto");
         gridPane.add(hbContacto, 0, 0);
         gridPane.add(botonesEdicion(contacto), 1, 0);
-        
-        hbContacto.getChildren().addAll(lblApellido);
+                
+        agregarEtiquetas(hbContacto, contacto);
                 
         HBox.setHgrow(hbContacto, Priority.ALWAYS);
-        VBox.setVgrow(hbContacto, Priority.ALWAYS);
-        hbContacto.setId("hbox-contacto");
+        VBox.setVgrow(hbContacto, Priority.ALWAYS);        
         return gridPane;
+    }
+    
+    private void agregarEtiquetas(VBox hbContacto, Contacto contacto){
+        String nombres = contacto.getNombre() + " "+contacto.getApellido();
+        Label lblApellido = new Label(nombres);        
+        Label lblEmail = new Label();        
+        Label lblNumero = new Label();
+        if(contacto.getNumerosTelefono().isEmpty())
+            lblNumero.setText("Sin numero registrado");
+        else if (!contacto.getNumerosTelefono().isEmpty() && contacto.getNumerosTelefono().size()>1)
+            lblNumero.setText(contacto.getNumerosTelefono().get(0).getTelefono() + "   [+numeros registrados]");
+        else
+            lblNumero.setText(contacto.getNumerosTelefono().get(0).getTelefono());
+        lblNumero.setId("etiquetaNumero");
+        
+        if(contacto.getEmails().isEmpty())
+            lblEmail.setText("Sin correos registrados");
+        else if (!contacto.getEmails().isEmpty() && contacto.getEmails().size()>1)
+            lblEmail.setText(contacto.getEmails().get(0).getEmail()+ "   [+correos registrados]");
+        else
+            lblEmail.setText(contacto.getEmails().get(0).getEmail());
+        lblEmail.setId("etiquetaNumero");
+        
+        lblApellido.setId("lblNombre");
+        hbContacto.getChildren().addAll(lblApellido, lblNumero, lblEmail);
     }
 
     private VBox botonesEdicion(Contacto contacto){                
-        Button btnEliminar = new Button ("x");
-        Button btnEditar = new Button ("Mostrar");
-        
+        Button btnEliminar = new Button ("X");
+        btnEliminar.setId("btnEliminar");
+        Button btnEditar = new Button ();
+        try{
+            Image icono = new Image(getClass().getResourceAsStream("/imgs/ver.png"));
+            ImageView imageView = new ImageView(icono);
+            imageView.setFitHeight(30);
+            imageView.setFitWidth(50);
+            btnEditar.setGraphic(imageView);
+        }catch(Exception e){
+            btnEditar.setText("Mostrar");
+        }        
+        btnEditar.setId("btnEditarMostrar");
+        btnEditar.setTooltip(new Tooltip("Mostrar informaciona o editar contacto"));
+        btnEliminar.setTooltip(new Tooltip("Eliminar contacto"));
         btnEliminar.setOnAction(e->{
             if(mostrarDialogoConfirmacion()){
                 this.usuario.getContactos().remove(indiceContacto(contacto));                
@@ -345,6 +380,7 @@ public class ContactosPrincipalController implements Initializable {
         this.optionAtr.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenAtributos();});
         this.optionFav.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenFavorito();});
     }
+    
     private PriorityQueue<Contacto> ordenFavorito() {
         PriorityQueue<Contacto> cola = null;
         if (this.optionFav.isSelected()) {
