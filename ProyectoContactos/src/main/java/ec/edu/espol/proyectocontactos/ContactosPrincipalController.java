@@ -147,7 +147,7 @@ public class ContactosPrincipalController implements Initializable {
         llenarContatos(null);
     }
     
-    public void actualizarIteratorContactosLocal(){
+    private void actualizarIteratorContactosLocal(){
         iteratorContactos = this.usuario.getContactos().listIterator();
         llenarContatos(null);
     }

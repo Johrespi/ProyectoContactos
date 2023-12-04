@@ -357,6 +357,7 @@ public class MostrarContactoController implements Initializable {
             }
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
+        contactosController.actualizarIteratorContactos();
     }
 
     private void removerInformacionContacto(Contacto contacto, Object o) {
