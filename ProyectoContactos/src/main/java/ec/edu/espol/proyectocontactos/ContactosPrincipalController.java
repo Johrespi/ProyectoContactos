@@ -23,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -82,12 +83,15 @@ public class ContactosPrincipalController implements Initializable {
     private ListIterator<Contacto> iteratorFiltrados;    
     
     private DoubleCircleLinkedLists<Contacto> listaFiltrada;
+    private DoubleCircleLinkedLists<Contacto> listaContactos;
     private Map<Usuario, DoubleCircleLinkedLists<Contacto>> todosLosContactos;
     
     public Usuario usuario;
     private boolean isFiltrado;
     @FXML
     private Menu itmContactos;
+    @FXML
+    private RadioButton optionFav;
     
     /**
      * Initializes the controller class.
@@ -133,10 +137,14 @@ public class ContactosPrincipalController implements Initializable {
         return this.usuario;
     }
 
-    public void actualizarIteratorContactos(){
-        //int i = this.usuario.getContactos().indexOf(contacto);
-        //this.usuario.getContactos().set(i, contacto);
-        actualizarArchContactos();
+    public void actualizarIteratorContactos(){        
+        actualizarArchContactos();        
+        iteratorContactos = this.usuario.getContactos().listIterator();
+        this.btnLimpiar.fire();
+        llenarContatos(null);
+    }
+    
+    public void actualizarIteratorContactosLocal(){
         iteratorContactos = this.usuario.getContactos().listIterator();
         llenarContatos(null);
     }
@@ -190,10 +198,9 @@ public class ContactosPrincipalController implements Initializable {
         ordenNombre();
     }
     
-    public void llenarContatos(String modo){
+    public void llenarContatos(String modo){        
         vbContactos.getChildren().clear();
-        int cont = 0;                             
-        
+        int cont = 0;                                     
         while (cont<numPaginas &&  this.iteratorContactos.hasNext()){            
             if(cont<this.usuario.getContactos().size()){                                
                 if ("back".equals(modo))                    
@@ -206,10 +213,10 @@ public class ContactosPrincipalController implements Initializable {
         }                
     }
     
-    private GridPane cajaContacto(Contacto contacto){
+    private GridPane cajaContacto(Contacto contacto){        
         HBox hbContacto = new HBox(5);       
       
-        String nombres = contacto.getApellido() + " " + contacto.getNombre();
+        String nombres = contacto.getNombre() + " "+contacto.getApellido();
         Label lblApellido = new Label(nombres);        
         Label orden = new Label(nombres);        
         
@@ -218,7 +225,7 @@ public class ContactosPrincipalController implements Initializable {
         ColumnConstraints column2 = new ColumnConstraints();
         column1.setPercentWidth(85);
         column2.setPercentWidth(15);
-
+        gridPane.setPadding(new javafx.geometry.Insets(5, 0, 5, 0));        
         gridPane.getColumnConstraints().addAll(column1, column2);
         
         gridPane.add(hbContacto, 0, 0);
@@ -239,13 +246,16 @@ public class ContactosPrincipalController implements Initializable {
         btnEliminar.setOnAction(e->{
             if(mostrarDialogoConfirmacion()){
                 this.usuario.getContactos().remove(indiceContacto(contacto));                
-                actualizarIteratorContactos();                  
+                actualizarIteratorContactos();      
+                this.btnLimpiar.fire();
+                
             }            
         });
         
         btnEditar.setOnAction(eh->editarContacto(contacto));
         VBox vbBotones = new VBox(5);
         vbBotones.getChildren().addAll(btnEliminar,btnEditar);
+        vbBotones.setAlignment(Pos.CENTER);
         return vbBotones;
         
     }
@@ -260,11 +270,10 @@ public class ContactosPrincipalController implements Initializable {
     
     @FXML
     private void actualizarCantidadPagina(ActionEvent event) {
-        actualizarIteratorContactos();
         MenuItem menuItem = (MenuItem) event.getSource();
         String cant = menuItem.getText().trim();
         numPaginas = Integer.parseInt(cant);
-        llenarContatos(null);
+        actualizarIteratorContactosLocal();
     }
 
     @FXML
@@ -287,9 +296,8 @@ public class ContactosPrincipalController implements Initializable {
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         int i = AllUsers.indexOf(getUsuario());
         //AllUsers.set(i, usuario);                
-        this.usuario = AllUsers.get(i);
-        
-        //Usuario.saveListToFileSerUsuarios(AllUsers);        
+        this.usuario = AllUsers.get(i);        
+        Usuario.saveListToFileSerUsuarios(AllUsers);              
     }
     
     private boolean mostrarDialogoConfirmacion() {
@@ -335,9 +343,33 @@ public class ContactosPrincipalController implements Initializable {
         this.optionApellido.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenApellido();});
         this.optionTipo.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenTipo();});
         this.optionAtr.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenAtributos();});
-        
+        this.optionFav.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenFavorito();});
     }
-    
+    private PriorityQueue<Contacto> ordenFavorito() {
+        PriorityQueue<Contacto> cola = null;
+        if (this.optionFav.isSelected()) {
+            cola = new PriorityQueue<>((c1, c2) -> {                
+                boolean isFavorito1 = c1.isEsFavorito();
+                boolean isFavorito2 = c2.isEsFavorito();
+                
+                if (isFavorito1 && !isFavorito2) {
+                    return -1;
+                } else if (!isFavorito1 && isFavorito2) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+        if (cola != null) {
+            if (!isFiltrado) {
+                ordenarLista(cola);
+            } else {
+                actualizarIteratorFiltrado(cola);
+            }
+        }
+        return cola;
+    }
+
     private PriorityQueue<Contacto> ordenApellido(){                
         PriorityQueue<Contacto> cola = null;                
         if(this.optionApellido.isSelected()){
@@ -355,7 +387,6 @@ public class ContactosPrincipalController implements Initializable {
             });
 
         }            
-
         if (cola!=null && !isFiltrado)
             ordenarLista(cola);
         else if(cola!=null && isFiltrado) 
@@ -394,7 +425,7 @@ public class ContactosPrincipalController implements Initializable {
                 int atributosNoNulos1 = contarAtributosNoNulos(c1);
                 int atributosNoNulos2 = contarAtributosNoNulos(c2);
 
-                return Integer.compare(atributosNoNulos1, atributosNoNulos2);
+                return Integer.compare(atributosNoNulos2, atributosNoNulos1);
             });
         }
         if (cola!=null && !isFiltrado)
@@ -405,12 +436,10 @@ public class ContactosPrincipalController implements Initializable {
     }
     
     public int contarAtributosNoNulos(Contacto contacto) {
-        int contador = 0;
+    int contador = 0;
 
-        if (contacto.getNombre() != null && !contacto.getNombre().isEmpty()) 
-            contador++;
-        if (contacto.getApellido() != null && !contacto.getApellido().isEmpty()) 
-            contador++;
+        contador += (contacto.getNombre() != null && !contacto.getNombre().isEmpty()) ? 1 : 0;
+        contador += (contacto.getApellido() != null && !contacto.getApellido().isEmpty()) ? 1 : 0;
         if (contacto.getTipoContacto() != null && !contacto.getTipoContacto().isEmpty()) 
             contador++;
         if (contacto.getDirecciones() != null && !contacto.getDirecciones().isEmpty()) 
@@ -436,7 +465,7 @@ public class ContactosPrincipalController implements Initializable {
             cola.offer(c);            
         }
         while(!cola.isEmpty())
-            contactosOrdenados.addLast(cola.poll());
+            contactosOrdenados.addLast(cola.poll());        
         return contactosOrdenados;
     }
     
@@ -445,13 +474,14 @@ public class ContactosPrincipalController implements Initializable {
         for(Contacto c: this.usuario.getContactos()){
             cola.offer(c);            
         }
+        System.out.println("Cola"+cola);
         while(!cola.isEmpty())
-            contactosOrdenados.addLast(cola.poll());
+            contactosOrdenados.addLast(cola.poll());                    
                            
+        System.out.println("CONTACTOS: "+contactosOrdenados );
         this.usuario.getContactos().clear();
         this.usuario.setContactos(contactosOrdenados);
-        actualizarIteratorContactos();    
-        this.llenarContatos(null);
+        actualizarIteratorContactosLocal();            
     }
        
     private void ordenNombre(){                
@@ -492,6 +522,7 @@ public class ContactosPrincipalController implements Initializable {
                 if(optionAtr.isSelected()) contactos = llenarListaPriority(ordenAtributos());
                 if(optionTipo.isSelected())contactos = llenarListaPriority(ordenTipo());
                 if(optionApellido.isSelected()) contactos = llenarListaPriority(ordenApellido());
+                if(this.optionFav.isSelected()) contactos = llenarListaPriority(ordenFavorito());
             }                            
             for(Contacto c: contactos){
                 if("Nombre".equals(this.cbParametros.getValue()))

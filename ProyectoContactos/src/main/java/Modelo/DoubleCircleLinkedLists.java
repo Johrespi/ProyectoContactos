@@ -275,7 +275,7 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
                 return size() > 0 && nodo != null;
             }
 
-            @Override
+             @Override
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
@@ -334,9 +334,16 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
                 // Implementa si es necesario
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+            /*    
+            @Override
+            public String toString() {
+                return "{" + "nodo=" + nodo + ", lastReturned=" + lastReturned + '}';
+            }*/
+            
+            
         };
     }
-
+    
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
@@ -393,39 +400,44 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
     }
     
     class Node<E> implements Serializable {
-    private E content;
-    private Node<E> previous;
-    private Node<E> next;
+        private E content;
+        private Node<E> previous;
+        private Node<E> next;
+        private static final long serialVersionUID = 58743201266L;
 
-    public Node(E content) {
-        this.content = content;
-        this.next = null;
-        this.previous = null;
-    }
-    
-    public E getContent() {
-        return content;
-    }
+        public Node(E content) {
+            this.content = content;
+            this.next = null;
+            this.previous = null;
+        }
 
-    public void setContent(E content) {
-        this.content = content;
-    }
+        public E getContent() {
+            return content;
+        }
 
-    public Node<E> getPrevious() {
-        return previous;
-    }
+        public void setContent(E content) {
+            this.content = content;
+        }
 
-    public void setPrevious(Node<E> previous) {
-        this.previous = previous;
-    }
+        public Node<E> getPrevious() {
+            return previous;
+        }
 
-    public Node<E> getNext() {
-        return next;
-    }
+        public void setPrevious(Node<E> previous) {
+            this.previous = previous;
+        }
 
-    public void setNext(Node<E> next) {
-        this.next = next;
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" + "content=" + content + '}';
+        }                    
     }
-    
-}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -43,16 +44,22 @@
          <center>
             <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
-                  <VBox fx:id="vbContactos" prefHeight="349.0" prefWidth="645.0" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
+                  <VBox fx:id="vbContactos" alignment="CENTER" prefHeight="349.0" prefWidth="645.0" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
                      </padding>
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin>
                   </VBox>
                </center>
                <right>
                   <VBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
                      <children>
-                        <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" text="&gt;" BorderPane.alignment="CENTER" />
+                        <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#contactosNext" prefHeight="70.0" prefWidth="36.0" style="-fx-background-color: #F2F2F2;" text="&gt;" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
                      </children>
                      <BorderPane.margin>
                         <Insets right="20.0" />
@@ -62,7 +69,10 @@
                <left>
                   <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_RIGHT">
                      <children>
-                        <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" text="&lt;" BorderPane.alignment="CENTER" />
+                        <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#contactosAnterior" prefHeight="70.0" prefWidth="36.0" style="-fx-background-color: #F2F2F2;" text="&lt;" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
                      </children>
                      <BorderPane.margin>
                         <Insets left="20.0" />
@@ -73,7 +83,7 @@
                   <Insets />
                </BorderPane.margin>
                <top>
-                  <GridPane prefHeight="82.0" prefWidth="695.0" style="-fx-background-color: #595659;" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="88.0" prefWidth="715.0" style="-fx-background-color: #595659;" BorderPane.alignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="591.0" minWidth="10.0" percentWidth="85.0" prefWidth="585.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="15.0" />
@@ -82,40 +92,41 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <VBox id="vbFiltro" prefHeight="76.0" prefWidth="585.0" spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox id="vbFiltro" prefHeight="76.0" prefWidth="585.0" spacing="5.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
+                              <FlowPane alignment="CENTER_LEFT" hgap="5.0" prefHeight="200.0" prefWidth="200.0" vgap="5.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label text="Ordenar por:" textFill="WHITE" />
-                                    <RadioButton fx:id="optionAtr" mnemonicParsing="false" text="Cantidad de atributos" textFill="WHITE">
+                                    <RadioButton fx:id="optionAtr" mnemonicParsing="false" text="Cantidad de atributos" textFill="WHITE" wrapText="true">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="ordenes" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="optionTipo" mnemonicParsing="false" text="Tipo de Contacto" textFill="WHITE" toggleGroup="$ordenes" />
+                                    <RadioButton fx:id="optionTipo" mnemonicParsing="false" text="Tipo de Contacto" textFill="WHITE" toggleGroup="$ordenes" wrapText="true" />
                                     <RadioButton fx:id="optionApellido" mnemonicParsing="false" text="Apellido" textFill="WHITE" toggleGroup="$ordenes" />
+                                    <RadioButton fx:id="optionFav" mnemonicParsing="false" text="Favoritos" textFill="WHITE" toggleGroup="$ordenes" />
                                  </children>
-                              </HBox>
+                              </FlowPane>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label text="Filtrar:" textFill="WHITE" />
                                     <TextField fx:id="txtBusqueda" />
-                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" text="Buscar" />
+                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" style="-fx-background-color: #D9BA82;" text="Buscar" />
                                     <Label text="Parametro:" textFill="WHITE" />
                                     <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
                                  </children>
                               </HBox>
                            </children>
                            <padding>
-                              <Insets left="10.0" right="5.0" top="10.0" />
+                              <Insets bottom="10.0" left="10.0" right="5.0" top="5.0" />
                            </padding>
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                         </VBox>
-                        <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #D9BA82;" text="Limpiar filtros" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets right="10.0" />
