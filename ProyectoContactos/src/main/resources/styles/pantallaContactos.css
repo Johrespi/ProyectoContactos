@@ -51,7 +51,7 @@
 
 #vbFiltro{
     -fx-font-weight: bold;
-    -fx-text-fill: #FFFFFF; 
+    -fx-text-fill: #FFFFFF;      
 }
 
 #btnFlecha {
@@ -89,4 +89,8 @@
     -fx-font-weight: bold;
     -fx-font-style: bold;
     -fx-font-size: 13px;
+}
+
+#filtros{
+    -fx-background-color: #593F1E;
 }

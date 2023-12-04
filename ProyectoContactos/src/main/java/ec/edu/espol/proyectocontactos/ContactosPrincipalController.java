@@ -220,15 +220,18 @@ public class ContactosPrincipalController implements Initializable {
         VBox hbContacto = new VBox(5);       
    
         GridPane gridPane = new GridPane();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        column1.setPercentWidth(85);
-        column2.setPercentWidth(15);
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+        col1.setPercentWidth(75);
+        col2.setPercentWidth(10);
+        col3.setPercentWidth(15);        
         gridPane.setPadding(new javafx.geometry.Insets(5, 0, 5, 0));        
-        gridPane.getColumnConstraints().addAll(column1, column2);
+        gridPane.getColumnConstraints().addAll(col1, col2,col3);
         gridPane.setId("hbox-contacto");
         gridPane.add(hbContacto, 0, 0);
-        gridPane.add(botonesEdicion(contacto), 1, 0);
+        gridPane.add(botonFav(contacto), 1, 0);
+        gridPane.add(botonesEdicion(contacto), 2, 0);
                 
         agregarEtiquetas(hbContacto, contacto);
                 
@@ -331,6 +334,14 @@ public class ContactosPrincipalController implements Initializable {
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         int i = AllUsers.indexOf(getUsuario());
         //AllUsers.set(i, usuario);                
+        this.usuario = AllUsers.get(i);        
+        Usuario.saveListToFileSerUsuarios(AllUsers);              
+    }
+    
+    private void actualizarArchivoContactos_local(){
+        ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
+        int i = AllUsers.indexOf(getUsuario());
+        AllUsers.set(i, usuario);                
         this.usuario = AllUsers.get(i);        
         Usuario.saveListToFileSerUsuarios(AllUsers);              
     }
@@ -508,6 +519,7 @@ public class ContactosPrincipalController implements Initializable {
     private void ordenarLista(PriorityQueue<Contacto> cola){
         DoubleCircleLinkedLists<Contacto> contactosOrdenados = new DoubleCircleLinkedLists<>();
         for(Contacto c: this.usuario.getContactos()){
+            System.out.println(c.getApellido()+"   "+c.isEsFavorito());
             cola.offer(c);            
         }
         System.out.println("Cola"+cola);
@@ -621,5 +633,41 @@ public class ContactosPrincipalController implements Initializable {
         }                
     }
        
+    private ImageView botonFav(Contacto contacto){
+        ImageView imageView = new ImageView();
+        try{            
+            if(contacto.isEsFavorito())
+                imageView.setImage(new Image(getClass().getResourceAsStream("/imgs/favorito.png")));
+            else
+                imageView.setImage(new Image(getClass().getResourceAsStream("/imgs/no_favorito.png")));    
+            
+            imageView.setOnMouseClicked(e->{
+                agregarFavorito(contacto, imageView);
+            });
+            
+            imageView.setFitHeight(35);
+            imageView.setFitWidth(35);            
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+        return imageView;
+    }
+    
+    private void agregarFavorito(Contacto contacto, ImageView imageView){        
+        System.out.println("Contacto NO editado: " + contacto+ " "+contacto.isEsFavorito());
+        if(contacto.isEsFavorito()){
+            contacto.setEsFavorito(false);
+            this.usuario.getContactos().set(indiceContacto(contacto), contacto);
+            imageView.setImage(new Image(getClass().getResourceAsStream("/imgs/no_favorito.png")));
+        }            
+        else{
+            contacto.setEsFavorito(true);
+            this.usuario.getContactos().set(indiceContacto(contacto), contacto);
+            imageView.setImage(new Image(getClass().getResourceAsStream("/imgs/favorito.png")));
+        }        
+        System.out.println("Contacto editado: " + contacto + " "+contacto.isEsFavorito());
+        this.iteratorContactos = this.usuario.getContactos().listIterator();
+        this.actualizarArchivoContactos_local();            
+    }
     
 }
