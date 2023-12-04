@@ -29,7 +29,7 @@
                           <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="1" />
                               <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="2" />
                               <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="4" />
-                              <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="6" />
+                              <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="5" />
                               <MenuItem mnemonicParsing="false" onAction="#actualizarCantidadPagina" text="8" />
                           </items>
                         </Menu>
@@ -43,7 +43,7 @@
               </menus>
             </MenuBar>
          </top>
-         <center>
+         <right>
             <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
                   <ScrollPane fitToWidth="true" prefViewportHeight="463.0" prefViewportWidth="585.0" BorderPane.alignment="TOP_RIGHT">
@@ -165,7 +165,7 @@
                   <Insets top="10.0" />
                </padding>
             </BorderPane>
-         </center>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
