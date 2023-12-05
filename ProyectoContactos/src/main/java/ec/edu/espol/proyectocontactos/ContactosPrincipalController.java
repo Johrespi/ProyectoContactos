@@ -127,6 +127,7 @@ public class ContactosPrincipalController implements Initializable {
     
     private void llenarParametros(){
         this.cbParametros.getItems().addAll("Nombre", "Apellido", "Tipo", "Numero", "Email", "Direccion");        
+        this.cbParametros.setValue("Numero");
     }
     
     public Usuario getUsuario() {
@@ -188,7 +189,7 @@ public class ContactosPrincipalController implements Initializable {
     @FXML
     private void limpiarFiltros(ActionEvent event) {        
         ordenes.getToggles().forEach(toggle -> ((RadioButton) toggle).setSelected(false));        
-        this.cbParametros.setValue(null);        
+        this.cbParametros.setValue("Numero");
         this.txtBusqueda.setText("");
         isFiltrado = false;
         ordenNombre();
