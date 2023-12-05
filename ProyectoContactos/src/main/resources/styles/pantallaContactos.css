@@ -91,6 +91,13 @@
     -fx-font-size: 13px;
 }
 
+#lblUsername{
+    -fx-font-style: italic;
+    -fx-font-size: 11px;
+    -fx-text-fill: #593F1E;
+    -fx-font-weight: bold;
+}
+
 #filtros{
     -fx-background-color: #424042;
 }

@@ -393,6 +393,7 @@ public class MostrarContactoController implements Initializable {
             }
         }
         Usuario.saveListToFileSerUsuarios(usuarios);
+        contactosController.actualizarIteratorContactos();
         //initializeContacto();
     }
 

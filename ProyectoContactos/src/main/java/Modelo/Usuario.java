@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author johan
  */
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, Comparable<Usuario> {
 
     private String nombreUsuario;
     private String contraseña;
@@ -121,6 +121,11 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "User{" + "nombreUsuario='" + nombreUsuario + '\'' + ", contraseña='" + contraseña + '\'' + ", tipoUsuario='" + tipoUsuario + '\'' + '}';
+    }
+
+    @Override
+    public int compareTo(Usuario o) {
+        return this.nombreUsuario.compareToIgnoreCase(o.getNombreUsuario());
     }
 
 }

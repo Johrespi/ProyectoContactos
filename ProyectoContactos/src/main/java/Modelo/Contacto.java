@@ -11,13 +11,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  *
  * @author johan
  */
 public class Contacto implements Serializable {
-
+    private String id;
     private String nombre;
     private String apellido;
     private String tipoContacto; 
@@ -33,7 +34,7 @@ public class Contacto implements Serializable {
 
     private static final long serialVersionUID = 5458121L;
             
-    public Contacto(String nombre, String apellido, String tipoContacto, boolean esFavorito) {
+    public Contacto(String id, String nombre, String apellido, String tipoContacto, boolean esFavorito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipoContacto = tipoContacto;
@@ -46,9 +47,10 @@ public class Contacto implements Serializable {
         this.ContactosRelacionados = new ArrayList<>();
         this.fotos = new DoubleCircleLinkedList();
         //this.fotos = new DoublyCircularLInkedList();
+        this.id =  id;
     }
-
-    public Contacto() {
+    
+    public Contacto(String id) {
         this.nombre = "";
         this.apellido = "";
         this.tipoContacto = "";
@@ -61,12 +63,26 @@ public class Contacto implements Serializable {
         this.fotos = new DoubleCircleLinkedList();
         this.ContactosRelacionados = new ArrayList<>();
         //this.fotos = new DoublyCircularLInkedList();
+        this.id =  id;
     }
 
+    public static String generarIDUnico() {        
+        UUID uuid = UUID.randomUUID();                
+        String idUnico = uuid.toString().replaceAll("-", "");        
+        return idUnico;
+    }
+    
     public String getNombre() {
         return nombre;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }    
     /*public DoublyCircularLInkedList getFotos() {
         return fotos;
     }*/
@@ -203,7 +219,7 @@ public class Contacto implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " " + apellido;
+        return id+ "  "+ nombre + " " + apellido + " "+ this.numerosTelefono;
     }
 
     public String toStringInformacion() {
@@ -230,6 +246,13 @@ public class Contacto implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -241,12 +264,8 @@ public class Contacto implements Serializable {
             return false;
         }
         final Contacto other = (Contacto) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return Objects.equals(this.apellido, other.apellido);
+        return Objects.equals(this.id, other.id);
     }
-    
-    
+
 
 }

@@ -35,7 +35,13 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
         
     public void addAll(PriorityQueue<E> cola){
         while(!cola.isEmpty())
-            this.addFirst(cola.poll());
+            this.addLast(cola.poll());
+    }
+    
+    public void addAll(DoubleCircleLinkedLists<E> lista){
+        for(E value: lista){
+            this.addLast(value);
+        }
     }
     
     public boolean addFirst(E element) {
@@ -144,7 +150,7 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
         }
         Node<E> nodo=last.getNext();
         do{
-            if(element==nodo.getContent()){
+            if(element.equals(nodo.getContent())){
                 return true;
             }
             nodo=nodo.getNext();
@@ -178,7 +184,7 @@ public class DoubleCircleLinkedLists<E> implements Iterable<E>, Serializable {
         Node<E> nodo=last.getNext();
         int cont=0;
         do{
-            if(element==nodo.getContent()){
+            if(element.equals(nodo.getContent())){
                 value=cont;
                 break;
             }

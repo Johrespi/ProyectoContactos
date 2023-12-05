@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" minHeight="440.0" minWidth="715.0" prefHeight="596.0" prefWidth="715.0" styleClass="mainFxmlClass" stylesheets="@../../../../styles/pantallaContactos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.ContactosPrincipalController">
    <children>
-      <BorderPane layoutX="157.0" layoutY="133.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="157.0" layoutY="133.0" prefHeight="596.0" prefWidth="715.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <MenuBar prefHeight="14.0" prefWidth="715.0" BorderPane.alignment="CENTER">
               <menus>
@@ -43,12 +43,12 @@
               </menus>
             </MenuBar>
          </top>
-         <right>
+         <center>
             <BorderPane prefHeight="437.0" prefWidth="715.0" BorderPane.alignment="CENTER">
                <center>
                   <ScrollPane fitToWidth="true" prefViewportHeight="463.0" prefViewportWidth="585.0" BorderPane.alignment="TOP_RIGHT">
                      <content>
-                        <VBox fx:id="vbContactos" alignment="CENTER" prefHeight="349.0" prefWidth="645.0" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
+                        <VBox fx:id="vbContactos" alignment="CENTER" spacing="10.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" />
                            </BorderPane.margin>
@@ -131,6 +131,7 @@
                                     <RadioButton fx:id="optionTipo" mnemonicParsing="false" text="Tipo de Contacto" textFill="WHITE" toggleGroup="$ordenes" wrapText="true" />
                                     <RadioButton fx:id="optionApellido" mnemonicParsing="false" text="Apellido" textFill="WHITE" toggleGroup="$ordenes" />
                                     <RadioButton fx:id="optionFav" mnemonicParsing="false" text="Favoritos" textFill="WHITE" toggleGroup="$ordenes" />
+                                    <RadioButton fx:id="optionUser" mnemonicParsing="false" text="Usuarios" textFill="WHITE" toggleGroup="$ordenes" />
                                  </children>
                               </FlowPane>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -139,7 +140,7 @@
                                     <TextField fx:id="txtBusqueda" />
                                     <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#filtrar" style="-fx-background-color: #FFFFFF;" text="Buscar" />
                                     <Label text="Parametro:" textFill="WHITE" />
-                                    <ComboBox fx:id="cbParametros" prefWidth="150.0" promptText="Parametro" />
+                                    <ComboBox fx:id="cbParametros" prefHeight="25.0" prefWidth="170.0" promptText="Parametro" />
                                  </children>
                               </HBox>
                            </children>
@@ -165,7 +166,7 @@
                   <Insets top="10.0" />
                </padding>
             </BorderPane>
-         </right>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

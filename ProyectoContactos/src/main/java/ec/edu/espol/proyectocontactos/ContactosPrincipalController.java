@@ -13,9 +13,7 @@ import Modelo.Telefono;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.ResourceBundle;
@@ -86,8 +84,7 @@ public class ContactosPrincipalController implements Initializable {
     private ListIterator<Contacto> iteratorFiltrados;    
     
     private DoubleCircleLinkedLists<Contacto> listaFiltrada;
-    private DoubleCircleLinkedLists<Contacto> listaContactos;
-    private Map<Usuario, DoubleCircleLinkedLists<Contacto>> todosLosContactos;
+    private DoubleCircleLinkedLists<Contacto> listaContactos;    
     
     public Usuario usuario;
     private boolean isFiltrado;
@@ -95,9 +92,12 @@ public class ContactosPrincipalController implements Initializable {
     private Menu itmContactos;
     @FXML
     private RadioButton optionFav;
+    @FXML
+    private RadioButton optionUser;
     
     /**
      * Initializes the controller class.
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,35 +105,28 @@ public class ContactosPrincipalController implements Initializable {
         indUltimo = 0;
         this.numPaginas = 4;       
         llenarParametros();
-        isFiltrado = false;
-        todosLosContactos = new HashMap<>();
+        isFiltrado = false;        
     }    
 
     public void setUsuario(Usuario u) {
         this.usuario = u;
         this.itmCuenta.setText("Cuenta: "+u.getNombreUsuario());        
         confOptionButton();
-        if (!u.getContactos().isEmpty() && !u.getTipoUsuario().equals("Administrador")){
-            llenarListaContactos();
-            iteratorContactos = u.getContactos().listIterator();
-            llenarContatos(null);
+        if (!u.getTipoUsuario().equals("Administrador")){            
+            this.optionUser.setVisible(false);                            
         }
-        if (u.getTipoUsuario().equals("Administrador")){
-            itmContactos.setVisible(false);
-            System.out.println("Probanco");
+        else if (!u.getContactos().isEmpty()  && u.getTipoUsuario().equals("Administrador")){
+            itmContactos.setVisible(false);                        
+            cbParametros.getItems().add("Nombre de usuario");
         }
+        iteratorContactos = u.getContactos().listIterator();
+        llenarContatos(null);    
             
     }
-    
-    
-    private void llenarListaContactos(){
-        if (this.usuario.getTipoUsuario().equalsIgnoreCase("Administrador")){
             
-        }
-    }
     
     private void llenarParametros(){
-        this.cbParametros.getItems().addAll("Nombre", "Apellido", "Tipo", "Numero", "Email", "Direccion");
+        this.cbParametros.getItems().addAll("Nombre", "Apellido", "Tipo", "Numero", "Email", "Direccion");        
     }
     
     public Usuario getUsuario() {
@@ -240,7 +233,7 @@ public class ContactosPrincipalController implements Initializable {
         return gridPane;
     }
     
-    private void agregarEtiquetas(VBox hbContacto, Contacto contacto){
+    private void agregarEtiquetas(VBox vbContacto, Contacto contacto){
         String nombres = contacto.getNombre() + " "+contacto.getApellido();
         Label lblApellido = new Label(nombres);        
         Label lblEmail = new Label();        
@@ -262,7 +255,14 @@ public class ContactosPrincipalController implements Initializable {
         lblEmail.setId("etiquetaNumero");
         
         lblApellido.setId("lblNombre");
-        hbContacto.getChildren().addAll(lblApellido, lblNumero, lblEmail);
+        vbContacto.getChildren().addAll(lblApellido, lblNumero, lblEmail);
+        
+        if(this.usuario.getTipoUsuario().equals("Administrador")){
+            Usuario user = this.encontrarUsuario(contacto);
+            Label lblUser = new Label("Usuario: "+user.getNombreUsuario());
+            lblUser.setId("lblUsername");
+            vbContacto.getChildren().add(lblUser);
+        }
     }
 
     private VBox botonesEdicion(Contacto contacto){                
@@ -282,12 +282,7 @@ public class ContactosPrincipalController implements Initializable {
         btnEditar.setTooltip(new Tooltip("Mostrar informaciona o editar contacto"));
         btnEliminar.setTooltip(new Tooltip("Eliminar contacto"));
         btnEliminar.setOnAction(e->{
-            if(mostrarDialogoConfirmacion()){
-                this.usuario.getContactos().remove(indiceContacto(contacto));                
-                actualizarIteratorContactos();      
-                this.btnLimpiar.fire();
-                
-            }            
+            this.borrarContacto(contacto);
         });
         
         btnEditar.setOnAction(eh->editarContacto(contacto));
@@ -332,17 +327,56 @@ public class ContactosPrincipalController implements Initializable {
     
     private void actualizarArchContactos(){
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
-        int i = AllUsers.indexOf(getUsuario());
-        //AllUsers.set(i, usuario);                
-        this.usuario = AllUsers.get(i);        
+        int i = AllUsers.indexOf(getUsuario());        
+        this.usuario = AllUsers.get(i);            
+        int indC_actual = this.usuario.getContactos().indexOf(contacto);
+        this.contacto = this.usuario.getContactos().get(indC_actual);
+        for(Usuario u: AllUsers){
+            if(u.getContactos().contains(contacto)){
+                int indC = u.getContactos().indexOf(contacto);
+                u.getContactos().set(indC, this.usuario.getContactos().get(indC_actual));                 
+            }                    
+        }
         Usuario.saveListToFileSerUsuarios(AllUsers);              
+    }
+    
+    private void borrarContacto(Contacto contacto){
+        if(mostrarDialogoConfirmacion()){
+            this.usuario.getContactos().remove(indiceContacto(contacto));             
+            ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
+            for(Usuario u: AllUsers){
+                if(u.getContactos().contains(contacto)){
+                    int iC = u.getContactos().indexOf(contacto);
+                    u.getContactos().remove(iC);
+                }
+            }
+            Usuario.saveListToFileSerUsuarios(AllUsers);     
+            actualizarIteratorContactosLocal();      
+            this.btnLimpiar.fire();
+        }   
+    }
+    
+    private Usuario encontrarUsuario(Contacto contacto){
+        ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
+        for(Usuario u: AllUsers){
+            if(u.getContactos().contains(contacto) && !u.getTipoUsuario().equals("Administrador"))
+                return u;
+        }
+        return null;
     }
     
     private void actualizarArchivoContactos_local(){
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         int i = AllUsers.indexOf(getUsuario());
         AllUsers.set(i, usuario);                
-        this.usuario = AllUsers.get(i);        
+        this.usuario = AllUsers.get(i);            
+        int indC_actual = this.usuario.getContactos().indexOf(contacto);        
+        for(Usuario u: AllUsers){
+            if(u.getContactos().contains(contacto)){
+                int indC = u.getContactos().indexOf(contacto);
+                u.getContactos().set(indC, this.usuario.getContactos().get(indC_actual));                 
+            }                    
+        }
         Usuario.saveListToFileSerUsuarios(AllUsers);              
     }
     
@@ -390,6 +424,7 @@ public class ContactosPrincipalController implements Initializable {
         this.optionTipo.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenTipo();});
         this.optionAtr.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenAtributos();});
         this.optionFav.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenFavorito();});
+        this.optionUser.setOnAction(e->{ if (!this.usuario.getContactos().isEmpty()) ordenUsuario();});
     }
     
     private PriorityQueue<Contacto> ordenFavorito() {
@@ -482,6 +517,31 @@ public class ContactosPrincipalController implements Initializable {
         return cola;
     }
     
+    private PriorityQueue<Contacto> ordenUsuario(){                
+        PriorityQueue<Contacto> cola = null;                
+        if(this.optionUser.isSelected()){
+            cola = new PriorityQueue<>((c1, c2) -> {
+                Usuario user1 = this.encontrarUsuario(c1);
+                Usuario user2 = this.encontrarUsuario(c2);
+                if (user1 == null && user2 == null) {
+                    return 0;
+                } else if (user1 == null) {
+                    return 1;
+                } else if (user2 == null) {
+                    return -1;
+                }
+                return user1.compareTo(user2);
+            });
+
+        }            
+        if (cola!=null && !isFiltrado)
+            ordenarLista(cola);
+        else if(cola!=null && isFiltrado) 
+            actualizarIteratorFiltrado(cola);
+        return cola;
+
+    }  
+    
     public int contarAtributosNoNulos(Contacto contacto) {
     int contador = 0;
 
@@ -571,6 +631,7 @@ public class ContactosPrincipalController implements Initializable {
                 if(optionTipo.isSelected())contactos = llenarListaPriority(ordenTipo());
                 if(optionApellido.isSelected()) contactos = llenarListaPriority(ordenApellido());
                 if(this.optionFav.isSelected()) contactos = llenarListaPriority(ordenFavorito());
+                if(this.optionUser.isSelected()) contactos = llenarListaPriority(ordenUsuario());
             }                            
             for(Contacto c: contactos){
                 if("Nombre".equals(this.cbParametros.getValue()))
@@ -589,8 +650,11 @@ public class ContactosPrincipalController implements Initializable {
                 if("Direccion".equals(this.cbParametros.getValue()) )
                     for(Direccion d: c.getDirecciones())
                         agregarItemFiltrado(d.getDireccion(), c);
-            }     
-            System.out.println(listaFiltrada);
+                if("Nombre de usuario".equals(this.cbParametros.getValue())){
+                    Usuario u = this.encontrarUsuario(c);
+                    agregarItemFiltrado(u.getNombreUsuario(),c);
+                }                    
+            }                 
             isFiltrado = true;
             this.iteratorFiltrados = listaFiltrada.listIterator();
             llenarContatosFiltrados(null);   
@@ -607,11 +671,12 @@ public class ContactosPrincipalController implements Initializable {
         while(!cola.isEmpty())
             contactosOrdenados.addLast(cola.poll());
         
+        this.listaFiltrada = contactosOrdenados;
         this.iteratorFiltrados = listaFiltrada.listIterator();
+        llenarContatosFiltrados(null);
     }
    
-    
-    
+        
     private void agregarItemFiltrado(String valor, Contacto contacto){
         if(valor.trim().toLowerCase().contains(this.txtBusqueda.getText().trim().toLowerCase()))
             listaFiltrada.addFirst(contacto);
@@ -653,8 +718,7 @@ public class ContactosPrincipalController implements Initializable {
         return imageView;
     }
     
-    private void agregarFavorito(Contacto contacto, ImageView imageView){        
-        System.out.println("Contacto NO editado: " + contacto+ " "+contacto.isEsFavorito());
+    private void agregarFavorito(Contacto contacto, ImageView imageView){                
         if(contacto.isEsFavorito()){
             contacto.setEsFavorito(false);
             this.usuario.getContactos().set(indiceContacto(contacto), contacto);
@@ -664,8 +728,8 @@ public class ContactosPrincipalController implements Initializable {
             contacto.setEsFavorito(true);
             this.usuario.getContactos().set(indiceContacto(contacto), contacto);
             imageView.setImage(new Image(getClass().getResourceAsStream("/imgs/favorito.png")));
-        }        
-        System.out.println("Contacto editado: " + contacto + " "+contacto.isEsFavorito());
+        }                
+        this.contacto = contacto;
         this.iteratorContactos = this.usuario.getContactos().listIterator();
         this.actualizarArchivoContactos_local();            
     }

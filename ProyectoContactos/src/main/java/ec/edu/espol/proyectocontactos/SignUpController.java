@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -92,8 +91,9 @@ public class SignUpController implements Initializable {
         this.vbRegistro.getChildren().add(1, bt);
         bt.setOnAction(event1 -> {
             if (pf.getText().equals(AdminPassword)) {
+                asignarContactosAdmin(u1);
                 actualizarLista.addLast(u1);
-                //usuariosListaSer = actualizarLista;
+                //usuariosListaSer = actualizarLista;                
                 Usuario.saveListToFileSerUsuarios(actualizarLista);
                 mensajeAlertaConfirmacion("Registro exitoso","Su cuenta ha sido registrada exitosamente, Usted es un Usuario Administrador");
                 this.regresarButton.fire();
@@ -152,6 +152,14 @@ public class SignUpController implements Initializable {
         stage.setTitle("Welcome!");
         stage.setScene(scene);
         stage.show();
+    }
+    
+    private void asignarContactosAdmin(Usuario userAdmin){
+        ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
+        for(Usuario u: AllUsers){
+            if(!u.getTipoUsuario().equals("Administrador"))
+                userAdmin.getContactos().addAll(u.getContactos());
+        }                
     }
 
 }

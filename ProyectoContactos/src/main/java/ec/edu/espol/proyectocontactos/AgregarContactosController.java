@@ -127,7 +127,7 @@ public class AgregarContactosController implements Initializable {
     //private ContactosController contactosController;
     private ContactosPrincipalController contactosController;
 
-    Contacto contacto = new Contacto();
+    Contacto contacto;
 
     private final String[] esFavorito = {"Sí", "No"};
     @FXML
@@ -145,6 +145,7 @@ public class AgregarContactosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         FavoritoBox.getItems().addAll(esFavorito);
+        contacto = new Contacto(Contacto.generarIDUnico());
 
     }
 
@@ -186,14 +187,11 @@ public class AgregarContactosController implements Initializable {
         contactosController.usuario.getContactos().addLast(contacto);
         ArrayList<Usuario> AllUsers = Usuario.readListFromFileSerUsuarios();
         for (Usuario user : AllUsers) {
-            if (contactosController.usuario.equals(user)) {
-                user.getContactos().addLast(contacto);
-                //user.getContactos().add(contacto);
-                System.out.println(contacto);
-                Usuario.saveListToFileSerUsuarios(AllUsers);
-
-            }
+            if (contactosController.usuario.equals(user) || user.getTipoUsuario().equals("Administrador")) {
+                user.getContactos().addLast(contacto);                
+            }            
         }
+        Usuario.saveListToFileSerUsuarios(AllUsers);
         //contactosController.actualizarListView();
         contactosController.actualizarIteratorContactos();
         Alert Guardado = new Alert(Alert.AlertType.INFORMATION);
