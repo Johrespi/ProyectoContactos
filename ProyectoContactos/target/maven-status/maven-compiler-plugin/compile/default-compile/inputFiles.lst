@@ -2,6 +2,10 @@ C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\sr
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\ec\edu\espol\proyectocontactos\App.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Contacto.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\ec\edu\espol\proyectocontactos\AgregarContactosController.java
+<<<<<<< Updated upstream
+=======
+C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\ec\edu\espol\proyectocontactos\ContactosPrincipalController.java
+>>>>>>> Stashed changes
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Usuario.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\redSocial.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\module-info.java
@@ -14,7 +18,12 @@ C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\sr
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Telefono.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\ec\edu\espol\proyectocontactos\MostrarContactoController.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Direccion.java
+<<<<<<< Updated upstream
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\DoublyCircularLInkedList.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Relacion.java
+=======
+C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Relacion.java
+C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\DoubleCircleLinkedLists.java
+>>>>>>> Stashed changes
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\Modelo\Email.java
 C:\Users\johan\OneDrive\Documentos\GitHub\ProyectoContactos\ProyectoContactos\src\main\java\ec\edu\espol\proyectocontactos\LoginController.java

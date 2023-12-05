@@ -147,6 +147,8 @@ public class MostrarContactoController implements Initializable {
     private Button btnBefore;
     @FXML
     private Button btnNext;
+    @FXML
+    private Label tittleLabel;
 
     private String primeraImagen;
 
