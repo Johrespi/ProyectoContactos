@@ -15,22 +15,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="375.0" prefWidth="502.0" style="-fx-background-color: #F2F2F2; -fx-font-family: Monospaced;" stylesheets="@../../../../styles/contactosprincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.SignUpController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="375.0" prefWidth="502.0" style="-fx-background-color: #595659;" stylesheets="@../../../../styles/contactosprincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.SignUpController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="10.0" prefHeight="74.0" prefWidth="342.0" text="Registro" textAlignment="CENTER" AnchorPane.topAnchor="10.0">
+      <Label id="titulo" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="10.0" prefHeight="74.0" prefWidth="342.0" text="Registro" textAlignment="CENTER" textFill="#d9ba82" AnchorPane.topAnchor="10.0">
          <font>
             <Font name="Monospaced Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="6.0" layoutY="105.0" style="-fx-font-family: Monospaced; -fx-font-weight: bold;" text="Username" AnchorPane.leftAnchor="30.0">
+      <Label layoutX="6.0" layoutY="105.0" style="-fx-font-family: Monospaced; -fx-font-weight: bold;" text="Username" textFill="WHITE" AnchorPane.leftAnchor="30.0">
          <font>
-            <Font name="Monospaced Regular" size="12.0" />
+            <Font name="Monospaced Bold" size="12.0" />
          </font></Label>
-      <Label layoutX="30.0" layoutY="143.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Password" />
-      <Label layoutX="30.0" layoutY="180.0" style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Tipo de usuario" />
+      <Label layoutX="30.0" layoutY="143.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Password" textFill="WHITE" />
+      <Label layoutX="30.0" layoutY="180.0" style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Tipo de usuario" textFill="WHITE" />
       <TextField fx:id="usuarioField" layoutX="104.0" layoutY="102.0" prefHeight="23.0" prefWidth="223.0" AnchorPane.rightAnchor="352.0" />
       <PasswordField fx:id="passwordField" layoutX="104.0" layoutY="139.0" prefHeight="23.0" prefWidth="223.0" />
-      <ChoiceBox fx:id="choiceBox" layoutX="162.0" layoutY="176.0" prefHeight="23.0" prefWidth="164.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #0D0D0D;" />
+      <ChoiceBox fx:id="choiceBox" layoutX="162.0" layoutY="176.0" prefHeight="23.0" prefWidth="164.0" />
       <ImageView fitHeight="375.0" fitWidth="323.0" layoutX="356.0" pickOnBounds="true">
          <image>
             <Image url="@../../../../imgs/Login.jpg" />
@@ -46,10 +46,10 @@
                   <Insets left="28.0" right="25.0" />
                </padding>
             </HBox>
-            <Button fx:id="registrarButton" mnemonicParsing="false" onAction="#registrar" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #0D0D0D; -fx-background-color: #595659; -fx-font-weight: bold;" text="Registrar" textFill="WHITE" />
-            <Button fx:id="regresarButton" mnemonicParsing="false" onAction="#regresar" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: black; -fx-background-color: #D9D9D9;" text="Regresar" />
+            <Button fx:id="registrarButton" mnemonicParsing="false" onAction="#registrar" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #D9BA82;" text="Registrar" />
+            <Button fx:id="regresarButton" mnemonicParsing="false" onAction="#regresar" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #f2f2f2;" text="Regresar" />
          </children>
       </VBox>
-      <Line endX="240.0" fill="BLACK" layoutX="110.0" layoutY="70.0" startX="-100.0" strokeWidth="2.0" />
+      <Line endX="240.0" fill="#d9ba82" layoutX="110.0" layoutY="70.0" startX="-100.0" stroke="#f2f2f2" strokeWidth="2.0" />
    </children>
 </AnchorPane>

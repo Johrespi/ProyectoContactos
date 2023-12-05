@@ -14,33 +14,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="312.0" prefWidth="502.0" style="-fx-background-color: #F2F2F2; -fx-font-family: Monospaced;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="312.0" prefWidth="502.0" stylesheets="@../../../../styles/contactosprincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectocontactos.LoginController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="38.0" prefHeight="28.0" prefWidth="231.0" text="Contactos" textAlignment="CENTER">
+      <Label id="titulo" alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="38.0" prefHeight="28.0" prefWidth="231.0" text="Contactos" textAlignment="CENTER" textFill="#d9ba82">
          <font>
             <Font name="Monospaced Bold" size="35.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="49.0" layoutY="81.0" text="Inicio de sesión">
+      <Label alignment="CENTER" layoutX="49.0" layoutY="81.0" text="Inicio de sesión" textFill="#d9ba82">
          <font>
             <Font name="Monospaced Regular" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="49.0" layoutY="139.0" text="Username">
+      <Label layoutX="49.0" layoutY="139.0" text="Username" textFill="#f2f2f2">
          <font>
             <Font name="Monospaced Bold" size="14.0" />
          </font></Label>
-      <Label layoutX="49.0" layoutY="187.0" text="Password">
+      <Label layoutX="49.0" layoutY="187.0" text="Password" textFill="#f2f2f2">
          <font>
             <Font name="Monospaced Bold" size="14.0" />
          </font></Label>
       <TextField fx:id="userField" layoutX="134.0" layoutY="135.0" prefHeight="23.0" prefWidth="161.0" />
       <PasswordField fx:id="passwordField" layoutX="134.0" layoutY="183.0" prefHeight="23.0" prefWidth="161.0" />
-      <Button fx:id="signInButton" layoutX="102.0" layoutY="233.0" mnemonicParsing="false" onAction="#signIn" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #595659; -fx-border-color: #0D0D0D; -fx-font-weight: bold; -fx-font-style: white;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="signInButton" layoutX="102.0" layoutY="233.0" mnemonicParsing="false" onAction="#signIn" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #D9BA82;" text="Sign in" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="signUpButton" layoutX="102.0" layoutY="264.0" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #D9D9D9; -fx-border-color: #0D0D0D;" text="Sign up" textAlignment="CENTER">
+      <Button fx:id="signUpButton" layoutX="102.0" layoutY="264.0" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #F2F2F2;" text="Sign up" textAlignment="CENTER">
          <font>
             <Font name="Monospaced Bold" size="12.0" />
          </font></Button>

@@ -8,15 +8,16 @@
 .button{
     -fx-border-color:   #0D0D0D;     
     -fx-font-family: Monospaced;
+    -fx-font-weight: bold;
 }
 
 #boton{
     -fx-border-color:   #0D0D0D;     
     -fx-font-family: Monospaced;
-    -fx-background-color:  #595659;
+    -fx-background-color:   #D9BA82;
     -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;
-     -fx-font-size: 12px;
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
 }
 
 *{    
@@ -25,4 +26,22 @@
 
 #AnchorPane{
     -fx-background-color: #595659;
+}
+
+.choice-box {
+    -fx-background-color: #FFFFFF; 
+    -fx-text-fill: #595659;
+    -fx-border-color: #D9BA82;
+}
+
+#titulo{
+    -fx-font-size: 36px;
+    -fx-text-fill: #d9ba82;
+    -fx-font-weight: bold;
+}
+
+#labelAdmin{
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }

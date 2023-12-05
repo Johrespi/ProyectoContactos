@@ -113,7 +113,7 @@ public class SignUpController implements Initializable {
 
         if (usuarioField.getText().isBlank() || passwordField.getText().isBlank() || usuarioField.getText().contains(" ")
                 || passwordField.getText().contains(" ") || choiceBox.getValue() == null) {
-            mensajeAlertaAdvertencia("Advertencia","No se admiten espacios vacíos");
+            mensajeAlertaAdvertencia("Advertencia", "No se admiten espacios vacíos");
         }
         else if (usuariosListaSer.isEmpty()) {
             Usuario primerUsuario = new Usuario(usuarioField.getText(), passwordField.getText(), tiposUsuarios[0]);
@@ -129,6 +129,7 @@ public class SignUpController implements Initializable {
             if (!condicion) {
                 if (choiceBox.getValue().equals(tiposUsuarios[1])) {
                     adminPassword.setText("Admin Password");
+                    this.adminPassword.setId("labelAdmin");
                     mostrarConfigAdmin(actualizarLista,u1);
                 } else {
                     actualizarLista.addLast(u1);
