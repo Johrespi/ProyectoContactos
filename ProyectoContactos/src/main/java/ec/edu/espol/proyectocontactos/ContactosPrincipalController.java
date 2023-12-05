@@ -660,7 +660,9 @@ public class ContactosPrincipalController implements Initializable {
             this.iteratorFiltrados = listaFiltrada.listIterator();
             llenarContatosFiltrados(null);   
          
-        }        
+        }else{
+            Utilitario.mensajeAlertaAdvertencia("Sin contenido", "Debe ingresar el valor que quiere buscar");
+        }       
         
     }
     
